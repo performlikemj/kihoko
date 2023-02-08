@@ -1,0 +1,209 @@
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
+/*.navbar {*/
+/*    background-color: #fff;*/
+/*    box-shadow:0 10px 20px rgba(0,0,0,0.03);*/
+/*}*/
+
+/*.navbar-logo {*/
+/*    margin-top:120px;*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*}*/
+
+/*.navbar-logo img {*/
+/*    height:100px;*/
+/*}*/
+
+/*.nav-item {*/
+/*    padding:10px 14px;*/
+/*}*/
+
+/*.navbar .nav-link {*/
+/*    color:#000000;*/
+/*}*/
+
+/*From AI Sensei*/
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.image-wrapper {
+  flex: 0 0 25%;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pagination a {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #0066cc;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  margin-left: 5px;
+}
+
+.pagination a:hover {
+  background-color: #003399;
+}
+
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+
+nav .navbar-nav {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin: 0;
+}
+
+nav .navbar-nav .nav-item {
+  list-style: none;
+  margin-left: 20px;
+}
+
+nav .navbar-nav .nav-link {
+  display: block;
+  color: #333;
+  font-size: 16px;
+  text-decoration: none;
+  padding: 10px 0;
+}
+
+nav .navbar-nav .nav-link:hover {
+  color: #0066cc;
+}
+
+nav .navbar-nav .nav-link.active {
+  color: #0066cc;
+  font-weight: bold;
+}
+
+nav .navbar-toggler {
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+nav .navbar-toggler:focus,
+nav .navbar-toggler:active {
+  outline: none;
+}
+
+nav .navbar-toggler:not(:disabled):not(.disabled):active,
+nav .navbar-toggler:not(:disabled):not(.disabled).active {
+  transform: rotate(45deg);
+}
+
+
+.navbar.fixed-top {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 999;
+}
+
+
+.spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+/**/
+.products {
+    margin-top:40px;
+}
+
+.products-heading {
+    text-align: center;
+    font-size:40px;
+    margin-bottom:40px;
+    font-weight:600;
+}
+
+.product-desc {
+    background-color:rgb(255, 255, 255);
+    padding:10px 0;
+}
+
+.products-item {
+    padding:10px;
+    border-radius:3px;
+    text-align: center;
+    cursor: pointer;
+    position:relative;
+    transition:.2s;
+    box-shadow:0 10px 20px rgba(0,0,0,0.02);
+}
+
+.products-item:hover {
+    transform:translateY(-2px);
+    box-shadow:0 10px 20px rgba(0,0,0,0.03);
+}
+
+.product-img {
+    background-color: rgb(247, 247, 247);
+}
+
+.product-title {
+    font-size:18px;
+    font-weight:500;
+}
+
+.product-price-main {
+    font-size:18px;
+    font-weight: 500;
+}
+
+.product-price-sub {
+    font-size:14px;
+    text-decoration: line-through;
+    margin-left:2px;
+    color:rgb(122, 122, 122);
+}
+
+.sold-out-tag {
+    position:absolute;
+    right:0px;
+    top:20px;
+    background-color:#000000;
+    color:#fff;
+    padding:8px;
+    font-size:14px;
+}
+
+.footer {
+    background-color: #000;
+    margin-top:50px;
+}
+
+.footer-copy {
+    text-align: center;
+    color:#fff;
+    margin-bottom:0px;
+    padding:10px;
+}

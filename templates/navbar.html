@@ -1,0 +1,39 @@
+<nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"/><path d="M12 3v2H3V3h9zm4 16v2H3v-2h13zm6-8v2H3v-2h19z"/></svg>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="{% url 'core:product-page' %}">Merch <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="{% url 'core:artwork-list' %}">Art <span class="sr-only">(current)</span></a>
+            </li>
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'account_logout' %}">Logout</a>
+            </li>
+            <li class="nav-item">
+                <a href="{% url 'core:order-summary' %}" class="site-cart">
+                      <span><i class="fas fa-shopping-cart"></i></span>
+                      <span class="count">{{ request.user|cart_item_count }}</span>
+                </a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+                <a class="nav-item nav-link" href="{% url 'account_login' %}">Login</a>
+            </li>
+            <li class="nav-item">
+                <a href="{% url 'core:order-summary' %}" class="site-cart">
+                      <span><i class="fas fa-shopping-cart"></i></span>
+                      <span class="count"></span>
+                </a>
+            </li>
+            {% endif %}
+
+          </ul>
+        </div>
+        </div>
+</nav>
