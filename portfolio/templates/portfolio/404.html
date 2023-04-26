@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}404 - Page Not Found{% endblock %}
+
+{% block content %}
+    <main>
+        <section class="error-404">
+            <div class="container">
+                <div class="text-center">
+                    {% if random_image %}
+                        <img src="{{ random_image.image.url }}" alt="404 Image" class="img-fluid">
+                    {% endif %}
+                    <h1>404</h1>
+                    <h2>{% trans "Oops! Page not found." %}</h2>
+                    <p>{% trans "We couldn't find the page you were looking for." %}</p>
+                    <a href="{% url 'home' %}" class="btn btn-primary">{% trans "Go Home" %}</a>
+                </div>
+            </div>
+        </section>
+    </main>
+{% endblock %}

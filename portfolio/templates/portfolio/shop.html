@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% block content %}
+    <div class="container">
+        <h1>{% trans "Shop" %}</h1>
+        <div id="signup-message" class="alert alert-info d-none">
+            Please <a href="{% url 'signup' %}">sign up</a> or <a href="{% url 'login' %}">log in</a> to add items to the cart.
+        </div>     
+        {% if show_email_verification_message %}
+        <div id="email-verification-message" class="alert alert-info">
+            {% blocktranslate %}To prevent fraud, please verify your email address to shop. {% endblocktranslate %}
+            <form method="post" action="{% url 'verify_email' %}">
+                {% csrf_token %}
+                <input type="hidden" name="email" value="{{ user.email }}">
+                <button type="submit" class="btn btn-primary">Send Verification Email</button>
+            </form>
+        </div>
+        {% endif %}        
+        <div class="row">
+            {% for merch in merchandise %}
+                <div class="col-md-4">
+                    <img src="{{ merch.image.url }}" alt="{{ merch.title }}" class="img-fluid">
+                    <h2>{{ merch.title }}</h2>
+                    <p>{{ merch.description }}</p>
+                    <p>Price: ${{ merch.price }}</p>
+                    <button class="btn btn-primary add-to-cart" data-merch-id="{{ merch.id }}">{% trans "Add to Cart" %}</button>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+{% block extra_js %}
+<script src="https://js.stripe.com/v3/"></script>
+<script src="{% static 'portfolio/js/cart.js' %}"></script>
+<script>
+    const addToCartButtons = document.querySelectorAll(".add-to-cart");
+    addToCartButtons.forEach((button) => {
+        button.addEventListener("click", (event) => {
+            const merchId = event.target.dataset.merchId;
+            if ('{{ user.is_authenticated }}' === 'True' && '{{ user.profile.email_confirmed }}' === 'True') {
+                addToCart(merchId);
+            } else {
+                if ('{{ user.profile.email_confirmed }}' === 'False') {
+                    const emailVerificationMessage = document.getElementById('email-verification-message');
+                    if (emailVerificationMessage) {
+                        emailVerificationMessage.classList.remove('d-none');
+                    }
+                }
+                document.getElementById('signup-message').classList.remove('d-none');
+            }
+        });
+    });
+</script>
+{% endblock %}
