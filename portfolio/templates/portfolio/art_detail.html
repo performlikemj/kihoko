@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}Art Detail{% endblock %}
+
+{% block content %}
+        <div class="container">
+            <div class="art-detail-container">
+                <button class="arrow arrow-left" onclick="location.href='{% url 'art_detail' prev_image.id %}'">&#8249;</button>
+                <img class="art-detail-image" src="{{ image.image.url }}" alt="{{ image.title }}">
+                <button class="arrow arrow-right" onclick="location.href='{% url 'art_detail' next_image.id %}'">&#8250;</button>
+            </div>
+        </div>
+{% endblock %}
+
+{% block newsletter %}
+    <!-- <section class="newsletter">
+        <div class="container">
+            <form>
+                <input type="email" placeholder="Get Updates">
+                <button type="submit">Subscribe</button>
+            </form>
+        </div>
+    </section> -->
+{% endblock %}
+{% block extra_js %}
+{% endblock %}

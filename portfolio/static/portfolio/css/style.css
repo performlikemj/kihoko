@@ -1,0 +1,14 @@
+/* style.css */
+@import "./light.css";
+
+.dark {
+  @import "./dark.css";
+}
+
+@media (prefers-color-scheme: dark) {
+  /* styles for dark mode */
+  body {
+    background-color: #222;
+    color: #fff;
+  }
+}

@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}Portfolio{% endblock %}
+
+{% block content %}
+        <section class="social-icons">
+            <div class="container">
+                <div class="d-flex justify-content-center">
+                    <a href="https://www.instagram.com/kihokomizuno/" target="_blank" class="social-icon mr-3">
+                        <i class="fab fa-instagram" style="color:#000000; font-size: 24px; margin-right: 10px;"></i>
+                    </a>
+                    <a href="https://www.youtube.com/@MizunoJones" target="_blank" class="social-icon">
+                        <i class="fab fa-youtube" style="color:#000000; font-size: 24px; margin-left: 10px;"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        
+        <section class="projects">
+            <div class="container text-center" style="margin-top: 50px;">
+                <div class="row" style="justify-content: center;">
+                    {% for item in projects %}
+                    <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                        <div class="products-item">
+                            <div class="product-img">
+                                <a href="{% url 'project_detail' slug=item.slug %}">
+                                    <img class="img-fluid" src="{{ item.image.url }}" alt="">
+                                </a>
+                            </div>
+                            <div class="product-desc">
+                                <h4 class="product-title">
+                                    <a href="{% url 'project_detail' slug=item.slug %}" style="text-decoration: none; color: black;" class="dark-grey-text">{{ item.title }}</a>
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+{% endblock %}
+
+{% block newsletter %}
+
+{% endblock %}
