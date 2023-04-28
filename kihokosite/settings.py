@@ -208,6 +208,7 @@ CSRF_COOKIE_DOMAIN = 'kihoko.azurewebsites.net'
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 CSRF_TRUSTED_ORIGINS = [
-    'kihoko.azurewebsites.net',
+    'https://kihoko.azurewebsites.net',
+    'https://*.127.0.0.1'
 ]
 
