@@ -202,3 +202,9 @@ LOGGING = {
     },
 }
 
+# CSRF settings
+SESSION_COOKIE_DOMAIN = 'kihoko.azurewebsites.net'
+CSRF_COOKIE_DOMAIN = 'kihoko.azurewebsites.net'
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+
