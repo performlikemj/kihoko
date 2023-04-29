@@ -15,6 +15,18 @@ from django.utils.translation import gettext_lazy as _
 from decouple import config
 import os
 
+import os
+from decouple import Config, RepositoryEnv
+
+DJANGO_ENV = os.environ.get('DJANGO_ENV', 'development')
+
+if DJANGO_ENV == 'production':
+    env_file = '.env.prod'
+else:
+    env_file = '.env.dev'
+
+config = Config(RepositoryEnv(env_file))
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 print(BASE_DIR)
@@ -28,7 +40,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = ['kihoko.azurewebsites.net']
+ALLOWED_HOSTS = [config('ALLOWED_HOSTS', default='127.0.0.1')]
 
 
 # Application definition
@@ -86,12 +98,24 @@ WSGI_APPLICATION = 'kihokosite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, config('DB_NAME')),
+if DJANGO_ENV == 'production':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': config('DB_NAME'),
+            'USER': config('DB_USER'),
+            'PASSWORD': config('DB_PASS'),
+            'HOST': config('DB_HOST'),
+            'PORT': config('DB_PORT', cast=int),
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, config('DB_NAME')),
+        }
+    }
 
 
 # Password validation
