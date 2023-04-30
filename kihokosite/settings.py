@@ -18,6 +18,7 @@ import os
 # from decouple import Config, RepositoryEnv
 
 # DJANGO_ENV = os.environ.get('DJANGO_ENV', 'development')
+DJANGO_ENV = config('DJANGO_ENV', default='development')
 
 # if DJANGO_ENV == 'production':
 #     env_file = '.env.prod'
