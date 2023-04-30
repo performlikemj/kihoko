@@ -1,0 +1,14 @@
+/* style.css */
+@import url("./light.ff910df560d5.css");
+
+.dark {
+  @import url("./dark.915812ab6d47.css");
+}
+
+@media (prefers-color-scheme: dark) {
+  /* styles for dark mode */
+  body {
+    background-color: #222;
+    color: #fff;
+  }
+}
