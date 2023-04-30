@@ -15,10 +15,12 @@ from django.utils.translation import gettext_lazy as _
 from decouple import config
 import os
 
+DJANGO_ENV = config('DJANGO_ENV', default='development')
+
 # from decouple import Config, RepositoryEnv
 
+
 # DJANGO_ENV = os.environ.get('DJANGO_ENV', 'development')
-DJANGO_ENV = config('DJANGO_ENV', default='development')
 
 # if DJANGO_ENV == 'production':
 #     env_file = '.env.prod'
@@ -67,6 +69,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.locale.LocaleMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 LOCALE_PATHS = (
@@ -165,6 +168,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'portfolio/static/')]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+# Use Whitenoise to serve static files
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 
 # Media files
 MEDIA_URL = '/media/'
