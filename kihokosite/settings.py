@@ -15,17 +15,16 @@ from django.utils.translation import gettext_lazy as _
 from decouple import config
 import os
 
-import os
-from decouple import Config, RepositoryEnv
+# from decouple import Config, RepositoryEnv
 
-DJANGO_ENV = os.environ.get('DJANGO_ENV', 'development')
+# DJANGO_ENV = os.environ.get('DJANGO_ENV', 'development')
 
-if DJANGO_ENV == 'production':
-    env_file = '.env.prod'
-else:
-    env_file = '.env.dev'
+# if DJANGO_ENV == 'production':
+#     env_file = '.env.prod'
+# else:
+#     env_file = '.env.dev'
 
-config = Config(RepositoryEnv(env_file))
+# config = Config(RepositoryEnv(env_file))
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
