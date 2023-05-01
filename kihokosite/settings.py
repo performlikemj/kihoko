@@ -42,7 +42,11 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = ['kihoko.azurewebsites.net', '127.0.0.1']
+if DJANGO_ENV == 'production':
+    ALLOWED_HOSTS = ['kihoko.azurewebsites.net',]
+else:
+    ALLOWED_HOSTS = ['127.0.0.1', 'localhost',]
+
 
 
 # Application definition
