@@ -43,7 +43,7 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
 
 if DJANGO_ENV == 'production':
-    ALLOWED_HOSTS = ['kihoko.azurewebsites.net', 'kihoko.com', 'www.kihoko.com']
+    ALLOWED_HOSTS = ['kihoko.com', 'www.kihoko.com']
 else:
     ALLOWED_HOSTS = ['127.0.0.1', 'localhost',]
 
