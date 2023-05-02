@@ -43,3 +43,4 @@ urlpatterns = [
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 handler404 = 'portfolio.views.custom_404'
+handler400 = 'portfolio.views.custom_400'

@@ -408,7 +408,7 @@ def activate_email(request, uidb64, token):
 
 
 
-# 404 Error
+# 400 Series Errors
 def custom_404(request, exception):
     random_image = None
     images = ProjectImage.objects.all()
@@ -418,6 +418,14 @@ def custom_404(request, exception):
 
     return render(request, '404.html', {'random_image': random_image}, status=404)
 
+def custom_400(request, exception):
+    random_image = None
+    images = ProjectImage.objects.all()
+
+    if images.exists():
+        random_image = choice(images)
+
+    return render(request, '400.html', {'random_image': random_image}, status=404)
 
 # Language
 def change_language(request):
