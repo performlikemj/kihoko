@@ -427,6 +427,16 @@ def custom_400(request, exception):
 
     return render(request, '400.html', {'random_image': random_image}, status=404)
 
+# 500 Series Errors
+def custom_500(request, exception):
+    random_image = None
+    images = ProjectImage.objects.all()
+
+    if images.exists():
+        random_image = choice(images)
+
+    return render(request, '500.html', {'random_image': random_image}, status=404)
+
 # Language
 def change_language(request):
     user_language = request.GET.get('lang', None)
