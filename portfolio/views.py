@@ -1,5 +1,6 @@
 import json
 from django.shortcuts import redirect, render, get_object_or_404
+from django.http import HttpResponseServerError, HttpResponseBadRequest, HttpResponseNotFound
 from random import choice
 from django.urls import reverse
 from django.http import JsonResponse
@@ -406,8 +407,6 @@ def activate_email(request, uidb64, token):
         return redirect(reverse('edit_profile'))
 
 
-
-
 # 400 Series Errors
 def custom_404(request, exception):
     random_image = None
@@ -416,7 +415,7 @@ def custom_404(request, exception):
     if images.exists():
         random_image = choice(images)
 
-    return render(request, '404.html', {'random_image': random_image}, status=404)
+    HttpResponseNotFound(render(request, '404.html', {'random_image': random_image}, status=404))
 
 def custom_400(request, exception):
     random_image = None
@@ -425,7 +424,7 @@ def custom_400(request, exception):
     if images.exists():
         random_image = choice(images)
 
-    return render(request, '400.html', {'random_image': random_image}, status=404)
+    HttpResponseBadRequest(render(request, '400.html', {'random_image': random_image}, status=404))
 
 # 500 Series Errors
 def custom_500(request, exception):
@@ -435,7 +434,7 @@ def custom_500(request, exception):
     if images.exists():
         random_image = choice(images)
 
-    return render(request, '500.html', {'random_image': random_image}, status=404)
+    HttpResponseServerError(render(request, '500.html', {'random_image': random_image}, status=404)) 
 
 # Language
 def change_language(request):
