@@ -44,3 +44,4 @@ urlpatterns = [
 
 handler404 = 'portfolio.views.custom_404'
 handler400 = 'portfolio.views.custom_400'
+handler500 = 'portfolio.views.custom_500'
