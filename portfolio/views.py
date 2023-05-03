@@ -414,8 +414,9 @@ def custom_404(request, exception):
 
     if images.exists():
         random_image = choice(images)
+        context = {'random_image': random_image}
 
-    HttpResponseNotFound(render(request, '404.html', {'random_image': random_image}, status=404))
+    return render(request, '404.html', context, status=404)
 
 def custom_400(request, exception):
     random_image = None
@@ -423,18 +424,20 @@ def custom_400(request, exception):
 
     if images.exists():
         random_image = choice(images)
+        context = {'random_image': random_image}
 
-    HttpResponseBadRequest(render(request, '400.html', {'random_image': random_image}, status=404))
+    return render(request, '400.html', context)
 
 # 500 Series Errors
-def custom_500(request, exception):
+def custom_500(request):
     random_image = None
     images = ProjectImage.objects.all()
 
     if images.exists():
         random_image = choice(images)
+        context = {'random_image': random_image}
 
-    HttpResponseServerError(render(request, '500.html', {'random_image': random_image}, status=404)) 
+    return render(request, '500.html', context)
 
 # Language
 def change_language(request):
