@@ -12,22 +12,19 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 from django.utils.translation import gettext_lazy as _
-from decouple import config
+from decouple import config, Csv
 import os
 
-DJANGO_ENV = config('DJANGO_ENV', default='development')
-
-# from decouple import Config, RepositoryEnv
-
-
-# DJANGO_ENV = os.environ.get('DJANGO_ENV', 'development')
-
+# For testing locally, set DJANGO_ENV to 'development'
+# DJANGO_ENV = 'development'
 # if DJANGO_ENV == 'production':
 #     env_file = '.env.prod'
 # else:
 #     env_file = '.env.dev'
 
-# config = Config(RepositoryEnv(env_file))
+# For uploading to Azure, uncomment the following line
+DJANGO_ENV = config('DJANGO_ENV', default='development')
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -249,3 +246,10 @@ CSRF_TRUSTED_ORIGINS = [
     'https://*.127.0.0.1'
 ]
 
+if DJANGO_ENV == 'production':
+    # Blob Storage
+    DEFAULT_FILE_STORAGE = 'storages.backends.azure_storage.AzureStorage'
+
+    AZURE_ACCOUNT_NAME = config('AZURE_ACCOUNT_NAME')  # your azure account name
+    AZURE_ACCOUNT_KEY = config('AZURE_ACCOUNT_KEY')  # your azure account key
+    AZURE_CONTAINER = config('AZURE_CONTAINER', 'media')  # the default container
