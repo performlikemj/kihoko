@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 from django.utils.translation import gettext_lazy as _
-from decouple import config, Csv
+from decouple import config
 import os
 
 # For testing locally, set DJANGO_ENV to 'development'
