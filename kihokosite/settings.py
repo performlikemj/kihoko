@@ -59,7 +59,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'bootstrap5',
     'stripe',
-    'storages'
+    'storages',
 ]
 
 MIDDLEWARE = [
