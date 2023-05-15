@@ -175,10 +175,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
-# Media files
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
-
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -254,3 +250,11 @@ if DJANGO_ENV == 'production':
     AZURE_ACCOUNT_NAME = config('AZURE_ACCOUNT_NAME')  # your azure account name
     AZURE_ACCOUNT_KEY = config('AZURE_ACCOUNT_KEY')  # your azure account key
     AZURE_CONTAINER = config('AZURE_CONTAINER', 'media')  # the default container
+    AZURE_CUSTOM_DOMAIN = f'{AZURE_ACCOUNT_NAME}.blob.core.windows.net'
+    
+# Media files
+if DJANGO_ENV == 'production':
+    MEDIA_URL = f'https://{AZURE_CUSTOM_DOMAIN}/{AZURE_CONTAINER}/'
+else:
+    MEDIA_URL = '/media/'
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
