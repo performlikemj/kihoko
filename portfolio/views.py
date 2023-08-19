@@ -60,7 +60,7 @@ def art_detail(request, image_id):
 
 
 def shop(request):
-    merchandise = Merchandise.objects.all()
+    merchandise = Merchandise.objects.prefetch_related('merchandiseimage_set').all()
     show_email_verification_message = False
 
     if request.user.is_authenticated:
@@ -92,17 +92,20 @@ def create_checkout_session(request):
             
             line_items = []
             for item in cart_items:
+                # Get the first image for this merchandise item, if available
+                first_image_url = item.merchandise.merchandiseimage_set.first().image.url if item.merchandise.merchandiseimage_set.exists() else ''
                 line_items.append({
                     'price_data': {
                         'currency': 'usd',
                         'unit_amount': int(item.merchandise.price * 100),
                         'product_data': {
                             'name': item.merchandise.title,
-                            'images': [request.build_absolute_uri(item.merchandise.image.url)],
+                            'images': [request.build_absolute_uri(first_image_url)],
                         },
                     },
                     'quantity': item.quantity,
                 })
+
 
             checkout_session = stripe.checkout.Session.create(
                 payment_method_types=['card'],

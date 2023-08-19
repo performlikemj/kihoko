@@ -18,11 +18,15 @@
         </div>
         {% endif %}        
         <div class="row">
-            {% for merch in merchandise %}
+           {% for merch in merchandise %}
                 <div class="col-md-4">
-                    <img src="{{ merch.image.url }}" alt="{{ merch.title }}" class="img-fluid">
+                    <div class="merch-image-slider">
+                        {% for image in merch.merchandiseimage_set.all %}
+                            <img src="{{ image.image.url }}" alt="{{ image.title }}" class="img-fluid">
+                        {% endfor %}
+                    </div>
                     <h2>{{ merch.title }}</h2>
-                    <p>{{ merch.description }}</p>
+                    <p>{{ merch.description|truncatechars:100 }}</p>
                     <p>Price: ${{ merch.price }}</p>
                     <button class="btn btn-primary add-to-cart" data-merch-id="{{ merch.id }}">{% trans "Add to Cart" %}</button>
                 </div>
@@ -51,5 +55,10 @@
             }
         });
     });
+    $('.merch-image-slider').slick({
+        dots: true,
+        arrows: true,
+    });
+
 </script>
 {% endblock %}
