@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Project, ProjectImage, Merchandise, Cart, CartItem
+from .models import Project, ProjectImage, Merchandise, Cart, CartItem, MerchandiseImage
 
 # Define the inline admin class for ProjectImage
 class ProjectImageInline(admin.TabularInline):
@@ -12,8 +12,14 @@ class ProjectAdmin(admin.ModelAdmin):
     list_display = ('title', 'description')
     search_fields = ('title',)
 
-# Define the admin class for Merchandise
+# Define the inline admin class for MerchandiseImage
+class MerchandiseImageInline(admin.TabularInline):
+    model = MerchandiseImage
+    extra = 1
+
+# Update the admin class for Merchandise
 class MerchandiseAdmin(admin.ModelAdmin):
+    inlines = [MerchandiseImageInline]  # Add this line
     list_display = ('title', 'description', 'price')
     search_fields = ('title',)
 
@@ -31,7 +37,9 @@ class CartAdmin(admin.ModelAdmin):
 admin.site.register(Project, ProjectAdmin)
 admin.site.register(ProjectImage)
 admin.site.register(Merchandise, MerchandiseAdmin)
+admin.site.register(MerchandiseImage)  # Register the new model
 admin.site.register(Cart, CartAdmin)
+
 
 
 
