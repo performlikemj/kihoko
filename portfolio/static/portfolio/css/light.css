@@ -191,3 +191,31 @@ a {
   margin-left: auto;
   margin-right: auto;
 }
+
+.product-card {
+  border: 1px solid #e0e0e0;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  text-align: center;
+  position: relative;
+}
+
+.merch-image img {
+  max-width: 100%;
+  height: auto;
+}
+
+.description {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 90%;
+  margin: 0 auto;
+}
+
+.add-to-cart {
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
