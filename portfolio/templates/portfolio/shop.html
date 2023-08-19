@@ -20,11 +20,13 @@
         <div class="row">
             {% for merch in merchandise %}
                  <div class="col-md-4 product-card">
-                     <div class="merch-image">
-                         {% for image in merch.merchandiseimage_set.all %}
-                             <img src="{{ image.image.url }}" alt="{{ image.title }}" class="img-fluid">
-                         {% endfor %}
-                     </div>
+                    <div class="merch-image-slider">
+                        {% for image in merch.merchandiseimage_set.all %}
+                            <div class="merch-image">
+                                <img src="{{ image.image.url }}" alt="{{ image.title }}" class="img-fluid">
+                            </div>
+                        {% endfor %}
+                    </div>                    
                      <h2>{{ merch.title }}</h2>
                      <p class="description">{{ merch.description|truncatechars:100 }}</p>
                      <p>Price: ${{ merch.price }}</p>
