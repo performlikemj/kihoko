@@ -18,22 +18,22 @@
         </div>
         {% endif %}        
         <div class="row">
-           {% for merch in merchandise %}
-                <div class="col-md-4">
-                    <div class="merch-image-slider">
-                        {% for image in merch.merchandiseimage_set.all %}
-                            <img src="{{ image.image.url }}" alt="{{ image.title }}" class="img-fluid">
-                        {% endfor %}
-                    </div>
-                    <h2>{{ merch.title }}</h2>
-                    <p>{{ merch.description|truncatechars:100 }}</p>
-                    <p>Price: ${{ merch.price }}</p>
-                    <button class="btn btn-primary add-to-cart" data-merch-id="{{ merch.id }}">{% trans "Add to Cart" %}</button>
-                </div>
-            {% endfor %}
-        </div>
-    </div>
-{% endblock %}
+            {% for merch in merchandise %}
+                 <div class="col-md-4 product-card">
+                     <div class="merch-image">
+                         {% for image in merch.merchandiseimage_set.all %}
+                             <img src="{{ image.image.url }}" alt="{{ image.title }}" class="img-fluid">
+                         {% endfor %}
+                     </div>
+                     <h2>{{ merch.title }}</h2>
+                     <p class="description">{{ merch.description|truncatechars:100 }}</p>
+                     <p>Price: ${{ merch.price }}</p>
+                     <button class="btn btn-primary add-to-cart" data-merch-id="{{ merch.id }}">{% trans "Add to Cart" %}</button>
+                 </div>
+             {% endfor %}
+         </div>
+     </div>
+ {% endblock %}
 {% block extra_js %}
 <script src="https://js.stripe.com/v3/"></script>
 <script src="{% static 'portfolio/js/cart.js' %}"></script>
