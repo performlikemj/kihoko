@@ -61,13 +61,12 @@ header {
 }
 
 .site-menu a {
-    color: #f5f5f5;
-    text-decoration: none;
-}
-
-.site-menu a:hover {
-    color: #a0a0a0;
-}
+    color: #f5f5f5; /* White text */
+  }
+  
+  .site-menu a:hover {
+    color: #a0a0a0; /* Adjust hover color as needed */
+  }
 
 header h1 {
     font-size: 24px;
