@@ -1,19 +1,35 @@
-{% extends "base.html" %}
-{% load i18n %}
-{% block content %}
-  <h2>{% trans "Edit Profile" %}</h2>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">{% trans "Save Changes" %}</button>
-  </form>
-  <p>Date joined: {{ request.user.date_joined }}</p>
-  {% if not request.user.profile.email_confirmed %}
-  <form method="post" action="{% url 'verify_email' %}">
-      {% csrf_token %}
-      <input type="hidden" name="email" value="{{ request.user.email }}">
-      <button type="submit" class="btn btn-primary">{% trans "Click here to verify your email address" %}</button>
-  </form>
-{% endif %}
+{% extends "base.html" %} 
+{% load i18n %} 
 
+{% block content %}
+  <div class="container py-4" data-aos="fade-up">
+    <h1 class="display-5 fw-bold text-center text-uppercase">
+      {% trans "Edit Profile" %} <i class="fa fa-cog fa-spin"></i>
+    </h1>
+    
+    <form method="post" class="bg-body-tertiary p-4 rounded my-4 edit-profile" data-aos="fade-up" data-aos-delay="400">
+      {% csrf_token %} 
+      {{ form.as_p }}
+      
+      <button type="submit" class="btn btn-dark btn-lg">
+        {% trans "Save Changes" %}<i class="fa fa-save ms-3"></i>
+      </button>
+    </form>
+    
+    <p data-aos="fade-up" data-aos-delay="400">
+      Date joined: {{ request.user.date_joined }}
+    </p>
+    
+    {% if not request.user.profile.email_confirmed %}
+      <form method="post" action="{% url 'verify_email' %}" data-aos="fade-up" data-aos-delay="600">
+        {% csrf_token %}
+        
+        <input type="hidden" name="email" value="{{ request.user.email }}" class="form-control" />
+        
+        <button type="submit" class="btn btn-outline-info">
+          {% trans "Click here to verify your email address" %} <i class="fa fa-envelope ms-2"></i>
+        </button>
+      </form>
+    {% endif %}
+  </div>
 {% endblock %}
