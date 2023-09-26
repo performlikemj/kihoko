@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+  <div class="container-fluid">
+    <h1>{{ merchandise.title }}</h1>
+    {% for image in merchandise_images %}
+      <img src="{{ image.image.url }}" alt="{{ image.title }}" class="img-fluid" />
+    {% endfor %}
+    <p>{{ merchandise.description }}</p>
+    <p>Price: ${{ merchandise.price }}</p>
+    <!-- Add to cart button -->
+  </div>
+{% endblock %}

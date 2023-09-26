@@ -58,6 +58,15 @@ def art_detail(request, image_id):
     }
     return render(request, 'art_detail.html', context)
 
+def merchandise_detail(request, merch_id):
+    merchandise = get_object_or_404(Merchandise, id=merch_id)
+    merchandise_images = merchandise.merchandiseimage_set.all()  # Get related images for the merchandise
+    
+    context = {
+        'merchandise': merchandise,
+        'merchandise_images': merchandise_images,
+    }
+    return render(request, 'merchandise_detail.html', context)
 
 def shop(request):
     merchandise = Merchandise.objects.prefetch_related('merchandiseimage_set').all()
