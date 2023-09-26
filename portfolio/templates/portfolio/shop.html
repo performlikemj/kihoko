@@ -30,10 +30,13 @@
         </div>
         {% endif %}
         <div class="card-body">
-          <h2 class="card-title">{{ merch.title }}</h2>
+          <!-- Wrapped the title with a link to the merchandise_detail view -->
+          <h2 class="card-title"><a href="{% url 'merchandise_detail' merch.id %}">{{ merch.title }}</a></h2>
           <p class="description">{{ merch.description|truncatechars:100 }}</p>
           <p>Price: ${{ merch.price }}</p>
-          <button class="btn btn-dark btn-lg add-to-cart" data-merch-id="{{ merch.id }}">{% trans "Add to Cart" %} <i class="fa fa-plus-circle ms-2"></i></button>
+          <button class="btn btn-dark btn-lg add-to-cart" data-merch-id="{{ merch.id }}">
+            {% trans "Add to Cart" %} <i class="fa fa-plus-circle ms-2"></i>
+          </button>
         </div>
       </div>
     </div>
