@@ -10,7 +10,7 @@
       <input type="hidden" name="email" value="{{ user.email }}" />
       <button type="submit" class="btn btn-dark mt-2">Send Verification Email <i class="fa fa-envelope ms-2"></i></button>
     </form>
-  </div>å
+  </div>
   {% endif %}
   <div class="row mb-5 d-flex justify-content-start" data-aos="fade-up" data-aos-delay="500" style="gap: 10px;">
     {% for merch in merchandise %}
@@ -31,7 +31,7 @@
         {% endif %}
         <div class="card-body">
           <!-- Wrapped the title with a link to the merchandise_detail view -->
-          <h2 class="card-title"><a href="{% url 'merchandise_detail' merch.id %}">{{ merch.title }}</a></h2>
+          <h2 class="card-title"><a href="{% url 'merchandise_detail' merch.id %}" style="text-decoration: none; color: inherit;">{{ merch.title }}</a></h2>
           <p class="description">{{ merch.description|truncatechars:100 }}</p>
           <p>Price: ${{ merch.price }}</p>
           <button class="btn btn-dark btn-lg add-to-cart" data-merch-id="{{ merch.id }}">
