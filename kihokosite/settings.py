@@ -197,6 +197,7 @@ EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 
 # Login settings
+LOGIN_URL = '/login/'
 LOGOUT_REDIRECT_URL = 'login'
 
 
@@ -232,8 +233,12 @@ LOGGING = {
 }
 
 # CSRF settings
-SESSION_COOKIE_DOMAIN = 'kihoko.com'
-CSRF_COOKIE_DOMAIN = 'kihoko.com'
+if DJANGO_ENV == 'production':
+    SESSION_COOKIE_DOMAIN = 'kihoko.com'
+    CSRF_COOKIE_DOMAIN = 'kihoko.com'
+else:
+    SESSION_COOKIE_DOMAIN = None
+    CSRF_COOKIE_DOMAIN = None
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 CSRF_TRUSTED_ORIGINS = [
