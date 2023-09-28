@@ -89,7 +89,6 @@ def shop(request):
 
 
 @csrf_exempt
-@login_required
 def create_checkout_session(request):
     user = request.user
     if not user.profile.email_confirmed:
@@ -134,13 +133,17 @@ def create_checkout_session(request):
         logger.warning(f"Exception: {e}")
         return JsonResponse({'success': False, 'message': _('An unexpected error occurred. Please try again later.')})
 
+def calculate_cart_total(cart):
+    cart_items = CartItem.objects.filter(cart=cart)
+    total = sum([item.merchandise.price * item.quantity for item in cart_items])
+    return total
 
-@login_required
 def cart(request):
-    cart = get_or_create_cart(request.user)
+    cart = get_or_create_cart(request)
+    total = calculate_cart_total(cart)
     if cart:
         cart_items = CartItem.objects.filter(cart=cart)
-        total = sum([item.merchandise.price * item.quantity for item in cart_items])
+        total = total
     else:
         cart_items = []
         total = 0
@@ -151,20 +154,26 @@ def cart(request):
     return render(request, "cart.html", context)
 
 
-def get_or_create_cart(user):
-    if not user.is_authenticated:
-        return None
-
-    cart, created = Cart.objects.get_or_create(user=user)
+def get_or_create_cart(request):
+    if request.user.is_authenticated:
+        cart, _ = Cart.objects.get_or_create(user=request.user)
+    else:
+        cart_id = request.session.get("cart_id", None)
+        if cart_id:
+            cart = Cart.objects.filter(id=cart_id).first()
+        else:
+            cart = Cart.objects.create(user=None)  # user can be None now
+            request.session["cart_id"] = cart.id
     return cart
 
 
-@login_required
+
 def checkout(request):
-    cart = get_or_create_cart(request.user)
+    cart = get_or_create_cart(request)
+    total = calculate_cart_total(cart)
     if cart:
         cart_items = CartItem.objects.filter(cart=cart)
-        total = sum([item.merchandise.price * item.quantity for item in cart_items])
+        total = total
     else:
         cart_items = []
         total = 0
@@ -176,21 +185,16 @@ def checkout(request):
     return render(request, "checkout.html", context)
 
 
-@login_required
 def add_to_cart(request):
     if request.method == "POST":
-        user = request.user
-        if not user.profile.email_confirmed:
-            logger.warning(f"User {user.email} tried to add to cart without verifying email")
-            return JsonResponse({"success": False, "message": _("Please verify your email address to shop.")})
-        cart = get_or_create_cart(user)
+        cart = get_or_create_cart(request)
         if cart:
             data = json.loads(request.body)
             merch_id = data.get("merch_id")
             merchandise = get_object_or_404(Merchandise, id=merch_id)
 
             if merchandise.stock < 1:
-                logger.info(f"User {user.email} tried to add out of stock item to cart")
+                logger.info(f"Tried to add out of stock item to cart")
                 return JsonResponse({"success": False, "message": _("The item is out of stock")})
 
             cart_item, created = CartItem.objects.get_or_create(cart=cart, merchandise=merchandise)
@@ -199,7 +203,7 @@ def add_to_cart(request):
                     cart_item.quantity += 1
                     cart_item.save()
                 else:
-                    logger.info(f"User {user.email} tried to add more items than available in stock")
+                    logger.info(f"Tried to add more items than available in stock")
                     return JsonResponse({"success": False, "message": _("You can't add more items than available in stock")})
             else:
                 merchandise.stock -= 1
@@ -207,19 +211,14 @@ def add_to_cart(request):
 
             return JsonResponse({"success": True})
         else:
-            logger.info(f"Unauthenticated user tried to add {cart_item} to cart")
-            return JsonResponse({"success": False, "message": _("User is not authenticated")})
+            logger.info(f"Failed to add item to cart. Cart not found.")
+            return JsonResponse({"success": False, "message": _("Failed to add item to cart")})
     return JsonResponse({"success": False})
 
 
 @csrf_exempt
-@login_required
 def update_cart_item(request):
     if request.method == "POST":
-        user = request.user
-        if not user.profile.email_confirmed:
-            logger.info(f"User {user.email} tried to update cart without verifying email")
-            return JsonResponse({"success": False, "message": _("Please verify your email address to shop.")})
         form = UpdateCartItemForm(request.POST)
         if form.is_valid():
             merch_id = request.POST.get('merch_id')
@@ -227,10 +226,9 @@ def update_cart_item(request):
             merchandise = get_object_or_404(Merchandise, id=merch_id)
 
             if quantity > merchandise.stock:
-                logger.info(f"User {user.email} tried to add more items with merch id:{merch_id} than available in stock")
                 return JsonResponse({'success': False, 'message': _('You can\'t add more items than available in stock')})
 
-            cart = get_or_create_cart(request.user)
+            cart = get_or_create_cart(request)
             cart_item = get_object_or_404(CartItem, cart=cart, merchandise=merchandise)
 
             # Update stock before setting new cart_item quantity
@@ -243,25 +241,18 @@ def update_cart_item(request):
 
             return JsonResponse({'success': True})
         else:
-            logger.warning(f"User {user.email} tried to update cart with invalid form data")
             return JsonResponse({'success': False, 'message': _('Invalid input')})
 
 
-
 @csrf_exempt
-@login_required
 def remove_cart_item(request):
     if request.method == "POST":
-        user = request.user
-        if not user.profile.email_confirmed:
-            logger.info(f"User {user.email} tried to remove cart item without verifying email")
-            return JsonResponse({"success": False, "message": _("Please verify your email address to shop.")})
         form = RemoveCartItemForm(request.POST)
         if form.is_valid():
             merch_id = request.POST.get('merch_id')
             merchandise = get_object_or_404(Merchandise, id=merch_id)
 
-            cart = get_or_create_cart(request.user)
+            cart = get_or_create_cart(request)
             cart_item = get_object_or_404(CartItem, cart=cart, merchandise=merchandise)
 
             # Update merchandise stock
@@ -272,9 +263,7 @@ def remove_cart_item(request):
 
             return JsonResponse({'success': True})
         else:
-            logger.warning(f"User {user.email} tried to remove cart item with invalid form data")
             return JsonResponse({'success': False, 'message': _('Invalid input')})
-
 
 
 # Contact Form

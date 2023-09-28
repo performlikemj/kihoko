@@ -1,17 +1,6 @@
 {% extends 'base.html' %} {% load static %} {% load i18n %} {% block content %}
 <div class="container-fluid" data-aos="fade-up">
   <h1 class="display-5 text-center fw-bold text-uppercase">{% trans "Shop" %}</h1>
-  <div id="signup-message" class="alert alert-info d-none">Please <a href="{% url 'signup' %}">sign up</a> or <a href="{% url 'login' %}">log in</a> to add items to the cart.</div>
-  {% if show_email_verification_message %}
-  <div id="email-verification-message" class="alert alert-secondary my-4" data-aos="fade-up" data-aos-delay="300">
-    {% blocktranslate %}To prevent fraud, please verify your email address to shop.{%endblocktranslate %}
-    <form method="post" action="{% url 'verify_email' %}">
-      {% csrf_token %}
-      <input type="hidden" name="email" value="{{ user.email }}" />
-      <button type="submit" class="btn btn-dark mt-2">Send Verification Email <i class="fa fa-envelope ms-2"></i></button>
-    </form>
-  </div>
-  {% endif %}
   <div class="row mb-5 d-flex justify-content-start" data-aos="fade-up" data-aos-delay="500" style="gap: 10px;">
     {% for merch in merchandise %}
     <div class="col-lg-3 col-md-6 mb-4">
@@ -30,7 +19,6 @@
         </div>
         {% endif %}
         <div class="card-body">
-          <!-- Wrapped the title with a link to the merchandise_detail view -->
           <h2 class="card-title"><a href="{% url 'merchandise_detail' merch.id %}" style="text-decoration: none; color: inherit;">{{ merch.title }}</a></h2>
           <p class="description">{{ merch.description|truncatechars:100 }}</p>
           <p>Price: ${{ merch.price }}</p>
@@ -43,6 +31,17 @@
     {% endfor %}
   </div>
 </div>
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+  <div id="cartToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+      <strong class="me-auto">Cart Updated</strong>
+      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body">
+      Item added to cart.
+    </div>
+  </div>
+</div>
 {% endblock %} {% block extra_js %}
 <script src="https://js.stripe.com/v3/"></script>
 <script src="{% static 'portfolio/js/cart.js' %}"></script>
@@ -51,22 +50,28 @@
   addToCartButtons.forEach((button) => {
     button.addEventListener("click", (event) => {
       const merchId = event.target.dataset.merchId;
-      if ("{{ user.is_authenticated }}" === "True" && "{{ user.profile.email_confirmed }}" === "True") {
-        addToCart(merchId);
-      } else {
-        if ("{{ user.profile.email_confirmed }}" === "False") {
-          const emailVerificationMessage = document.getElementById("email-verification-message");
-          if (emailVerificationMessage) {
-            emailVerificationMessage.classList.remove("d-none");
-          }
-        }
-        document.getElementById("signup-message").classList.remove("d-none");
-      }
+      addToCart(merchId);
     });
   });
   $(".merch-image-slider").slick({
     dots: true,
     arrows: true,
   });
+</script>
+
+<!-- New Functions for Toast and Cart Count -->
+<script>
+  function showToast() {
+    var toastEl = new bootstrap.Toast(document.getElementById('cartToast'));
+    toastEl.show();
+  }
+
+  function updateCartCount(newCount) {
+    const cartCountElement = document.getElementById('cart-count');
+    cartCountElement.textContent = newCount;
+  }
+
+  // Initialize cartCount when the page loads (use actual value)
+  let cartCount = 0; // Update this based on actual cart items
 </script>
 {% endblock %}

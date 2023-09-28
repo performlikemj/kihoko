@@ -11,7 +11,7 @@ function addToCart(merchId) {
     .then((response) => response.json())
     .then((data) => {
         if (data.success) {
-            // updateCartDisplay(data.cart);
+            updateCartDisplay(data.cart);
         } else {
             if (data.message === "Please verify your email address to shop.") {
                 document.getElementById('email-verification-message').classList.remove('d-none');
@@ -26,19 +26,16 @@ function addToCart(merchId) {
 }
 
 
+function updateCartDisplay(cart) {
+    console.log('Updating cart display:', cart);  // Add this line
+    const cartCounter = document.getElementById("cart-count");  // Changed from "#cart-counter" to "cart-count"
 
-
-
-// function updateCartDisplay(cart) {
-//     console.log('Updating cart display:', cart);  // Add this line
-//     const cartCounter = document.querySelector("#cart-counter");
-
-//     if (cart && cart.total_items) {
-//         cartCounter.textContent = cart.total_items;
-//     } else {
-//         cartCounter.textContent = 0;
-//     }
-// }
+    if (cart && cart.total_items) {
+        cartCounter.textContent = cart.total_items;
+    } else {
+        cartCounter.textContent = 0;
+    }
+}
 
 
 
