@@ -104,12 +104,6 @@
           <ul class="navbar-nav ms-auto">
             {% if user.is_authenticated %}
             <li class="nav-item me-2">
-              <a class="nav-link" href="{% url 'cart' %}">
-                <span class="d-lg-none d-block">{% trans "Cart" %}</span>
-                <span class="d-lg-block d-none"> <i class="fa fa-shopping-cart"></i></span>
-              </a>
-            </li>
-            <li class="nav-item me-2">
               <!-- <a class="nav-link" href="{% url 'edit_profile' %}">{% trans "Profile" %}</a> -->
               <a class="nav-link" href="{% url 'edit_profile' %}"
                 ><span class="d-lg-none d-block">{% trans "Profile" %}</span> <span class="d-lg-block d-none"> <i class="fa fa-user"></i> </span
@@ -123,6 +117,15 @@
               </a>
             </li>
             {% else %}
+            <li class="nav-item me-2">
+              <a class="nav-link" href="{% url 'cart' %}">
+                <span class="d-lg-none d-block">{% trans "Cart" %}</span>
+                <span class="d-lg-block d-none">
+                  <i class="fa fa-shopping-cart"></i>
+                  <span id="cart-count" class="badge bg-danger">0</span> <!-- This is the new part -->
+                </span>
+              </a>              
+            </li>
             <li class="nav-item">
               <a class="nav-link" href="{% url 'signup' %}">{% trans "Sign up" %}</a>
             </li>
