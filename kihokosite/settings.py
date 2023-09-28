@@ -16,13 +16,13 @@ from decouple import config
 import os
 
 # For testing locally, set DJANGO_ENV to 'development'
-# DJANGO_ENV = 'development'
+# DJANGO_ENV = 'production'
 # if DJANGO_ENV == 'production':
 #     env_file = '.env.prod'
 # else:
 #     env_file = '.env.dev'
 
-# For uploading to Azure, uncomment the following line
+# # # For uploading to Azure, uncomment the following line
 DJANGO_ENV = config('DJANGO_ENV', default='development')
 
 
@@ -72,6 +72,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    'portfolio.middleware.CartExpiryMiddleware',
 ]
 
 LOCALE_PATHS = (
