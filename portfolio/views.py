@@ -26,6 +26,8 @@ from .models import Project, ProjectImage, Merchandise, Cart, CartItem
 from .forms import UpdateCartItemForm, RemoveCartItemForm, ContactForm, EditProfileForm, CustomUserCreationForm 
 import stripe
 from stripe.error import StripeError
+from django.db.models import Sum
+from django.utils import timezone
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 logger = logging.getLogger(__name__)
@@ -164,6 +166,7 @@ def get_or_create_cart(request):
         else:
             cart = Cart.objects.create(user=None)  # user can be None now
             request.session["cart_id"] = cart.id
+    request.session['cart_last_updated'] = timezone.now().isoformat()
     return cart
 
 
@@ -183,7 +186,6 @@ def checkout(request):
         "stripe_public_key": settings.STRIPE_PUBLIC_KEY,
     }
     return render(request, "checkout.html", context)
-
 
 def add_to_cart(request):
     if request.method == "POST":
@@ -209,11 +211,18 @@ def add_to_cart(request):
                 merchandise.stock -= 1
                 merchandise.save()
 
-            return JsonResponse({"success": True})
+            # Update the last updated time for this cart            
+            request.session['cart_last_updated'] = timezone.now().isoformat()
+
+            # Calculate the total number of items in the cart
+            total_items = CartItem.objects.filter(cart=cart).aggregate(Sum('quantity'))['quantity__sum'] or 0
+            
+            return JsonResponse({"success": True, "cart": {"total_items": total_items}})
         else:
             logger.info(f"Failed to add item to cart. Cart not found.")
             return JsonResponse({"success": False, "message": _("Failed to add item to cart")})
     return JsonResponse({"success": False})
+
 
 
 @csrf_exempt
