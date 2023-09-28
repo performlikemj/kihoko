@@ -58,20 +58,4 @@
     arrows: true,
   });
 </script>
-
-<!-- New Functions for Toast and Cart Count -->
-<script>
-  function showToast() {
-    var toastEl = new bootstrap.Toast(document.getElementById('cartToast'));
-    toastEl.show();
-  }
-
-  function updateCartCount(newCount) {
-    const cartCountElement = document.getElementById('cart-count');
-    cartCountElement.textContent = newCount;
-  }
-
-  // Initialize cartCount when the page loads (use actual value)
-  let cartCount = 0; // Update this based on actual cart items
-</script>
 {% endblock %}
