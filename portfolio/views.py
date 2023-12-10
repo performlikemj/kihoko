@@ -75,7 +75,7 @@ def shop(request):
     show_email_verification_message = False
 
     if request.user.is_authenticated:
-        cart = get_or_create_cart(request.user)
+        cart = get_or_create_cart(request)
         show_email_verification_message = not request.user.profile.email_confirmed
     else:
         cart = None
