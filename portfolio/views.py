@@ -97,7 +97,7 @@ def create_checkout_session(request):
         return JsonResponse({"success": False, "message": _("Please verify your email address to shop.")})
     try:
         if request.method == 'GET':
-            cart = get_or_create_cart(request.user)
+            cart = get_or_create_cart(request)
             cart_items = CartItem.objects.filter(cart=cart)
             
             line_items = []
@@ -381,7 +381,7 @@ def verify_email(request):
     show_email_verification_message = False
 
     if request.user.is_authenticated:
-        cart = get_or_create_cart(request.user)
+        cart = get_or_create_cart(request)
         show_email_verification_message = not request.user.profile.email_confirmed
     else:
         cart = None
