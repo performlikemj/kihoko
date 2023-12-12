@@ -25,8 +25,8 @@ from django.contrib.auth.decorators import login_required
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path('', include('portfolio.urls')),
-    path('shop/', views.shop, name='shop'),
+    path('art/', include('portfolio.urls')),
+    path('', views.shop, name='shop'),
     path('create_checkout_session/', views.create_checkout_session, name='create_checkout_session'),
     path('cart/', views.cart, name='cart'),
     path('checkout/', views.checkout, name='checkout'),
