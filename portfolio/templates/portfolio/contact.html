@@ -1,13 +1,40 @@
 {% extends 'base.html' %}
 {% load i18n %}
+
 {% block content %}
-  <div class="container">
-    <h1>{% trans "Contact" %}</h1>
-    <p>{% trans "If you have any questions or comments, please fill out the form below, and I'll get back to you as soon as possible." %}</p>
-    <form method="post" action="{% url 'contact' %}">
-      {% csrf_token %}
-      {{ form.as_p }}
-      <button type="submit" class="btn btn-primary">{% trans "Send Message" %}</button>
+<div class="contact-container">
+    <div class="contact-header">
+        <h1>{% trans "Contact" %}</h1>
+        <p>{% trans "If you have any questions or comments, please fill out the form below, and I'll get back to you as soon as possible." %}</p>
+    </div>
+    
+    <form class="contact-form" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="name">{% trans "Name" %}:</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="email">{% trans "Email" %}:</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="subject">{% trans "Subject" %}:</label>
+            <select id="subject" name="subject" required>
+                <option value="request">{% trans "Request a quote" %}</option>
+                <option value="question">{% trans "General question" %}</option>
+                <option value="other">{% trans "Other" %}</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="message">{% trans "Message" %}:</label>
+            <textarea id="message" name="message" required></textarea>
+        </div>
+        
+        <button type="submit" class="submit-button">{% trans "Send Message" %}</button>
     </form>
-  </div>
+</div>
 {% endblock %}

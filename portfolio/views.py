@@ -1,9 +1,8 @@
 import json
 from django.shortcuts import redirect, render, get_object_or_404
-from django.http import HttpResponseServerError, HttpResponseBadRequest, HttpResponseNotFound
+from django.http import HttpResponseServerError, HttpResponseBadRequest, HttpResponseNotFound, JsonResponse
 from random import choice
 from django.urls import reverse
-from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.core.mail import send_mail
 from django.contrib import messages
@@ -21,34 +20,40 @@ import logging
 from django.contrib.auth import login
 from django.conf import settings
 from django.utils import translation
-from django.http import HttpResponseRedirect
-from .models import Project, ProjectImage, Merchandise, Cart, CartItem
-from .forms import UpdateCartItemForm, RemoveCartItemForm, ContactForm, EditProfileForm, CustomUserCreationForm 
-import stripe
-from stripe.error import StripeError
 from django.db.models import Sum
 from django.utils import timezone
+from .models import Project, ProjectImage, Merchandise, Cart, CartItem
+from .forms import UpdateCartItemForm, RemoveCartItemForm, ContactForm, EditProfileForm, CustomUserCreationForm
+import traceback
+import stripe
+from stripe.error import StripeError
+import os
 
-stripe.api_key = settings.STRIPE_SECRET_KEY
 logger = logging.getLogger(__name__)
-
+stripe.api_key = settings.STRIPE_SECRET_KEY
 
 from django.contrib import admin
 
-# Create your views here.
+def redirect_to_shop_base(request):
+    return redirect('https://shop.base.com', permanent=True)
+
+# EXAMPLE VIEWS
 def home(request):
-    projects = Project.objects.all()
-    return render(request, 'index.html', {'projects': projects})
+    try:
+        projects = Project.objects.all()
+        return render(request, 'index.html', {'projects': projects})
+    except Exception as e:
+        traceback.print_exc()
+        return HttpResponseServerError("An error occurred while processing your request.")
 
 def project_detail(request, slug):
     project = get_object_or_404(Project, slug=slug)
-    project_images = ProjectImage.objects.filter(project=project)  # Get related images for the project
+    project_images = ProjectImage.objects.filter(project=project)
     return render(request, 'project_detail.html', {'project': project, 'project_images': project_images})
 
 def art_detail(request, image_id):
     image = get_object_or_404(ProjectImage, id=image_id)
-    project_images = list(image.project.projectimage_set.all())  # Convert QuerySet to list
-    
+    project_images = list(image.project.projectimage_set.all())
     current_index = project_images.index(image)
     prev_index = current_index - 1 if current_index > 0 else len(project_images) - 1
     next_index = (current_index + 1) % len(project_images)
@@ -60,222 +65,8 @@ def art_detail(request, image_id):
     }
     return render(request, 'art_detail.html', context)
 
-def merchandise_detail(request, merch_id):
-    merchandise = get_object_or_404(Merchandise, id=merch_id)
-    merchandise_images = merchandise.merchandiseimage_set.all()  # Get related images for the merchandise
-    
-    context = {
-        'merchandise': merchandise,
-        'merchandise_images': merchandise_images,
-    }
-    return render(request, 'merchandise_detail.html', context)
-
-def shop(request):
-    merchandise = Merchandise.objects.prefetch_related('merchandiseimage_set').all()
-    show_email_verification_message = False
-
-    if request.user.is_authenticated:
-        cart = get_or_create_cart(request)
-        show_email_verification_message = not request.user.profile.email_confirmed
-    else:
-        cart = None
-
-    context = {
-        'merchandise': merchandise,
-        'cart': cart,
-        'stripe_public_key': settings.STRIPE_PUBLIC_KEY,
-        'show_email_verification_message': show_email_verification_message,
-    }
-    return render(request, 'shop.html', context)
 
 
-
-@csrf_exempt
-def create_checkout_session(request):
-    user = request.user
-    if not user.profile.email_confirmed:
-        return JsonResponse({"success": False, "message": _("Please verify your email address to shop.")})
-    try:
-        if request.method == 'GET':
-            cart = get_or_create_cart(request)
-            cart_items = CartItem.objects.filter(cart=cart)
-            
-            line_items = []
-            for item in cart_items:
-                # Get the first image for this merchandise item, if available
-                first_image_url = item.merchandise.merchandiseimage_set.first().image.url if item.merchandise.merchandiseimage_set.exists() else ''
-                line_items.append({
-                    'price_data': {
-                        'currency': 'usd',
-                        'unit_amount': int(item.merchandise.price * 100),
-                        'product_data': {
-                            'name': item.merchandise.title,
-                            'images': [request.build_absolute_uri(first_image_url)],
-                        },
-                    },
-                    'quantity': item.quantity,
-                })
-
-
-            checkout_session = stripe.checkout.Session.create(
-                payment_method_types=['card'],
-                line_items=line_items,
-                mode='payment',
-                success_url=request.build_absolute_uri('/') + '?success=true',
-                cancel_url=request.build_absolute_uri('/') + '?canceled=true',
-            )
-
-            return JsonResponse({'sessionId': checkout_session['id']})
-    except StripeError as e:
-        # Log the error
-        logger.warning(f"StripeError: {e}")
-        return JsonResponse({'success': False, 'message': _('There was an error creating the checkout session. Please try again later.')})
-    except Exception as e:
-        # Log the error
-        logger.warning(f"Exception: {e}")
-        return JsonResponse({'success': False, 'message': _('An unexpected error occurred. Please try again later.')})
-
-def calculate_cart_total(cart):
-    cart_items = CartItem.objects.filter(cart=cart)
-    total = sum([item.merchandise.price * item.quantity for item in cart_items])
-    return total
-
-def cart(request):
-    cart = get_or_create_cart(request)
-    total = calculate_cart_total(cart)
-    if cart:
-        cart_items = CartItem.objects.filter(cart=cart)
-        total = total
-    else:
-        cart_items = []
-        total = 0
-    context = {
-        "cart_items": cart_items,
-        "total": total,
-    }
-    return render(request, "cart.html", context)
-
-
-def get_or_create_cart(request):
-    if request.user.is_authenticated:
-        cart, _ = Cart.objects.get_or_create(user=request.user)
-    else:
-        cart_id = request.session.get("cart_id", None)
-        if cart_id:
-            cart = Cart.objects.filter(id=cart_id).first()
-        else:
-            cart = Cart.objects.create(user=None)  # user can be None now
-            request.session["cart_id"] = cart.id
-    request.session['cart_last_updated'] = timezone.now().isoformat()
-    return cart
-
-
-
-def checkout(request):
-    cart = get_or_create_cart(request)
-    total = calculate_cart_total(cart)
-    if cart:
-        cart_items = CartItem.objects.filter(cart=cart)
-        total = total
-    else:
-        cart_items = []
-        total = 0
-    context = {
-        "cart_items": cart_items,
-        "total": total,
-        "stripe_public_key": settings.STRIPE_PUBLIC_KEY,
-    }
-    return render(request, "checkout.html", context)
-
-def add_to_cart(request):
-    if request.method == "POST":
-        cart = get_or_create_cart(request)
-        if cart:
-            data = json.loads(request.body)
-            merch_id = data.get("merch_id")
-            merchandise = get_object_or_404(Merchandise, id=merch_id)
-
-            if merchandise.stock < 1:
-                logger.info(f"Tried to add out of stock item to cart")
-                return JsonResponse({"success": False, "message": _("The item is out of stock")})
-
-            cart_item, created = CartItem.objects.get_or_create(cart=cart, merchandise=merchandise)
-            if not created:
-                if cart_item.quantity < merchandise.stock:
-                    cart_item.quantity += 1
-                    cart_item.save()
-                else:
-                    logger.info(f"Tried to add more items than available in stock")
-                    return JsonResponse({"success": False, "message": _("You can't add more items than available in stock")})
-            else:
-                merchandise.stock -= 1
-                merchandise.save()
-
-            # Update the last updated time for this cart            
-            request.session['cart_last_updated'] = timezone.now().isoformat()
-
-            # Calculate the total number of items in the cart
-            total_items = CartItem.objects.filter(cart=cart).aggregate(Sum('quantity'))['quantity__sum'] or 0
-            
-            return JsonResponse({"success": True, "cart": {"total_items": total_items}})
-        else:
-            logger.info(f"Failed to add item to cart. Cart not found.")
-            return JsonResponse({"success": False, "message": _("Failed to add item to cart")})
-    return JsonResponse({"success": False})
-
-
-
-@csrf_exempt
-def update_cart_item(request):
-    if request.method == "POST":
-        form = UpdateCartItemForm(request.POST)
-        if form.is_valid():
-            merch_id = request.POST.get('merch_id')
-            quantity = int(request.POST.get('quantity'))
-            merchandise = get_object_or_404(Merchandise, id=merch_id)
-
-            if quantity > merchandise.stock:
-                return JsonResponse({'success': False, 'message': _('You can\'t add more items than available in stock')})
-
-            cart = get_or_create_cart(request)
-            cart_item = get_object_or_404(CartItem, cart=cart, merchandise=merchandise)
-
-            # Update stock before setting new cart_item quantity
-            merchandise.stock += cart_item.quantity
-            cart_item.quantity = max(quantity, 1)
-            merchandise.stock -= cart_item.quantity
-            merchandise.save()
-
-            cart_item.save()
-
-            return JsonResponse({'success': True})
-        else:
-            return JsonResponse({'success': False, 'message': _('Invalid input')})
-
-
-@csrf_exempt
-def remove_cart_item(request):
-    if request.method == "POST":
-        form = RemoveCartItemForm(request.POST)
-        if form.is_valid():
-            merch_id = request.POST.get('merch_id')
-            merchandise = get_object_or_404(Merchandise, id=merch_id)
-
-            cart = get_or_create_cart(request)
-            cart_item = get_object_or_404(CartItem, cart=cart, merchandise=merchandise)
-
-            # Update merchandise stock
-            merchandise.stock += cart_item.quantity
-            merchandise.save()
-
-            cart_item.delete()
-
-            return JsonResponse({'success': True})
-        else:
-            return JsonResponse({'success': False, 'message': _('Invalid input')})
-
-
-# Contact Form
 def contact(request):
     if request.method == 'POST':
         form = ContactForm(request.POST)
@@ -285,10 +76,7 @@ def contact(request):
             subject = form.cleaned_data.get('subject')
             message = form.cleaned_data.get('message')
             
-            # Create the full message including the user's email address
             full_message = f"From: {name} <{email}>\n\n{message}"
-            
-            # Use kihokomizuno@icloud.com as the sender's address
             sender_email = "kihokomizuno@icloud.com"
             send_mail(subject, full_message, sender_email, [sender_email], fail_silently=False)
 
@@ -301,8 +89,6 @@ def contact(request):
         form = ContactForm()
     return render(request, 'contact.html', {'form': form})
 
-
-# Authentication
 def signup(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
@@ -314,19 +100,16 @@ def signup(request):
         form = CustomUserCreationForm()
     return render(request, 'signup.html', {'form': form})
 
-
 @login_required
 def edit_profile(request):
     if request.method == 'POST':
-        old_email = request.user.email  # Save the old email before binding the form
+        old_email = request.user.email
         form = EditProfileForm(request.POST, instance=request.user)
         if form.is_valid():
-            # Check if the email has changed
             if form.cleaned_data['email'] != old_email:
                 request.user.profile.email_confirmed = False
                 request.user.profile.save()
-                send_activation_email(request, request.user)  # Send a new activation email for the updated email address
-
+                send_activation_email(request, request.user)
             form.save()
             messages.success(request, _('Your profile has been updated successfully.'))
             return redirect('edit_profile')
@@ -336,20 +119,13 @@ def edit_profile(request):
     else:
         form = EditProfileForm(instance=request.user)
 
-    context = {
-        'form': form,
-    }
-    return render(request, 'edit_profile.html', context)
-
-
+    return render(request, 'edit_profile.html', {'form': form})
 
 @login_required
 def send_activation_email(request, user):
     token = default_token_generator.make_token(user)
     uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
-
-    activation_link = request.build_absolute_uri(
-        reverse('activate_email', kwargs={'uidb64': uidb64, 'token': token}))
+    activation_link = request.build_absolute_uri(reverse('activate_email', kwargs={'uidb64': uidb64, 'token': token}))
 
     subject = _('Activate your email address')
     message = render_to_string('email_activation.html', {
@@ -358,11 +134,8 @@ def send_activation_email(request, user):
     })
 
     sender_email = "kiho@kihoko.com"
-
     email = EmailMessage(subject, message, from_email=sender_email, to=[user.email])
     email.send()
-
-
 
 @login_required
 def verify_email(request):
@@ -377,23 +150,8 @@ def verify_email(request):
             pass
         messages.success(request, _('An email has been sent with an activation link. Please check your inbox.'))
 
-    merchandise = Merchandise.objects.all()
-    show_email_verification_message = False
-
-    if request.user.is_authenticated:
-        cart = get_or_create_cart(request)
-        show_email_verification_message = not request.user.profile.email_confirmed
-    else:
-        cart = None
-
-    context = {
-        'merchandise': merchandise,
-        'cart': cart,
-        'show_email_verification_message': show_email_verification_message,
-    }
-    return render(request, 'shop.html', context)
-
-
+    projects = Project.objects.all()
+    return render(request, 'index.html', {'projects': projects})
 
 @login_required
 def activate_email(request, uidb64, token):
@@ -412,51 +170,25 @@ def activate_email(request, uidb64, token):
             messages.error(request, _('The email verification link is invalid. Please request a new one.'))
             return redirect(reverse('edit_profile'))
     except (TypeError, ValueError, OverflowError, User.DoesNotExist):
-        logger.info(f"Invalid activation link for {user.email}")
+        logger.info("Invalid activation link")
         messages.error(request, _('The email verification link is invalid. Please request a new one.'))
         return redirect(reverse('edit_profile'))
 
-
 # 400 Series Errors
 def custom_404(request, exception):
-    random_image = None
     images = ProjectImage.objects.all()
-
-    if images.exists():
-        random_image = choice(images)
-        context = {'random_image': random_image}
-
-    return render(request, '404.html', context, status=404)
+    random_image = choice(images) if images.exists() else None
+    return render(request, '404.html', {'random_image': random_image}, status=404)
 
 def custom_400(request, exception):
-    random_image = None
+    print(f"Exception: {exception}")
     images = ProjectImage.objects.all()
-
-    if images.exists():
-        random_image = choice(images)
-        context = {'random_image': random_image}
-
-    return render(request, '400.html', context)
+    random_image = choice(images) if images.exists() else None
+    return render(request, '400.html', {'random_image': random_image})
 
 # 500 Series Errors
 def custom_500(request):
-    random_image = None
     images = ProjectImage.objects.all()
+    random_image = choice(images) if images.exists() else None
+    return render(request, '500.html', {'random_image': random_image})
 
-    if images.exists():
-        random_image = choice(images)
-        context = {'random_image': random_image}
-
-    return render(request, '500.html', context)
-
-# Language
-def change_language(request):
-    user_language = request.GET.get('lang', None)
-    
-    if user_language and user_language in [lang[0] for lang in settings.LANGUAGES]:
-        translation.activate(user_language)
-        response = HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
-        response.set_cookie(settings.LANGUAGE_COOKIE_NAME, user_language)
-        return response
-    
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))

@@ -2,42 +2,24 @@
 {%load i18n%}
 {%block title%} {{project.title}} {%endblock %}
 {% block content %}
-<section class="social-icons" data-aos="fade-up">
-  <div class="container">
-    <div class="d-flex justify-content-center">
-      <a href="https://www.instagram.com/yourusername/" target="_blank" class="social-icon mr-3" style="color: #833ab4">
-        <i class="icon-instagram"></i>
-      </a>
-      <a href="https://www.youtube.com/channel/yourchannelid" target="_blank" class="social-icon" style="color: #ff0000">
-        <i class="icon-youtube-play"></i>
-      </a>
-    </div>
-  </div>
-</section>
+<div class="project-header" data-aos="fade-down">
+  <h1 class="display-2">{{ project.title }}</h1>
+</div>
 
-<section class="projects mb-5">
-  <div class="container-fluid">
-    <div class="row" style="justify-content: start">
-      {% for item in project_images %}
-      <div class="col-lg-3 col-md-6 col-12 mb-4" data-aos="fade-up">
-        <div class="bg-body-tertiary rounded card border-0 pb-0">
-          <div class="products-item">
-            <div class="product-img w-100">
-              <a href="{{item.image.url}}" data-toggle="lightbox" data-gallery="example-gallery" data-caption="{{ item.title }}">
-                <img class="img-fluid project-image w-100" src="{{ item.image.url }}" alt="{{ item.title }}" style="height: 500px; object-fit: cover" />
-              </a>
-            </div>
-          </div>
-          <div class="card-body">
-            <h5 class="fw-bold text-uppercase fs-3 pb-0 mb-1">{{ item.title }}</h5>
-          </div>
-        </div>
+<div class="artwork-grid">
+  {% for item in project_images %}
+  <div class="artwork-card" data-aos="fade-up" data-aos-delay="{{ forloop.counter }}00">
+    <a href="{% url 'art_detail' image_id=item.id %}" class="artwork-link">
+      <div class="artwork-image">
+        <img src="{{ item.image.url }}" alt="{{ item.title }}" loading="lazy" />
       </div>
-      {% endfor %}
-    </div>
+      <div class="artwork-overlay">
+        <h3 class="artwork-title">{{ item.title }}</h3>
+      </div>
+    </a>
   </div>
-</section>
-
+  {% endfor %}
+</div>
 {% endblock %} 
 {% block newsletter %} 
 {% endblock %} 

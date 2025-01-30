@@ -16,11 +16,11 @@ from decouple import config
 import os
 
 # For testing locally, set DJANGO_ENV to 'development'
-# DJANGO_ENV = 'production'
+# `DJANGO_ENV = 'production'
 # if DJANGO_ENV == 'production':
 #     env_file = '.env.prod'
 # else:
-#     env_file = '.env.dev'
+#     env_file = '.env.dev'`
 
 # # # For uploading to Azure, uncomment the following line
 DJANGO_ENV = config('DJANGO_ENV', default='development')
@@ -45,7 +45,8 @@ else:
     ALLOWED_HOSTS = ['127.0.0.1', 'localhost',]
 
 
-
+print(f'DEBUG: {DEBUG}')
+print(f'DJANGO_ENV: {DJANGO_ENV}')
 # Application definition
 
 INSTALLED_APPS = [
@@ -72,7 +73,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
-    'portfolio.middleware.CartExpiryMiddleware',
 ]
 
 LOCALE_PATHS = (
@@ -93,6 +93,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'portfolio.context_processors.email_verification_status',
+                'portfolio.context_processors.site_context',
             ],
         },
     },
@@ -263,4 +264,25 @@ if DJANGO_ENV == 'production':
     MEDIA_URL = f'https://{AZURE_CUSTOM_DOMAIN}/{AZURE_CONTAINER}/'
 else:
     MEDIA_URL = '/media/'
-    MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# Add this after your MEDIA_ROOT configuration
+if DEBUG:
+    print(f"MEDIA_ROOT: {MEDIA_ROOT}")
+    print(f"MEDIA_URL: {MEDIA_URL}")
+    
+    # Add file upload debugging
+    LOGGING['loggers']['django.request'] = {
+        'handlers': ['file'],
+        'level': 'DEBUG',
+        'propagate': True,
+    }
+
+# Add this after your MEDIA_ROOT configuration
+if DJANGO_ENV == 'development':
+    # Ensure media directory exists with correct permissions
+    for dir_name in ['projects', 'merchandise', 'misc']:  # Match the original paths
+        dir_path = os.path.join(MEDIA_ROOT, dir_name)
+        if not os.path.exists(dir_path):
+            os.makedirs(dir_path)
+            print(f"Created media directory: {dir_path}")

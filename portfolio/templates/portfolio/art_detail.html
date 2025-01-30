@@ -1,15 +1,24 @@
 {% extends 'base.html' %}
+{% load static %}
 {% load i18n %}
 {% block title %}Art Detail{% endblock %}
 
 {% block content %}
-        <div class="container">
-            <div class="art-detail-container">
-                <button class="arrow arrow-left" onclick="location.href='{% url 'art_detail' prev_image.id %}';">&#8249;</button>
-                <img class="art-detail-image" src="{{ image.image.url }}" alt="{{ image.title }}">
-                <button class="arrow arrow-right" onclick="location.href='{% url 'art_detail' next_image.id %}';">&#8250;</button>
-            </div>
+<div class="artwork-detail">
+    <div class="artwork-detail-container">
+        <div class="artwork-detail-image">
+            <img 
+                src="{% static 'img/logo.png' %}" 
+                data-src="{{ image.image.url }}" 
+                alt="{{ image.title }}"
+                class="lazy-load"
+            >
+            <button class="arrow arrow-left" onclick="location.href='{% url 'art_detail' prev_image.id %}';">&#8249;</button>
+            <button class="arrow arrow-right" onclick="location.href='{% url 'art_detail' next_image.id %}';">&#8250;</button>
         </div>
+        <h1 class="artwork-detail-title">{{ image.title }}</h1>
+    </div>
+</div>
 {% endblock %}
 
 <!-- {% block newsletter %}
