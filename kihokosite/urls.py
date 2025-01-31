@@ -11,7 +11,7 @@ from portfolio import views  # import your portfolio views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-
+    path('', views.home, name='home'),
     # Example: routes for portfolio app
     path('art/', include('portfolio.urls')),
 
