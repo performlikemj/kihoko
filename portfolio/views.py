@@ -43,83 +43,113 @@ def home(request):
         projects = Project.objects.all()
         return render(request, 'index.html', {'projects': projects})
     except Exception as e:
-        traceback.print_exc()
+        logger.error(f"An error occurred while processing your request: {e}")
+        # log the traceback
+        logger.error(f"Traceback: {traceback.format_exc()}")
         return HttpResponseServerError("An error occurred while processing your request.")
 
 def project_detail(request, slug):
-    project = get_object_or_404(Project, slug=slug)
-    project_images = ProjectImage.objects.filter(project=project)
-    return render(request, 'project_detail.html', {'project': project, 'project_images': project_images})
+    try:
+        project = get_object_or_404(Project, slug=slug)
+        project_images = ProjectImage.objects.filter(project=project)
+        return render(request, 'project_detail.html', {'project': project, 'project_images': project_images})
+    except Exception as e:
+        logger.error(f"An error occurred while processing your request: {e}")
+        # log the traceback
+        logger.error(f"Traceback: {traceback.format_exc()}")
+        return HttpResponseServerError("An error occurred while processing your request.")
 
 def art_detail(request, image_id):
-    image = get_object_or_404(ProjectImage, id=image_id)
-    project_images = list(image.project.projectimage_set.all())
-    current_index = project_images.index(image)
-    prev_index = current_index - 1 if current_index > 0 else len(project_images) - 1
-    next_index = (current_index + 1) % len(project_images)
+    try:
+        image = get_object_or_404(ProjectImage, id=image_id)
+        project_images = list(image.project.projectimage_set.all())
+        current_index = project_images.index(image)
+        prev_index = current_index - 1 if current_index > 0 else len(project_images) - 1
+        next_index = (current_index + 1) % len(project_images)
 
-    context = {
-        'image': image,
-        'prev_image': project_images[prev_index],
-        'next_image': project_images[next_index],
-    }
-    return render(request, 'art_detail.html', context)
-
+        context = {
+            'image': image,
+            'prev_image': project_images[prev_index],
+            'next_image': project_images[next_index],
+        }
+        return render(request, 'art_detail.html', context)
+    except Exception as e:
+        logger.error(f"An error occurred while processing your request: {e}")
+        # log the traceback
+        logger.error(f"Traceback: {traceback.format_exc()}")
+        return HttpResponseServerError("An error occurred while processing your request.")
 
 
 def contact(request):
-    if request.method == 'POST':
-        form = ContactForm(request.POST)
-        if form.is_valid():
-            name = form.cleaned_data.get('name')
-            email = form.cleaned_data.get('email')
-            subject = form.cleaned_data.get('subject')
-            message = form.cleaned_data.get('message')
-            
-            full_message = f"From: {name} <{email}>\n\n{message}"
-            sender_email = "kihokomizuno@icloud.com"
-            send_mail(subject, full_message, sender_email, [sender_email], fail_silently=False)
+    try:
+        if request.method == 'POST':
+            form = ContactForm(request.POST)
+            if form.is_valid():
+                name = form.cleaned_data.get('name')
+                email = form.cleaned_data.get('email')
+                subject = form.cleaned_data.get('subject')
+                message = form.cleaned_data.get('message')
+                
+                full_message = f"From: {name} <{email}>\n\n{message}"
+                sender_email = "kihokomizuno@icloud.com"
+                send_mail(subject, full_message, sender_email, [sender_email], fail_silently=False)
 
-            messages.success(request, _("Your message has been sent successfully!"))
-            return redirect('contact')
+                messages.success(request, _("Your message has been sent successfully!"))
+                return redirect('contact')
+            else:
+                logger.error(f"An error occurred while sending a message to {request.POST.get('email')}")
+                messages.error(request, _("An error occurred while sending your message. Please try again."))
         else:
-            logger.error(f"An error occurred while sending a message to {request.POST.get('email')}")
-            messages.error(request, _("An error occurred while sending your message. Please try again."))
-    else:
-        form = ContactForm()
-    return render(request, 'contact.html', {'form': form})
+            form = ContactForm()
+        return render(request, 'contact.html', {'form': form})
+    except Exception as e:
+        logger.error(f"An error occurred while processing your request: {e}")
+        # log the traceback
+        logger.error(f"Traceback: {traceback.format_exc()}")
+        return HttpResponseServerError("An error occurred while processing your request.")
 
 def signup(request):
-    if request.method == 'POST':
-        form = CustomUserCreationForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            login(request, user)
-            return redirect('home')
-    else:
-        form = CustomUserCreationForm()
-    return render(request, 'signup.html', {'form': form})
+    try:
+        if request.method == 'POST':
+            form = CustomUserCreationForm(request.POST)
+            if form.is_valid():
+                user = form.save()
+                login(request, user)
+                return redirect('home')
+        else:
+            form = CustomUserCreationForm()
+        return render(request, 'signup.html', {'form': form})
+    except Exception as e:
+        logger.error(f"An error occurred while processing your request: {e}")
+        # log the traceback
+        logger.error(f"Traceback: {traceback.format_exc()}")
+        return HttpResponseServerError("An error occurred while processing your request.")
 
 @login_required
 def edit_profile(request):
-    if request.method == 'POST':
-        old_email = request.user.email
-        form = EditProfileForm(request.POST, instance=request.user)
+    try:
+        if request.method == 'POST':
+            old_email = request.user.email
+            form = EditProfileForm(request.POST, instance=request.user)
         if form.is_valid():
             if form.cleaned_data['email'] != old_email:
                 request.user.profile.email_confirmed = False
                 request.user.profile.save()
                 send_activation_email(request, request.user)
-            form.save()
-            messages.success(request, _('Your profile has been updated successfully.'))
-            return redirect('edit_profile')
+                form.save()
+                messages.success(request, _('Your profile has been updated successfully.'))
+                return redirect('edit_profile')
+            else:
+                logger.info(f"An error occurred while updating the profile of {request.user.email}")
+                messages.error(request, _('An error occurred while updating your profile.'))
         else:
-            logger.info(f"An error occurred while updating the profile of {request.user.email}")
-            messages.error(request, _('An error occurred while updating your profile.'))
-    else:
-        form = EditProfileForm(instance=request.user)
-
-    return render(request, 'edit_profile.html', {'form': form})
+            form = EditProfileForm(instance=request.user)    
+        return render(request, 'edit_profile.html', {'form': form})
+    except Exception as e:
+        logger.error(f"An error occurred while processing your request: {e}")
+        # log the traceback
+        logger.error(f"Traceback: {traceback.format_exc()}")
+        return HttpResponseServerError("An error occurred while processing your request.")
 
 @login_required
 def send_activation_email(request, user):
@@ -176,18 +206,20 @@ def activate_email(request, uidb64, token):
 
 # 400 Series Errors
 def custom_404(request, exception):
+    logger.error(f"404 error: {exception}")
     images = ProjectImage.objects.all()
     random_image = choice(images) if images.exists() else None
     return render(request, '404.html', {'random_image': random_image}, status=404)
 
 def custom_400(request, exception):
-    print(f"Exception: {exception}")
+    logger.error(f"400 error: {exception}")
     images = ProjectImage.objects.all()
     random_image = choice(images) if images.exists() else None
     return render(request, '400.html', {'random_image': random_image})
 
 # 500 Series Errors
 def custom_500(request):
+    logger.error(f"500 error")
     images = ProjectImage.objects.all()
     random_image = choice(images) if images.exists() else None
     return render(request, '500.html', {'random_image': random_image})
