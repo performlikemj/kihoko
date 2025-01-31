@@ -29,7 +29,7 @@ import stripe
 from stripe.error import StripeError
 import os
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('django')
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 from django.contrib import admin
