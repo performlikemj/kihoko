@@ -795,3 +795,27 @@ a {
 .social-icon:hover {
   transform: scale(1.2);
 }
+
+/* Add this to your existing CSS */
+@media (max-width: 768px) {
+  /* Adjust main content area to account for bottom nav */
+  .flex-container main {
+    padding-bottom: calc(60px + 1rem) !important; /* 60px for nav height + 1rem extra space */
+  }
+
+  /* Adjust projects grid padding */
+  .projects-grid,
+  .artwork-grid {
+    padding-bottom: calc(60px + 1rem) !important;
+  }
+
+  /* Ensure contact form container has enough bottom padding */
+  .contact-container {
+    padding-bottom: calc(60px + 1rem) !important;
+  }
+
+  /* Ensure the submit button is visible */
+  .contact-form {
+    margin-bottom: 1rem;
+  }
+}
