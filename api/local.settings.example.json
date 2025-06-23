@@ -1,0 +1,14 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "",
+    "FUNCTIONS_WORKER_RUNTIME": "node",
+    "COSMOS_DB_ENDPOINT": "https://your-cosmos-db.documents.azure.com:443/",
+    "COSMOS_DB_KEY": "your-cosmos-db-primary-key-here",
+    "AZURE_STORAGE_CONNECTION_STRING": "DefaultEndpointsProtocol=https;AccountName=yourstorageaccount;AccountKey=your-storage-key;EndpointSuffix=core.windows.net"
+  },
+  "Host": {
+    "CORS": "*",
+    "CORSCredentials": false
+  }
+} 
