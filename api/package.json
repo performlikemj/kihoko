@@ -16,6 +16,6 @@
     "cors": "^2.8.5"
   },
   "devDependencies": {
-    "@azure/functions-core-tools": "^4.0.5000"
+    "azure-functions-core-tools": "^4.0.5000"
   }
 } 
