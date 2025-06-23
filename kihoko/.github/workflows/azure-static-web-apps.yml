@@ -27,7 +27,7 @@ jobs:
           
       - name: Install and Build React App
         run: |
-          cd kihokosite/web
+          cd web
           npm ci
           npm run build
           
@@ -44,9 +44,9 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }} # Used for Github integrations (i.e. PR comments)
           action: "upload"
           ###### Repository/Build Configurations ######
-          app_location: "kihokosite/web" # App source code path
+          app_location: "web" # App source code path
           api_location: "api" # Api source code path - optional
-          output_location: "build" # Built app content directory - optional
+          output_location: "dist" # Built app content directory - optional
           ###### End of Repository/Build Configurations ######
         env:
           # Azure Functions Environment Variables
@@ -65,4 +65,4 @@ jobs:
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
           action: "close"
-          app_location: "kihokosite/web" 
+          app_location: "web" 
