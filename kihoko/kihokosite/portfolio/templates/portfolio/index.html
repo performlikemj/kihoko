@@ -1,0 +1,32 @@
+{%extends 'base.html'%}{%load i18n%} {%block title%}Portfolio{%endblock%}{%block content%}
+<div class="hero-section" data-aos="fade-in">
+  <h1 class="display-1 text-center">Kihoko Mizuno Jones</h1>
+  <div class="social-links">
+    <a href="https://www.instagram.com/kihokomizuno/" target="_blank" class="social-icon">
+      <i class="fab fa-instagram"></i>
+    </a>
+    <a href="https://www.youtube.com/@MizunoJones" target="_blank" class="social-icon">
+      <i class="fab fa-youtube"></i>
+    </a>
+  </div>
+</div>
+
+<div class="projects-grid">
+  {% for item in projects %}
+  <div class="project-card" data-aos="fade-up" data-aos-delay="{{ forloop.counter }}00">
+    <a href="{% url 'project_detail' slug=item.slug %}" class="project-link">
+      <div class="project-image">
+        {% if item.image %}
+          <img src="{{ item.image.url }}" alt="{{ item.title }}" loading="lazy" />
+        {% else %}
+          <div style="padding: 1rem;">No image available for: {{ item.title }}</div>
+        {% endif %}
+      </div>
+      <div class="project-overlay">
+        <h2 class="project-title">{% trans item.title %}</h2>
+      </div>
+    </a>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %} {% block newsletter %} {% endblock %}

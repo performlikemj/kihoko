@@ -1,0 +1,65 @@
+# Sensitive configuration files
+api/local.settings.json
+.env
+.env.local
+.env.development
+.env.production
+setup-env.sh
+
+# Azure Functions
+api/bin/
+api/obj/
+api/.vscode/
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# React build
+kihokosite/web/build/
+kihokosite/web/dist/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Azure deployment files (optional)
+.azure/
+
+# Python virtual environment (from old Django setup)
+site/
+*.pyc
+__pycache__/
+
+# Python virtual environments
+.venv/
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+djangoapp/
+djangoapp_backup/
+
+# Django specific
+*.sqlite3
+staticfiles/
+media/uploads/ 

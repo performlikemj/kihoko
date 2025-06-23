@@ -1,0 +1,12 @@
+{% load i18n %}
+{% autoescape off %}
+Hi {{ user.username }},
+
+{% trans "Please click the link below to verify your email address:" %}
+
+{{ activation_link }}
+
+{% trans "If you didn't request this email, please ignore it." %}
+
+{% trans "Thank you!" %}
+{% endautoescape %}

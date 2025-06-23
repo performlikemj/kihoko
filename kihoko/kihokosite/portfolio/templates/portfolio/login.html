@@ -1,0 +1,16 @@
+{% extends 'base.html' %} 
+{% load i18n %} 
+{% block content %}
+<div class="container py-4" data-aos="fade-up">
+  <div class="row">
+    <div class="col-lg-6">
+      <h1 class="display-5 fw-bold text-center text-uppercase">{% trans "Login" %}</h1>
+      <form method="post" class="bg-body-tertiary p-4 rounded my-4 login" data-aos="fade-up" data-aos-delay="400">
+        {% csrf_token %} 
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-lg btn-dark w-100 mt-4">{% trans "Continue" %}</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,7 @@
+*.log
+*.env*
+__pycache__/
+media/
+*.sqlite3
+kihoko-db*
+db.sqlite3

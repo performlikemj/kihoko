@@ -1,0 +1,107 @@
+{% extends 'base.html' %} {% load static %} {% load math_filters %} {% load i18n %} {% block content %}
+<div class="container" data-aos="fade-up">
+  <h1>{% trans "Cart" %}</h1>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>{% trans "Image" %}</th>
+        <th>{% trans "Title" %}</th>
+        <th>{% trans "Price" %}</th>
+        <th>{% trans "Quantity" %}</th>
+        <th>{% trans "Total" %}</th>
+        <th>{% trans "Actions" %}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for cart_item in cart_items %}
+      <tr>
+        <td>{% if cart_item.merchandise.merchandiseimage_set.first %}
+          <img src="{{ cart_item.merchandise.merchandiseimage_set.first.image.url }}" alt="{{ cart_item.merchandise.title }}" style="width: 100px" />
+      {% else %}
+          <span>No Image</span>
+      {% endif %}
+        </td>
+        <td>{{ cart_item.merchandise.title }}</td>
+        <td>${{ cart_item.merchandise.price }}</td>
+        <td>
+          <input type="number" min="1" value="{{ cart_item.quantity }}" class="quantity-input" data-merch-id="{{ cart_item.merchandise.id }}" />
+        </td>
+        <td>${{ cart_item.merchandise.price|floatformat:2|multiply:cart_item.quantity|floatformat:2 }}</td>
+        <td>
+          <button class="btn btn-danger remove-from-cart" data-merch-id="{{ cart_item.merchandise.id }}">{% trans "Remove" %}</button>
+        </td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="6">{% trans "Your cart is empty." %}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <h3>Total: ${{ total|floatformat:2 }}</h3>
+  {% if cart_items %}
+  <a href="{% url 'checkout' %}" class="btn btn-primary">{% trans "Proceed to Checkout" %}</a>
+  {% endif %}
+</div>
+{% endblock %} {% block extra_js %}
+<script>
+  const removeFromCartButtons = document.querySelectorAll(".remove-from-cart");
+  const quantityInputs = document.querySelectorAll(".quantity-input");
+
+  removeFromCartButtons.forEach((button) => {
+    button.addEventListener("click", async (event) => {
+      const merchId = event.target.dataset.merchId;
+      await removeFromCart(merchId);
+    });
+  });
+
+  quantityInputs.forEach((input) => {
+    input.addEventListener("change", async (event) => {
+      const merchId = event.target.dataset.merchId;
+      const quantity = event.target.value;
+      await updateCartItem(merchId, quantity);
+    });
+  });
+
+  async function removeFromCart(merchId) {
+    const response = await fetch("{% url 'remove_cart_item' %}", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "X-CSRFToken": "{{ csrf_token }}",
+      },
+      body: new URLSearchParams({
+        merch_id: merchId,
+      }),
+    });
+
+    const data = await response.json();
+    if (data.success) {
+      location.reload();
+    } else {
+      alert(data.message);
+    }
+  }
+
+  async function updateCartItem(merchId, quantity) {
+    const response = await fetch("{% url 'update_cart_item' %}", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "X-CSRFToken": "{{ csrf_token }}",
+      },
+      body: new URLSearchParams({
+        merch_id: merchId,
+        quantity: quantity,
+      }),
+    });
+
+    const data = await response.json();
+    if (data.success) {
+      location.reload();
+    } else {
+      alert(data.message);
+    }
+  }
+</script>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}500 - Bad Request{% endblock %}
+
+{% block content %}
+    <main>
+        <section class="error-500">
+            <div class="container">
+                <div class="text-center">
+                    {% if random_image %}
+                        <img src="{{ random_image.image.url }}" alt="500 Image" class="img-fluid">
+                    {% endif %}
+                    <h1>404</h1>
+                    <h2>{% trans "Oops! Server error." %}</h2>
+                    <p>{% trans "We couldn't fulfill your request. Our server encountered an error." %}</p>
+                    <a href="{% url 'home' %}" class="btn btn-primary">{% trans "Go Home" %}</a>
+                </div>
+            </div>
+        </section>
+    </main>
+{% endblock %}
