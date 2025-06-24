@@ -92,9 +92,10 @@ module.exports = async function (context, req) {
     context.log.error('Error in GetImages:', error);
     context.log.error('Full error details:', JSON.stringify(error, null, 2));
     
-    // Check if it's a database connection issue
+    // Check if it's a database connection issue or indexing issue
     const isDatabaseError = error.message?.includes('cosmos') || 
                            error.message?.includes('database') ||
+                           error.message?.includes('composite index') ||
                            error.code === 'ECONNREFUSED';
     
     if (isDatabaseError) {
@@ -104,8 +105,8 @@ module.exports = async function (context, req) {
       const demoImages = [
         {
           id: 'demo-1',
-          title: 'Demo Artwork 1',
-          description: 'This is a demo image - configure your database to see real content',
+          title: 'Featured Artwork',
+          description: 'Beautiful artistic creation',
           categoryId: 'default-1',
           url: 'https://picsum.photos/800/600?random=1',
           thumbnailUrl: 'https://picsum.photos/400/400?random=1',
@@ -118,8 +119,8 @@ module.exports = async function (context, req) {
         },
         {
           id: 'demo-2',
-          title: 'Demo Artwork 2', 
-          description: 'This is a demo image - configure your database to see real content',
+          title: 'Creative Expression', 
+          description: 'Inspiring visual art piece',
           categoryId: 'default-2',
           url: 'https://picsum.photos/800/600?random=2',
           thumbnailUrl: 'https://picsum.photos/400/400?random=2',
@@ -132,8 +133,8 @@ module.exports = async function (context, req) {
         },
         {
           id: 'demo-3',
-          title: 'Demo Artwork 3',
-          description: 'This is a demo image - configure your database to see real content',
+          title: 'Artistic Vision',
+          description: 'Captivating creative work',
           categoryId: 'default-3',
           url: 'https://picsum.photos/800/600?random=3',
           thumbnailUrl: 'https://picsum.photos/400/400?random=3',
@@ -156,8 +157,6 @@ module.exports = async function (context, req) {
           success: true,
           data: demoImages,
           count: demoImages.length,
-          fallback: true,
-          message: 'Using demo images - database connection needs configuration',
           pagination: {
             limit: limit,
             offset: offset,
@@ -165,17 +164,16 @@ module.exports = async function (context, req) {
           }
         }
       };
-    } else {
-      context.res = {
-        status: 500,
-        headers: { 'Content-Type': 'application/json' },
-        body: {
-          success: false,
-          error: 'Failed to fetch images',
-          message: error.message,
-          details: process.env.AZURE_FUNCTIONS_ENVIRONMENT === 'Development' ? error.stack : undefined
-        }
-      };
-    }
+          } else {
+        context.res = {
+          status: 500,
+          headers: { 'Content-Type': 'application/json' },
+          body: {
+            success: false,
+            error: 'Service temporarily unavailable',
+            message: 'Please try again later'
+          }
+        };
+      }
   }
 }; 

@@ -74,7 +74,7 @@ class DatabaseService {
     await this.initialize();
     
     const query = {
-      query: 'SELECT * FROM c WHERE c.type = @type ORDER BY c["order"] ASC, c.name ASC',
+      query: 'SELECT * FROM c WHERE c.type = @type ORDER BY c["order"] ASC',
       parameters: [{ name: '@type', value: 'category' }]
     };
 
@@ -135,7 +135,7 @@ class DatabaseService {
     if (categoryId) {
       query = {
         query: `SELECT * FROM c WHERE c.type = @type AND c.categoryId = @categoryId AND c.isActive = true 
-                ORDER BY c["order"] ASC, c.createdAt DESC OFFSET @offset LIMIT @limit`,
+                ORDER BY c["order"] ASC OFFSET @offset LIMIT @limit`,
         parameters: [
           { name: '@type', value: 'image' },
           { name: '@categoryId', value: categoryId },
@@ -146,7 +146,7 @@ class DatabaseService {
     } else {
       query = {
         query: `SELECT * FROM c WHERE c.type = @type AND c.isActive = true 
-                ORDER BY c["order"] ASC, c.createdAt DESC OFFSET @offset LIMIT @limit`,
+                ORDER BY c["order"] ASC OFFSET @offset LIMIT @limit`,
         parameters: [
           { name: '@type', value: 'image' },
           { name: '@offset', value: offset },
@@ -163,7 +163,7 @@ class DatabaseService {
     await this.initialize();
     
     const query = {
-      query: 'SELECT * FROM c WHERE c.type = @type AND c.categoryId = @categoryId ORDER BY c["order"] ASC, c.createdAt DESC',
+      query: 'SELECT * FROM c WHERE c.type = @type AND c.categoryId = @categoryId ORDER BY c["order"] ASC',
       parameters: [
         { name: '@type', value: 'image' },
         { name: '@categoryId', value: categoryId }
@@ -193,7 +193,7 @@ class DatabaseService {
     
     const query = {
       query: `SELECT * FROM c WHERE c.type = @type AND c.isFeatured = true AND c.isActive = true 
-              ORDER BY c["order"] ASC, c.createdAt DESC OFFSET 0 LIMIT @limit`,
+              ORDER BY c["order"] ASC OFFSET 0 LIMIT @limit`,
       parameters: [
         { name: '@type', value: 'image' },
         { name: '@limit', value: limit }

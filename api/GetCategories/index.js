@@ -40,9 +40,10 @@ module.exports = async function (context, req) {
     context.log.error('Error in GetCategories:', error);
     context.log.error('Full error details:', JSON.stringify(error, null, 2));
     
-    // Check if it's a database connection issue
+    // Check if it's a database connection issue or indexing issue
     const isDatabaseError = error.message?.includes('cosmos') || 
                            error.message?.includes('database') ||
+                           error.message?.includes('composite index') ||
                            error.code === 'ECONNREFUSED';
     
     if (isDatabaseError) {
@@ -68,22 +69,19 @@ module.exports = async function (context, req) {
         body: {
           success: true,
           data: fallbackCategories,
-          count: fallbackCategories.length,
-          fallback: true,
-          message: 'Using default categories - database connection needs configuration'
+          count: fallbackCategories.length
         }
       };
-    } else {
-      context.res = {
-        status: 500,
-        headers: { 'Content-Type': 'application/json' },
-        body: {
-          success: false,
-          error: 'Failed to fetch categories',
-          message: error.message,
-          details: process.env.AZURE_FUNCTIONS_ENVIRONMENT === 'Development' ? error.stack : undefined
-        }
-      };
-    }
+          } else {
+        context.res = {
+          status: 500,
+          headers: { 'Content-Type': 'application/json' },
+          body: {
+            success: false,
+            error: 'Service temporarily unavailable',
+            message: 'Please try again later'
+          }
+        };
+      }
   }
 }; 
