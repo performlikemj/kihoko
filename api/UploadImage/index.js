@@ -58,6 +58,17 @@ function parseMultipartFormData(body, contentType) {
 module.exports = async function (context, req) {
   context.log('UploadImage function triggered');
 
+  // SECURITY: Disable public uploads - use local script instead
+  context.res = {
+    status: 403,
+    headers: { 'Content-Type': 'application/json' },
+    body: {
+      success: false,
+      error: 'Public uploads are disabled for security. Use the local upload script.'
+    }
+  };
+  return;
+
   try {
     // Parse multipart form data
     const contentType = req.headers['content-type'];
