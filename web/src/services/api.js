@@ -86,7 +86,7 @@ export const apiService = {
   getProject: (slug) => apiService.getImagesByCategory(slug),
   getProjectImages: (slug) => apiService.getImagesByCategory(slug),
   getArtworks: () => apiService.getAllImages(),
-  getArtwork: (id) => api.get(`/image/${id}`), // Note: Need to implement this function
+  getArtwork: (id) => api.get(`/image/${id}`),
 };
 
 // Helper function to handle API errors

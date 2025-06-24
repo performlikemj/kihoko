@@ -22,21 +22,25 @@ export default function ArtDetailPage() {
         apiService.getArtworks()
       ]);
       
-      setArtwork(artworkResponse.data);
-      setAllArtworks(artworksResponse.data);
+      // Handle both nested and flat response structures
+      const artworkData = artworkResponse.data?.data || artworkResponse.data;
+      const artworksData = Array.isArray(artworksResponse.data) ? artworksResponse.data : (artworksResponse.data?.data || []);
+      
+      setArtwork(artworkData);
+      setAllArtworks(artworksData);
     } catch (err) {
       console.error('Failed to fetch artwork:', err);
       setError(handleApiError(err));
       
       // Fallback to demo data
       const demoArtworks = [
-        { id: 1, title: 'Artwork 1', image: 'https://picsum.photos/800/600?random=1' },
-        { id: 2, title: 'Artwork 2', image: 'https://picsum.photos/800/600?random=2' },
-        { id: 3, title: 'Artwork 3', image: 'https://picsum.photos/800/600?random=3' }
+        { id: id, title: 'Demo Artwork 1', url: `https://picsum.photos/800/600?random=${id}1`, image: `https://picsum.photos/800/600?random=${id}1` },
+        { id: '2', title: 'Demo Artwork 2', url: 'https://picsum.photos/800/600?random=2', image: 'https://picsum.photos/800/600?random=2' },
+        { id: '3', title: 'Demo Artwork 3', url: 'https://picsum.photos/800/600?random=3', image: 'https://picsum.photos/800/600?random=3' }
       ];
       
-      const currentArtwork = demoArtworks.find(art => art.id === parseInt(id));
-      setArtwork(currentArtwork || demoArtworks[0]);
+      const currentArtwork = demoArtworks.find(art => art.id === id) || { ...demoArtworks[0], id: id, title: `Demo Artwork ${id}` };
+      setArtwork(currentArtwork);
       setAllArtworks(demoArtworks);
     } finally {
       setLoading(false);
@@ -88,7 +92,7 @@ export default function ArtDetailPage() {
       <div className="artwork-detail-container">
         <div className="artwork-detail-image">
           <img 
-            src={artwork.image} 
+            src={artwork.url || artwork.image} 
             alt={artwork.title}
           />
           <button 

@@ -147,6 +147,11 @@ class BlobStorageService {
     
     // Generate URL without requiring initialization (for performance)
     const accountName = this.extractAccountName();
+    if (accountName === 'unknown') {
+      // Return a placeholder or fallback URL if storage not configured
+      console.warn('Blob storage not configured, returning placeholder for:', blobName);
+      return `https://picsum.photos/800/600?random=${blobName.replace(/[^a-zA-Z0-9]/g, '')}`;
+    }
     return `https://${accountName}.blob.core.windows.net/${config.blobStorage.containerName}/${blobName}`;
   }
 
@@ -158,6 +163,11 @@ class BlobStorageService {
     
     // Generate URL without requiring initialization (for performance)
     const accountName = this.extractAccountName();
+    if (accountName === 'unknown') {
+      // Return a placeholder or fallback URL if storage not configured
+      console.warn('Blob storage not configured, returning placeholder for:', thumbnailBlobName);
+      return `https://picsum.photos/400/400?random=${thumbnailBlobName.replace(/[^a-zA-Z0-9]/g, '')}`;
+    }
     return `https://${accountName}.blob.core.windows.net/${config.blobStorage.containerName}/${thumbnailBlobName}`;
   }
 
@@ -166,6 +176,10 @@ class BlobStorageService {
    */
   extractAccountName() {
     const connectionString = config.blobStorage.connectionString;
+    if (!connectionString) {
+      console.warn('Azure Storage connection string not configured');
+      return 'unknown';
+    }
     const match = connectionString.match(/AccountName=([^;]+)/);
     return match ? match[1] : 'unknown';
   }
