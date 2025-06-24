@@ -14,7 +14,7 @@ const config = {
   // Azure Blob Storage
   blobStorage: {
     connectionString: process.env.AZURE_STORAGE_CONNECTION_STRING,
-    containerName: 'portfolio-images'
+    containerName: 'media'
   },
 
   // Application settings

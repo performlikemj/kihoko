@@ -11,6 +11,10 @@ yarn-error.log*
 .env.test.local
 .env.production.local
 
+# Migration scripts with sensitive data
+scripts/.env
+scripts/migrate-images-to-cosmosdb.js
+
 # Build outputs
 build/
 dist/

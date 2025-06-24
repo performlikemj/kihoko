@@ -145,8 +145,9 @@ class BlobStorageService {
   getImageUrl(blobName) {
     if (!blobName) return null;
     
-    const blobClient = this.containerClient.getBlockBlobClient(blobName);
-    return blobClient.url;
+    // Generate URL without requiring initialization (for performance)
+    const accountName = this.extractAccountName();
+    return `https://${accountName}.blob.core.windows.net/${config.blobStorage.containerName}/${blobName}`;
   }
 
   /**
@@ -155,8 +156,18 @@ class BlobStorageService {
   getThumbnailUrl(thumbnailBlobName) {
     if (!thumbnailBlobName) return null;
     
-    const thumbnailBlobClient = this.containerClient.getBlockBlobClient(thumbnailBlobName);
-    return thumbnailBlobClient.url;
+    // Generate URL without requiring initialization (for performance)
+    const accountName = this.extractAccountName();
+    return `https://${accountName}.blob.core.windows.net/${config.blobStorage.containerName}/${thumbnailBlobName}`;
+  }
+
+  /**
+   * Extract storage account name from connection string
+   */
+  extractAccountName() {
+    const connectionString = config.blobStorage.connectionString;
+    const match = connectionString.match(/AccountName=([^;]+)/);
+    return match ? match[1] : 'unknown';
   }
 
   /**

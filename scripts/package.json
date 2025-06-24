@@ -1,0 +1,19 @@
+{
+  "name": "scripts",
+  "version": "1.0.0",
+  "description": "⚠️ **SECURITY WARNING**: These scripts contain infrastructure references and should NOT be committed to public repositories.",
+  "main": "migrate-images-to-cosmosdb.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@azure/cosmos": "^4.4.1",
+    "@azure/storage-blob": "^12.27.0",
+    "dotenv": "^16.5.0",
+    "uuid": "^11.1.0"
+  }
+}
