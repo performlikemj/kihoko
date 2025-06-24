@@ -82,7 +82,7 @@ export const apiService = {
   },
 
   // Legacy methods for backward compatibility (can be removed later)
-  getProjects: () => apiService.getCategories(),
+  getProjects: () => apiService.getFeaturedImages(6),
   getProject: (slug) => apiService.getImagesByCategory(slug),
   getProjectImages: (slug) => apiService.getImagesByCategory(slug),
   getArtworks: () => apiService.getAllImages(),

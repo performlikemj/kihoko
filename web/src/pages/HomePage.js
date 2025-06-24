@@ -15,7 +15,16 @@ export default function HomePage() {
   const fetchProjects = async () => {
     try {
       const response = await apiService.getProjects();
-      setProjects(response.data);
+      // Transform images to project format for backward compatibility
+      const projectData = Array.isArray(response.data) ? response.data : (response.data.data || []);
+      const transformedProjects = projectData.map(image => ({
+        id: image.id,
+        title: image.title,
+        slug: image.id, // Use ID as slug for now
+        image: image.thumbnailUrl || image.url,
+        description: image.description
+      }));
+      setProjects(transformedProjects);
     } catch (err) {
       console.error('Failed to fetch projects:', err);
       setError(handleApiError(err));
@@ -98,7 +107,7 @@ export default function HomePage() {
 
       {/* Projects Grid */}
       <div className="projects-grid">
-        {projects.map((project, index) => (
+        {Array.isArray(projects) && projects.map((project, index) => (
           <ProjectCard 
             key={project.id} 
             project={project} 
