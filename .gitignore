@@ -59,3 +59,8 @@ Thumbs.db
 # Package locks (optional - uncomment if needed)
 # package-lock.json
 # yarn.lock 
+# Environment files
+.env
+.env.local
+api/.env
+api/.env.local

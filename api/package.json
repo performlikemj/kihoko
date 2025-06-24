@@ -8,7 +8,9 @@
   },
   "scripts": {
     "start": "func start",
-    "test": "echo \"No tests yet\""
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "setup-dev": "./setup-local-dev.sh",
+    "check-secrets": "grep -q 'YOUR_.*_HERE' local.settings.json && echo '⚠️  WARNING: Please configure your Azure credentials in local.settings.json' || echo '✅ Credentials configured'"
   },
   "dependencies": {
     "@azure/cosmos": "^4.0.0",
