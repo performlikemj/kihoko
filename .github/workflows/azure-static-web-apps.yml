@@ -23,18 +23,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
-          
-      - name: Install and Build React App
-        run: |
-          cd web
-          npm ci
-          npm run build
-          
-      - name: Install Azure Functions Dependencies
-        run: |
-          cd api
-          npm ci
+          node-version: '20'
           
       - name: Build And Deploy
         id: builddeploy
@@ -44,9 +33,9 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }} # Used for Github integrations (i.e. PR comments)
           action: "upload"
           ###### Repository/Build Configurations ######
-          app_location: "/" # Root directory
+          app_location: "web" # App source code path
           api_location: "api" # Api source code path - optional
-          output_location: "web/dist" # Built app content directory
+          output_location: "dist" # Built app content directory - relative to app_location
           ###### End of Repository/Build Configurations ######
         env:
           # Azure Functions Environment Variables

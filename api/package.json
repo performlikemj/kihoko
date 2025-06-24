@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Azure Functions API for Kihoko Portfolio",
   "main": "index.js",
+  "engines": {
+    "node": ">=20.18.1"
+  },
   "scripts": {
     "start": "func start",
     "test": "echo \"No tests yet\""
