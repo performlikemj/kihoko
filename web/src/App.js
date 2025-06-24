@@ -11,6 +11,7 @@ import ArtDetailPage from './pages/ArtDetailPage';
 import ContactPage from './pages/ContactPage';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
+import AdminUploadPage from './pages/AdminUploadPage';
 import './styles/style.css';
 
 export default function App() {
@@ -56,6 +57,7 @@ export default function App() {
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/login" element={<LoginPage setUser={setUser} />} />
             <Route path="/signup" element={<SignupPage setUser={setUser} />} />
+            <Route path="/admin/upload" element={<AdminUploadPage />} />
           </Routes>
         </main>
         <Footer />
