@@ -29,10 +29,12 @@ module.exports = async function (context, req) {
         } else {
           const imgs = await databaseService.getImagesByCategory(category.id);
           if (imgs.length > 0) {
-            const img = imgs[0];
+
+            const randomImg = imgs[Math.floor(Math.random() * imgs.length)];
             coverImageUrl =
-              blobStorageService.getThumbnailUrl(img.thumbnailBlobName) ||
-              blobStorageService.getImageUrl(img.blobName);
+              blobStorageService.getThumbnailUrl(randomImg.thumbnailBlobName) ||
+              blobStorageService.getImageUrl(randomImg.blobName);
+
           }
         }
       } catch (err) {
@@ -85,7 +87,8 @@ module.exports = async function (context, req) {
         description: cat.description,
         order: cat.order,
         isActive: true,
-        coverImageUrl: `https://picsum.photos/400/300?random=${index + 1}`,
+        coverImageUrl: null,
+
         imageCount: 0
       }));
 

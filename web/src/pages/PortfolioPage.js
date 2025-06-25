@@ -15,7 +15,7 @@ export default function PortfolioPage() {
 
   useEffect(() => {
     fetchCategories();
-  }, []);
+  }, [slug]);
 
   useEffect(() => {
     if (selectedCategory) {
@@ -34,7 +34,10 @@ export default function PortfolioPage() {
         setCategories(cats);
         if (slug) {
           const found = cats.find((c) => c.slug === slug);
-          if (found) setSelectedCategory(found);
+          setSelectedCategory(found || null);
+        } else {
+          setSelectedCategory(null);
+
         }
       } else {
         console.error('Failed to fetch categories:', response.data?.error || 'Invalid response format');
@@ -49,7 +52,10 @@ export default function PortfolioPage() {
         setCategories(fallbackCats);
         if (slug) {
           const found = fallbackCats.find((c) => c.slug === slug);
-          if (found) setSelectedCategory(found);
+          setSelectedCategory(found || null);
+        } else {
+          setSelectedCategory(null);
+
         }
       }
     } catch (err) {
@@ -65,7 +71,10 @@ export default function PortfolioPage() {
       setCategories(fallbackCats);
       if (slug) {
         const found = fallbackCats.find((c) => c.slug === slug);
-        if (found) setSelectedCategory(found);
+        setSelectedCategory(found || null);
+      } else {
+        setSelectedCategory(null);
+
       }
     }
   };
@@ -85,23 +94,12 @@ export default function PortfolioPage() {
         setImages(transformedImages);
       } else {
         console.error('Failed to fetch featured images:', response.data?.error || 'Invalid response format');
-        // Fallback to demo data
-        setImages([
-          { id: '1', title: 'Featured Art 1', image: 'https://picsum.photos/400/400?random=1' },
-          { id: '2', title: 'Featured Art 2', image: 'https://picsum.photos/400/400?random=2' },
-          { id: '3', title: 'Featured Art 3', image: 'https://picsum.photos/400/400?random=3' },
-        ]);
+        setImages([]);
       }
     } catch (err) {
       console.error('Failed to fetch featured images:', err);
       setError(handleApiError(err));
-      
-      // Fallback to demo data
-      setImages([
-        { id: '1', title: 'Featured Art 1', image: 'https://picsum.photos/400/400?random=1' },
-        { id: '2', title: 'Featured Art 2', image: 'https://picsum.photos/400/400?random=2' },
-        { id: '3', title: 'Featured Art 3', image: 'https://picsum.photos/400/400?random=3' },
-      ]);
+      setImages([]);
     } finally {
       setLoading(false);
     }
