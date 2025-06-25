@@ -170,6 +170,7 @@ Create `api/local.settings.json` for local development:
 ```
 
 For the React frontend, the application automatically falls back to the same
+
 origin for API requests. When running locally you should point the frontend to
 your local Functions host by copying `web/.env.example` to `web/.env` and
 adjusting the values:
@@ -183,6 +184,7 @@ The Webpack build loads these variables automatically using the
 `dotenv-webpack` plugin. In Azure Static Web Apps you can set
 `REACT_APP_API_URL` in the Configuration section if your API lives on a
 different domain.
+
 
 ## 📱 API Endpoints
 
