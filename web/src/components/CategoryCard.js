@@ -12,11 +12,11 @@ export default function CategoryCard({ category, index }) {
       transition={{ duration: 0.3 }}
     >
       <Link to={`/category/${category.slug}`} className="project-link">
-        <div className="project-image">
+        <div className={category.image ? 'project-image' : 'project-image placeholder'}>
           {category.image ? (
             <img src={category.image} alt={category.name} loading="lazy" />
           ) : (
-            <div style={{ padding: '1rem' }}>No image</div>
+            <span className="placeholder-text">No image</span>
           )}
         </div>
         <div className="project-overlay">

@@ -31,9 +31,17 @@ export default function PortfolioPage() {
       
       if (response.data && response.data.success && Array.isArray(response.data.data)) {
         const cats = response.data.data;
-        setCategories(cats);
+        const uniqueCats = [];
+        const seenCats = new Set();
+        for (const c of cats) {
+          if (!seenCats.has(c.slug)) {
+            seenCats.add(c.slug);
+            uniqueCats.push(c);
+          }
+        }
+        setCategories(uniqueCats);
         if (slug) {
-          const found = cats.find((c) => c.slug === slug);
+          const found = uniqueCats.find((c) => c.slug === slug);
           setSelectedCategory(found || null);
         } else {
           setSelectedCategory(null);
@@ -91,23 +99,12 @@ export default function PortfolioPage() {
         setImages(transformedImages);
       } else {
         console.error('Failed to fetch featured images:', response.data?.error || 'Invalid response format');
-        // Fallback to demo data
-        setImages([
-          { id: '1', title: 'Featured Art 1', image: 'https://picsum.photos/400/400?random=1' },
-          { id: '2', title: 'Featured Art 2', image: 'https://picsum.photos/400/400?random=2' },
-          { id: '3', title: 'Featured Art 3', image: 'https://picsum.photos/400/400?random=3' },
-        ]);
+        setImages([]);
       }
     } catch (err) {
       console.error('Failed to fetch featured images:', err);
       setError(handleApiError(err));
-      
-      // Fallback to demo data
-      setImages([
-        { id: '1', title: 'Featured Art 1', image: 'https://picsum.photos/400/400?random=1' },
-        { id: '2', title: 'Featured Art 2', image: 'https://picsum.photos/400/400?random=2' },
-        { id: '3', title: 'Featured Art 3', image: 'https://picsum.photos/400/400?random=3' },
-      ]);
+      setImages([]);
     } finally {
       setLoading(false);
     }
