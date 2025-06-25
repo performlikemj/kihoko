@@ -79,23 +79,7 @@ module.exports = async function (context, req) {
                            error.code === 'ECONNREFUSED';
     
     if (isDatabaseError) {
-      context.log.warn('Database connection failed, returning demo image');
-      
-      // Return demo image as fallback
-      const demoImage = {
-        id: req.params.id,
-        title: 'Demo Artwork',
-        description: 'This is a demo image while the database is unavailable',
-        categoryId: 'demo-category',
-        url: `https://picsum.photos/800/600?random=${req.params.id}`,
-        thumbnailUrl: `https://picsum.photos/400/400?random=${req.params.id}`,
-        width: 800,
-        height: 600,
-        tags: ['demo'],
-        isFeatured: false,
-        order: 1,
-        createdAt: new Date().toISOString()
-      };
+      context.log.warn('Database connection failed, returning no image data');
 
       context.res = {
         status: 200,
@@ -105,7 +89,7 @@ module.exports = async function (context, req) {
         },
         body: {
           success: true,
-          data: demoImage
+          data: null
         }
       };
     } else {
