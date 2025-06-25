@@ -57,7 +57,9 @@ export default function App() {
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/login" element={<LoginPage setUser={setUser} />} />
             <Route path="/signup" element={<SignupPage setUser={setUser} />} />
-            <Route path="/admin/upload" element={<AdminUploadPage />} />
+            {process.env.REACT_APP_ENABLE_UPLOAD === 'true' && (
+              <Route path="/admin/upload" element={<AdminUploadPage />} />
+            )}
           </Routes>
         </main>
         <Footer />
