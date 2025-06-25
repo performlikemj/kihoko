@@ -13,9 +13,22 @@ module.exports = async function (context, req) {
     // Get all categories from database
     const categories = await databaseService.getCategories();
 
+    // Deduplicate by slug and keep first occurrence
+    const unique = [];
+    const seenSlugs = new Set();
+    for (const cat of categories) {
+      if (!seenSlugs.has(cat.slug)) {
+        seenSlugs.add(cat.slug);
+        unique.push(cat);
+      }
+    }
+
+    // Sort by order field
+    unique.sort((a, b) => (a.order || 0) - (b.order || 0));
+
     // Transform categories for frontend and include cover image URL
     const transformedCategories = [];
-    for (const category of categories) {
+    for (const category of unique) {
       let coverImageUrl = null;
 
       try {
@@ -30,11 +43,11 @@ module.exports = async function (context, req) {
           const imgs = await databaseService.getImagesByCategory(category.id);
           if (imgs.length > 0) {
 
+
             const randomImg = imgs[Math.floor(Math.random() * imgs.length)];
             coverImageUrl =
               blobStorageService.getThumbnailUrl(randomImg.thumbnailBlobName) ||
               blobStorageService.getImageUrl(randomImg.blobName);
-
           }
         }
       } catch (err) {
@@ -88,7 +101,6 @@ module.exports = async function (context, req) {
         order: cat.order,
         isActive: true,
         coverImageUrl: null,
-
         imageCount: 0
       }));
 
@@ -104,16 +116,16 @@ module.exports = async function (context, req) {
           count: fallbackCategories.length
         }
       };
-          } else {
-        context.res = {
-          status: 500,
-          headers: { 'Content-Type': 'application/json' },
-          body: {
-            success: false,
-            error: 'Service temporarily unavailable',
-            message: 'Please try again later'
-          }
-        };
-      }
+    } else {
+      context.res = {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' },
+        body: {
+          success: false,
+          error: 'Service temporarily unavailable',
+          message: 'Please try again later'
+        }
+      };
+    }
   }
-}; 
+};

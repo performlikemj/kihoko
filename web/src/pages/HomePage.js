@@ -27,7 +27,15 @@ export default function HomePage() {
         image: cat.coverImageUrl,
         description: cat.description,
       }));
-      setCategories(transformed);
+      const unique = [];
+      const seen = new Set();
+      for (const c of transformed) {
+        if (!seen.has(c.slug)) {
+          seen.add(c.slug);
+          unique.push(c);
+        }
+      }
+      setCategories(unique);
     } catch (err) {
       console.error('Failed to fetch categories:', err);
       setError(handleApiError(err));
@@ -37,7 +45,6 @@ export default function HomePage() {
         { id: '1', name: 'Tattoo Art', slug: 'tattoo-art', image: null, description: 'Tattoo photography and artwork' },
         { id: '2', name: 'Art Photography', slug: 'art-photography', image: null, description: 'Artistic photography and visual art' },
         { id: '3', name: 'Digital Art', slug: 'digital-art', image: null, description: 'Digital artwork and illustrations' },
-
       ]);
     } finally {
       setLoading(false);

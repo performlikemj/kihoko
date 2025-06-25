@@ -118,16 +118,16 @@ module.exports = async function (context, req) {
           }
         }
       };
-          } else {
-        context.res = {
-          status: 500,
-          headers: { 'Content-Type': 'application/json' },
-          body: {
-            success: false,
-            error: 'Service temporarily unavailable',
-            message: 'Please try again later'
-          }
-        };
-      }
+    } else {
+      context.res = {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' },
+        body: {
+          success: false,
+          error: 'Service temporarily unavailable',
+          message: 'Please try again later'
+        }
+      };
+    }
   }
-}; 
+};

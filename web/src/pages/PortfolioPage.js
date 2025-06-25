@@ -31,13 +31,20 @@ export default function PortfolioPage() {
       
       if (response.data && response.data.success && Array.isArray(response.data.data)) {
         const cats = response.data.data;
-        setCategories(cats);
+        const uniqueCats = [];
+        const seenCats = new Set();
+        for (const c of cats) {
+          if (!seenCats.has(c.slug)) {
+            seenCats.add(c.slug);
+            uniqueCats.push(c);
+          }
+        }
+        setCategories(uniqueCats);
         if (slug) {
-          const found = cats.find((c) => c.slug === slug);
+          const found = uniqueCats.find((c) => c.slug === slug);
           setSelectedCategory(found || null);
         } else {
           setSelectedCategory(null);
-
         }
       } else {
         console.error('Failed to fetch categories:', response.data?.error || 'Invalid response format');
@@ -55,7 +62,6 @@ export default function PortfolioPage() {
           setSelectedCategory(found || null);
         } else {
           setSelectedCategory(null);
-
         }
       }
     } catch (err) {
@@ -74,7 +80,6 @@ export default function PortfolioPage() {
         setSelectedCategory(found || null);
       } else {
         setSelectedCategory(null);
-
       }
     }
   };
