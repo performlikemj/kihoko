@@ -99,53 +99,7 @@ module.exports = async function (context, req) {
                            error.code === 'ECONNREFUSED';
     
     if (isDatabaseError) {
-      context.log.warn('Database connection failed, returning demo images');
-      
-      // Return demo images as fallback
-      const demoImages = [
-        {
-          id: 'demo-1',
-          title: 'Featured Artwork',
-          description: 'Beautiful artistic creation',
-          categoryId: 'default-1',
-          url: 'https://picsum.photos/800/600?random=1',
-          thumbnailUrl: 'https://picsum.photos/400/400?random=1',
-          width: 800,
-          height: 600,
-          tags: ['demo'],
-          isFeatured: true,
-          order: 1,
-          createdAt: new Date().toISOString()
-        },
-        {
-          id: 'demo-2',
-          title: 'Creative Expression', 
-          description: 'Inspiring visual art piece',
-          categoryId: 'default-2',
-          url: 'https://picsum.photos/800/600?random=2',
-          thumbnailUrl: 'https://picsum.photos/400/400?random=2',
-          width: 800,
-          height: 600,
-          tags: ['demo'],
-          isFeatured: true,
-          order: 2,
-          createdAt: new Date().toISOString()
-        },
-        {
-          id: 'demo-3',
-          title: 'Artistic Vision',
-          description: 'Captivating creative work',
-          categoryId: 'default-3',
-          url: 'https://picsum.photos/800/600?random=3',
-          thumbnailUrl: 'https://picsum.photos/400/400?random=3',
-          width: 800,
-          height: 600,
-          tags: ['demo'],
-          isFeatured: true,
-          order: 3,
-          createdAt: new Date().toISOString()
-        }
-      ];
+      context.log.warn('Database connection failed, returning empty image list');
 
       context.res = {
         status: 200,
@@ -155,8 +109,8 @@ module.exports = async function (context, req) {
         },
         body: {
           success: true,
-          data: demoImages,
-          count: demoImages.length,
+          data: [],
+          count: 0,
           pagination: {
             limit: limit,
             offset: offset,
@@ -164,16 +118,16 @@ module.exports = async function (context, req) {
           }
         }
       };
-          } else {
-        context.res = {
-          status: 500,
-          headers: { 'Content-Type': 'application/json' },
-          body: {
-            success: false,
-            error: 'Service temporarily unavailable',
-            message: 'Please try again later'
-          }
-        };
-      }
+    } else {
+      context.res = {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' },
+        body: {
+          success: false,
+          error: 'Service temporarily unavailable',
+          message: 'Please try again later'
+        }
+      };
+    }
   }
-}; 
+};

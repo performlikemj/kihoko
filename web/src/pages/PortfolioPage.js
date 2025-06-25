@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Grid, Card } from '../components/ArtCard';
 import { apiService, handleApiError } from '../services/api';
 
 export default function PortfolioPage() {
+  const { slug } = useParams();
+
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [images, setImages] = useState([]);
@@ -12,7 +15,7 @@ export default function PortfolioPage() {
 
   useEffect(() => {
     fetchCategories();
-  }, []);
+  }, [slug]);
 
   useEffect(() => {
     if (selectedCategory) {
@@ -27,28 +30,57 @@ export default function PortfolioPage() {
       const response = await apiService.getCategories();
       
       if (response.data && response.data.success && Array.isArray(response.data.data)) {
-        setCategories(response.data.data);
+        const cats = response.data.data;
+        const uniqueCats = [];
+        const seenCats = new Set();
+        for (const c of cats) {
+          if (!seenCats.has(c.slug)) {
+            seenCats.add(c.slug);
+            uniqueCats.push(c);
+          }
+        }
+        setCategories(uniqueCats);
+        if (slug) {
+          const found = uniqueCats.find((c) => c.slug === slug);
+          setSelectedCategory(found || null);
+        } else {
+          setSelectedCategory(null);
+        }
       } else {
         console.error('Failed to fetch categories:', response.data?.error || 'Invalid response format');
         setError('Failed to load categories');
         
         // Fallback to demo categories
-        setCategories([
+        const fallbackCats = [
           { id: '1', name: 'Tattoo Art', slug: 'tattoo-art', description: 'Tattoo photography and artwork' },
           { id: '2', name: 'Art Photography', slug: 'art-photography', description: 'Artistic photography and visual art' },
           { id: '3', name: 'Digital Art', slug: 'digital-art', description: 'Digital artwork and illustrations' }
-        ]);
+        ];
+        setCategories(fallbackCats);
+        if (slug) {
+          const found = fallbackCats.find((c) => c.slug === slug);
+          setSelectedCategory(found || null);
+        } else {
+          setSelectedCategory(null);
+        }
       }
     } catch (err) {
       console.error('Failed to fetch categories:', err);
       setError(handleApiError(err));
       
       // Fallback to demo categories
-      setCategories([
+      const fallbackCats = [
         { id: '1', name: 'Tattoo Art', slug: 'tattoo-art', description: 'Tattoo photography and artwork' },
         { id: '2', name: 'Art Photography', slug: 'art-photography', description: 'Artistic photography and visual art' },
         { id: '3', name: 'Digital Art', slug: 'digital-art', description: 'Digital artwork and illustrations' }
-      ]);
+      ];
+      setCategories(fallbackCats);
+      if (slug) {
+        const found = fallbackCats.find((c) => c.slug === slug);
+        setSelectedCategory(found || null);
+      } else {
+        setSelectedCategory(null);
+      }
     }
   };
 
@@ -67,23 +99,12 @@ export default function PortfolioPage() {
         setImages(transformedImages);
       } else {
         console.error('Failed to fetch featured images:', response.data?.error || 'Invalid response format');
-        // Fallback to demo data
-        setImages([
-          { id: '1', title: 'Featured Art 1', image: 'https://picsum.photos/400/400?random=1' },
-          { id: '2', title: 'Featured Art 2', image: 'https://picsum.photos/400/400?random=2' },
-          { id: '3', title: 'Featured Art 3', image: 'https://picsum.photos/400/400?random=3' },
-        ]);
+        setImages([]);
       }
     } catch (err) {
       console.error('Failed to fetch featured images:', err);
       setError(handleApiError(err));
-      
-      // Fallback to demo data
-      setImages([
-        { id: '1', title: 'Featured Art 1', image: 'https://picsum.photos/400/400?random=1' },
-        { id: '2', title: 'Featured Art 2', image: 'https://picsum.photos/400/400?random=2' },
-        { id: '3', title: 'Featured Art 3', image: 'https://picsum.photos/400/400?random=3' },
-      ]);
+      setImages([]);
     } finally {
       setLoading(false);
     }

@@ -3,6 +3,7 @@
  */
 
 const databaseService = require('../shared/database');
+const blobStorageService = require('../shared/blobStorage');
 const { defaultCategories } = require('../shared/models');
 
 module.exports = async function (context, req) {
@@ -12,16 +13,56 @@ module.exports = async function (context, req) {
     // Get all categories from database
     const categories = await databaseService.getCategories();
 
-    // Transform categories for frontend
-    const transformedCategories = categories.map(category => ({
-      id: category.id,
-      name: category.name,
-      slug: category.slug,
-      description: category.description,
-      order: category.order,
-      isActive: category.isActive,
-      imageCount: 0 // Will be populated by a separate call if needed
-    }));
+    // Deduplicate by slug and keep first occurrence
+    const unique = [];
+    const seenSlugs = new Set();
+    for (const cat of categories) {
+      if (!seenSlugs.has(cat.slug)) {
+        seenSlugs.add(cat.slug);
+        unique.push(cat);
+      }
+    }
+
+    // Sort by order field
+    unique.sort((a, b) => (a.order || 0) - (b.order || 0));
+
+    // Transform categories for frontend and include cover image URL
+    const transformedCategories = [];
+    for (const category of unique) {
+      let coverImageUrl = null;
+
+      try {
+        if (category.coverImageId) {
+          const img = await databaseService.getImageById(category.coverImageId);
+          if (img) {
+            coverImageUrl =
+              blobStorageService.getThumbnailUrl(img.thumbnailBlobName) ||
+              blobStorageService.getImageUrl(img.blobName);
+          }
+        } else {
+          const imgs = await databaseService.getImagesByCategory(category.id);
+          if (imgs.length > 0) {
+            const randomImg = imgs[Math.floor(Math.random() * imgs.length)];
+            coverImageUrl =
+              blobStorageService.getThumbnailUrl(randomImg.thumbnailBlobName) ||
+              blobStorageService.getImageUrl(randomImg.blobName);
+          }
+        }
+      } catch (err) {
+        context.log.warn('Failed to fetch cover image for category', category.id, err.message);
+      }
+
+      transformedCategories.push({
+        id: category.id,
+        name: category.name,
+        slug: category.slug,
+        description: category.description,
+        order: category.order,
+        isActive: category.isActive,
+        coverImageUrl,
+        imageCount: 0,
+      });
+    }
 
     context.res = {
       status: 200,
@@ -57,6 +98,7 @@ module.exports = async function (context, req) {
         description: cat.description,
         order: cat.order,
         isActive: true,
+        coverImageUrl: null,
         imageCount: 0
       }));
 
@@ -72,16 +114,16 @@ module.exports = async function (context, req) {
           count: fallbackCategories.length
         }
       };
-          } else {
-        context.res = {
-          status: 500,
-          headers: { 'Content-Type': 'application/json' },
-          body: {
-            success: false,
-            error: 'Service temporarily unavailable',
-            message: 'Please try again later'
-          }
-        };
-      }
+    } else {
+      context.res = {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' },
+        body: {
+          success: false,
+          error: 'Service temporarily unavailable',
+          message: 'Please try again later'
+        }
+      };
+    }
   }
-}; 
+};
