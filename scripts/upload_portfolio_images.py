@@ -65,7 +65,7 @@ def find_new_images(since):
 
 def upload_to_blob(blob_client, file_path):
     """Upload a single file to Azure Blob Storage"""
-    blob_name = f"projects/{file_path.name}"
+    blob_name = f"images/{file_path.name}"
     
     with file_path.open("rb") as data:
         blob_client.upload_blob(

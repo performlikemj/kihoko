@@ -19,6 +19,7 @@ A modern portfolio website built with React and Azure Functions, designed as an 
 - **CDN Integration**: Fast global image delivery via Azure Blob Storage
 - **Search & Filter**: Filter images by category
 - **Featured Images**: Highlight your best work
+- **Secure Local Uploads**: Add new art using `scripts/secure-upload.js`
 
 ## 📦 Project Structure
 
@@ -169,15 +170,21 @@ Create `api/local.settings.json` for local development:
 ```
 
 For the React frontend, the application automatically falls back to the same
-origin for API requests.  When running locally you should point the frontend to
-the local Functions host by creating a `.env` file inside `web/` with:
+
+origin for API requests. When running locally you should point the frontend to
+your local Functions host by copying `web/.env.example` to `web/.env` and
+adjusting the values:
 
 ```bash
 REACT_APP_API_URL=http://localhost:7071/api
+REACT_APP_ENABLE_UPLOAD=true
 ```
 
-In Azure Static Web Apps you can set `REACT_APP_API_URL` in the Configuration
-section if your API lives on a different domain.
+The Webpack build loads these variables automatically using the
+`dotenv-webpack` plugin. In Azure Static Web Apps you can set
+`REACT_APP_API_URL` in the Configuration section if your API lives on a
+different domain.
+
 
 ## 📱 API Endpoints
 
@@ -188,7 +195,7 @@ section if your API lives on a different domain.
 - `GET /api/images` - Get all images (with pagination)
 - `GET /api/images/{categorySlug}` - Get images by category
 - `GET /api/images?featured=true` - Get featured images
-- `POST /api/images/upload` - Upload new image
+- `POST /api/images/upload` - Upload new image *(disabled by default; use the local script)*
 
 ### Example API Usage
 
@@ -199,16 +206,8 @@ const categories = await fetch('/api/categories');
 // Get images by category
 const images = await fetch('/api/images/tattoo-art');
 
-// Upload new image
-const formData = new FormData();
-formData.append('image', file);
-formData.append('title', 'My Artwork');
-formData.append('categorySlug', 'tattoo-art');
-
-const result = await fetch('/api/images/upload', {
-  method: 'POST',
-  body: formData
-});
+// Upload new image using the local script
+// $ node scripts/secure-upload.js ~/Desktop/art.jpg --title "My Artwork"
 ```
 
 ## 🎨 Default Categories

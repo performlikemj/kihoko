@@ -20,7 +20,6 @@ export default function HomePage() {
       const transformedProjects = projectData.map(image => ({
         id: image.id,
         title: image.title,
-        slug: image.id, // Use ID as slug for now
         image: image.thumbnailUrl || image.url,
         description: image.description
       }));

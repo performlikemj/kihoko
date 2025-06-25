@@ -47,7 +47,7 @@ function initializeClients() {
 
 // Upload image to blob storage
 async function uploadToBlob(containerClient, filePath, fileName) {
-  const blobName = `projects/${fileName}`;
+  const blobName = `images/${fileName}`;
   const blockBlobClient = containerClient.getBlockBlobClient(blobName);
   
   console.log(`📤 Uploading ${fileName} to blob storage...`);

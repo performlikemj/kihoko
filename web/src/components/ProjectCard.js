@@ -11,7 +11,7 @@ export default function ProjectCard({ project, index }) {
       whileHover={{ y: -8 }}
       transition={{ duration: 0.3 }}
     >
-      <Link to={`/project/${project.slug}`} className="project-link">
+      <Link to={`/art/${project.id}`} className="project-link">
         <div className="project-image">
           {project.image ? (
             <img 

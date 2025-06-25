@@ -242,7 +242,7 @@ https://polite-river-0804e5800.2.azurestaticapps.net
 
 **Direct blob URLs:**
 ```
-https://YOURACCOUNTNAME.blob.core.windows.net/media/projects/filename.jpg
+https://YOURACCOUNTNAME.blob.core.windows.net/media/images/filename.jpg
 ```
 
 **Perfect for a set-and-forget portfolio workflow!** 🎨✨ 
