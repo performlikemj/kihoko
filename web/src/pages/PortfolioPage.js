@@ -15,7 +15,7 @@ export default function PortfolioPage() {
 
   useEffect(() => {
     fetchCategories();
-  }, []);
+  }, [slug]);
 
   useEffect(() => {
     if (selectedCategory) {
@@ -34,7 +34,9 @@ export default function PortfolioPage() {
         setCategories(cats);
         if (slug) {
           const found = cats.find((c) => c.slug === slug);
-          if (found) setSelectedCategory(found);
+          setSelectedCategory(found || null);
+        } else {
+          setSelectedCategory(null);
         }
       } else {
         console.error('Failed to fetch categories:', response.data?.error || 'Invalid response format');
@@ -49,7 +51,9 @@ export default function PortfolioPage() {
         setCategories(fallbackCats);
         if (slug) {
           const found = fallbackCats.find((c) => c.slug === slug);
-          if (found) setSelectedCategory(found);
+          setSelectedCategory(found || null);
+        } else {
+          setSelectedCategory(null);
         }
       }
     } catch (err) {
@@ -65,7 +69,9 @@ export default function PortfolioPage() {
       setCategories(fallbackCats);
       if (slug) {
         const found = fallbackCats.find((c) => c.slug === slug);
-        if (found) setSelectedCategory(found);
+        setSelectedCategory(found || null);
+      } else {
+        setSelectedCategory(null);
       }
     }
   };
