@@ -37,6 +37,7 @@ export default function HomePage() {
         { id: '1', name: 'Tattoo Art', slug: 'tattoo-art', image: null, description: 'Tattoo photography and artwork' },
         { id: '2', name: 'Art Photography', slug: 'art-photography', image: null, description: 'Artistic photography and visual art' },
         { id: '3', name: 'Digital Art', slug: 'digital-art', image: null, description: 'Digital artwork and illustrations' },
+
       ]);
     } finally {
       setLoading(false);

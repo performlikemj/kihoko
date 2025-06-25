@@ -29,10 +29,12 @@ module.exports = async function (context, req) {
         } else {
           const imgs = await databaseService.getImagesByCategory(category.id);
           if (imgs.length > 0) {
+
             const randomImg = imgs[Math.floor(Math.random() * imgs.length)];
             coverImageUrl =
               blobStorageService.getThumbnailUrl(randomImg.thumbnailBlobName) ||
               blobStorageService.getImageUrl(randomImg.blobName);
+
           }
         }
       } catch (err) {
@@ -86,6 +88,7 @@ module.exports = async function (context, req) {
         order: cat.order,
         isActive: true,
         coverImageUrl: null,
+
         imageCount: 0
       }));
 

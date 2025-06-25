@@ -37,6 +37,7 @@ export default function PortfolioPage() {
           setSelectedCategory(found || null);
         } else {
           setSelectedCategory(null);
+
         }
       } else {
         console.error('Failed to fetch categories:', response.data?.error || 'Invalid response format');
@@ -54,6 +55,7 @@ export default function PortfolioPage() {
           setSelectedCategory(found || null);
         } else {
           setSelectedCategory(null);
+
         }
       }
     } catch (err) {
@@ -72,6 +74,7 @@ export default function PortfolioPage() {
         setSelectedCategory(found || null);
       } else {
         setSelectedCategory(null);
+
       }
     }
   };
