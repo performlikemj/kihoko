@@ -42,6 +42,8 @@ module.exports = async function (context, req) {
         } else {
           const imgs = await databaseService.getImagesByCategory(category.id);
           if (imgs.length > 0) {
+
+
             const randomImg = imgs[Math.floor(Math.random() * imgs.length)];
             coverImageUrl =
               blobStorageService.getThumbnailUrl(randomImg.thumbnailBlobName) ||
