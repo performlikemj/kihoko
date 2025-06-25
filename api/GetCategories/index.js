@@ -3,6 +3,7 @@
  */
 
 const databaseService = require('../shared/database');
+const blobStorageService = require('../shared/blobStorage');
 const { defaultCategories } = require('../shared/models');
 
 module.exports = async function (context, req) {
@@ -12,16 +13,43 @@ module.exports = async function (context, req) {
     // Get all categories from database
     const categories = await databaseService.getCategories();
 
-    // Transform categories for frontend
-    const transformedCategories = categories.map(category => ({
-      id: category.id,
-      name: category.name,
-      slug: category.slug,
-      description: category.description,
-      order: category.order,
-      isActive: category.isActive,
-      imageCount: 0 // Will be populated by a separate call if needed
-    }));
+    // Transform categories for frontend and include cover image URL
+    const transformedCategories = [];
+    for (const category of categories) {
+      let coverImageUrl = null;
+
+      try {
+        if (category.coverImageId) {
+          const img = await databaseService.getImageById(category.coverImageId);
+          if (img) {
+            coverImageUrl =
+              blobStorageService.getThumbnailUrl(img.thumbnailBlobName) ||
+              blobStorageService.getImageUrl(img.blobName);
+          }
+        } else {
+          const imgs = await databaseService.getImagesByCategory(category.id);
+          if (imgs.length > 0) {
+            const img = imgs[0];
+            coverImageUrl =
+              blobStorageService.getThumbnailUrl(img.thumbnailBlobName) ||
+              blobStorageService.getImageUrl(img.blobName);
+          }
+        }
+      } catch (err) {
+        context.log.warn('Failed to fetch cover image for category', category.id, err.message);
+      }
+
+      transformedCategories.push({
+        id: category.id,
+        name: category.name,
+        slug: category.slug,
+        description: category.description,
+        order: category.order,
+        isActive: category.isActive,
+        coverImageUrl,
+        imageCount: 0,
+      });
+    }
 
     context.res = {
       status: 200,
@@ -57,6 +85,7 @@ module.exports = async function (context, req) {
         description: cat.description,
         order: cat.order,
         isActive: true,
+        coverImageUrl: `https://picsum.photos/400/300?random=${index + 1}`,
         imageCount: 0
       }));
 

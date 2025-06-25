@@ -1,56 +1,60 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import ProjectCard from '../components/ProjectCard';
+import CategoryCard from '../components/CategoryCard';
 import { apiService, handleApiError } from '../services/api';
 
 export default function HomePage() {
-  const [projects, setProjects] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetchProjects();
+    fetchCategories();
   }, []);
 
-  const fetchProjects = async () => {
+  const fetchCategories = async () => {
     try {
-      const response = await apiService.getProjects();
-      // Transform images to project format for backward compatibility
-      const projectData = Array.isArray(response.data) ? response.data : (response.data.data || []);
-      const transformedProjects = projectData.map(image => ({
-        id: image.id,
-        title: image.title,
-        image: image.thumbnailUrl || image.url,
-        description: image.description
+      const response = await apiService.getCategories();
+      const categoryData = Array.isArray(response.data?.data)
+        ? response.data.data
+        : Array.isArray(response.data)
+        ? response.data
+        : [];
+      const transformed = categoryData.map(cat => ({
+        id: cat.id,
+        name: cat.name,
+        slug: cat.slug,
+        image: cat.coverImageUrl,
+        description: cat.description,
       }));
-      setProjects(transformedProjects);
+      setCategories(transformed);
     } catch (err) {
-      console.error('Failed to fetch projects:', err);
+      console.error('Failed to fetch categories:', err);
       setError(handleApiError(err));
-      
+
       // Fallback to demo data if API not available
-      setProjects([
+      setCategories([
         {
-          id: 1,
-          title: 'Digital Art Collection',
-          slug: 'digital-art-collection',
+          id: '1',
+          name: 'Tattoo Art',
+          slug: 'tattoo-art',
           image: 'https://picsum.photos/400/300?random=1',
-          description: 'A collection of digital artwork'
+          description: 'Tattoo photography and artwork',
         },
         {
-          id: 2,
-          title: 'Portrait Series',
-          slug: 'portrait-series',
+          id: '2',
+          name: 'Art Photography',
+          slug: 'art-photography',
           image: 'https://picsum.photos/400/300?random=2',
-          description: 'Contemporary portrait series'
+          description: 'Artistic photography and visual art',
         },
         {
-          id: 3,
-          title: 'Abstract Expressions',
-          slug: 'abstract-expressions',
+          id: '3',
+          name: 'Digital Art',
+          slug: 'digital-art',
           image: 'https://picsum.photos/400/300?random=3',
-          description: 'Abstract art expressions'
-        }
+          description: 'Digital artwork and illustrations',
+        },
       ]);
     } finally {
       setLoading(false);
@@ -68,7 +72,7 @@ export default function HomePage() {
   if (error) {
     return (
       <div className="error-message">
-        <h2>Error loading projects</h2>
+        <h2>Error loading categories</h2>
         <p>{error}</p>
       </div>
     );
@@ -104,16 +108,12 @@ export default function HomePage() {
         </div>
       </motion.div>
 
-      {/* Projects Grid */}
+      {/* Categories Grid */}
       <div className="projects-grid">
-        {Array.isArray(projects) && projects.map((project, index) => (
-          <ProjectCard 
-            key={project.id} 
-            project={project} 
-            index={index}
-          />
+        {Array.isArray(categories) && categories.map((cat, index) => (
+          <CategoryCard key={cat.id} category={cat} index={index} />
         ))}
       </div>
     </div>
   );
-} 
+}
