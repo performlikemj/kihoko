@@ -168,6 +168,17 @@ Create `api/local.settings.json` for local development:
 }
 ```
 
+For the React frontend, the application automatically falls back to the same
+origin for API requests.  When running locally you should point the frontend to
+the local Functions host by creating a `.env` file inside `web/` with:
+
+```bash
+REACT_APP_API_URL=http://localhost:7071/api
+```
+
+In Azure Static Web Apps you can set `REACT_APP_API_URL` in the Configuration
+section if your API lives on a different domain.
+
 ## 📱 API Endpoints
 
 ### Categories
