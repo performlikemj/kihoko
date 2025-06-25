@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Grid, Card } from '../components/ArtCard';
 import { apiService, handleApiError } from '../services/api';
 
 export default function PortfolioPage() {
+  const { slug } = useParams();
+
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [images, setImages] = useState([]);
@@ -27,28 +30,43 @@ export default function PortfolioPage() {
       const response = await apiService.getCategories();
       
       if (response.data && response.data.success && Array.isArray(response.data.data)) {
-        setCategories(response.data.data);
+        const cats = response.data.data;
+        setCategories(cats);
+        if (slug) {
+          const found = cats.find((c) => c.slug === slug);
+          if (found) setSelectedCategory(found);
+        }
       } else {
         console.error('Failed to fetch categories:', response.data?.error || 'Invalid response format');
         setError('Failed to load categories');
         
         // Fallback to demo categories
-        setCategories([
+        const fallbackCats = [
           { id: '1', name: 'Tattoo Art', slug: 'tattoo-art', description: 'Tattoo photography and artwork' },
           { id: '2', name: 'Art Photography', slug: 'art-photography', description: 'Artistic photography and visual art' },
           { id: '3', name: 'Digital Art', slug: 'digital-art', description: 'Digital artwork and illustrations' }
-        ]);
+        ];
+        setCategories(fallbackCats);
+        if (slug) {
+          const found = fallbackCats.find((c) => c.slug === slug);
+          if (found) setSelectedCategory(found);
+        }
       }
     } catch (err) {
       console.error('Failed to fetch categories:', err);
       setError(handleApiError(err));
       
       // Fallback to demo categories
-      setCategories([
+      const fallbackCats = [
         { id: '1', name: 'Tattoo Art', slug: 'tattoo-art', description: 'Tattoo photography and artwork' },
         { id: '2', name: 'Art Photography', slug: 'art-photography', description: 'Artistic photography and visual art' },
         { id: '3', name: 'Digital Art', slug: 'digital-art', description: 'Digital artwork and illustrations' }
-      ]);
+      ];
+      setCategories(fallbackCats);
+      if (slug) {
+        const found = fallbackCats.find((c) => c.slug === slug);
+        if (found) setSelectedCategory(found);
+      }
     }
   };
 
