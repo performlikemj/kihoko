@@ -1,14 +1,18 @@
 import axios from 'axios';
 
 // Base URL for Azure Functions API
-// Simple approach: use the actual URL directly for now
-const API_BASE_URL = 'https://polite-river-0804e5800.2.azurestaticapps.net/api';
+// Try to read from an environment variable first. This allows the same build
+// to run on any domain (e.g. your own Azure Static Web App).  During local
+// development we default to the local Functions host, otherwise we fall back to
+// relative "/api" which works in production deployments.
+const API_BASE_URL =
+  process.env.REACT_APP_API_URL ||
+  (window?.location?.hostname === 'localhost'
+    ? 'http://localhost:7071/api'
+    : '/api');
 
-// Note: To use environment variables in Azure Static Web Apps:
-// 1. Go to Azure Portal > Your Static Web App > Configuration > Application settings
-// 2. Add: REACT_APP_API_URL = https://polite-river-0804e5800.2.azurestaticapps.net/api
-// 3. Then replace the line above with: 
-//    const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://polite-river-0804e5800.2.azurestaticapps.net/api';
+// To use a custom API URL in Azure Static Web Apps, add `REACT_APP_API_URL` in
+// the portal's Configuration settings.
 
 // Create axios instance with default config
 const api = axios.create({
