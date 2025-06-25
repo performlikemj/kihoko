@@ -27,15 +27,8 @@ export default function HomePage() {
         image: cat.coverImageUrl,
         description: cat.description,
       }));
-      const unique = [];
-      const seen = new Set();
-      for (const c of transformed) {
-        if (!seen.has(c.slug)) {
-          seen.add(c.slug);
-          unique.push(c);
-        }
-      }
-      setCategories(unique);
+      setCategories(transformed);
+
     } catch (err) {
       console.error('Failed to fetch categories:', err);
       setError(handleApiError(err));
