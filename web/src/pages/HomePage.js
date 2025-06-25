@@ -28,6 +28,7 @@ export default function HomePage() {
         description: cat.description,
       }));
       setCategories(transformed);
+
     } catch (err) {
       console.error('Failed to fetch categories:', err);
       setError(handleApiError(err));
