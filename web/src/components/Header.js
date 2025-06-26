@@ -28,7 +28,6 @@ export default function Header({ isDarkMode, toggleTheme }) {
           <span className="toggler-line"></span>
           <span className="toggler-line"></span>
         </button>
-
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
