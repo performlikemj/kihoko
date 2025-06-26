@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion } from 'framer-
+import { motion } from 'framer-motion';
 
 const bgUrl = 'https://live.staticflickr.com/65535/54614150947_63ef8bf185_b.jpg';
 
