@@ -70,24 +70,6 @@ export default function CategoriesPage() {
         transition={{ duration: 0.8 }}
       >
         <h1 className="display-1 text-center">Kihoko Mizuno Jones</h1>
-        <div className="social-links">
-          <a 
-            href="https://www.instagram.com/kihokomizuno/" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="social-icon"
-          >
-            <i className="fab fa-instagram"></i>
-          </a>
-          <a 
-            href="https://www.youtube.com/@MizunoJones" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="social-icon"
-          >
-            <i className="fab fa-youtube"></i>
-          </a>
-        </div>
       </motion.div>
 
       {/* Categories Grid */}
