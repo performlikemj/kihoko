@@ -9,6 +9,7 @@ export default function HomePage() {
     <motion.div
       className="home-page"
       style={{ backgroundImage: `url(${bgUrl})` }}
+
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.6 }}
@@ -17,12 +18,14 @@ export default function HomePage() {
         <Link to="/about" className="btn btn-outline-light me-2">
           About
         </Link>
+
         <Link to="/art" className="btn btn-outline-light me-2">
           Art
         </Link>
         <a href="mailto:kiho@kihoko.com" className="btn btn-outline-light">
           Contact
         </a>
+
       </div>
     </motion.div>
   );
