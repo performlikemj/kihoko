@@ -1,16 +1,16 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
-export default function Header({ user, isDarkMode, toggleTheme }) {
+export default function Header({ isDarkMode, toggleTheme }) {
   const location = useLocation();
 
   const isActive = (path) => {
     return location.pathname === path ? 'nav-link active' : 'nav-link';
   };
-
   return (
     <nav className="navbar navbar-expand-lg">
       <div className="container-fluid px-4 py-3">
+<<<<<<< codex/enable-contact-page-form-submission
         <div className="d-flex align-items-center justify-content-between w-100">
           
           {/* Left Nav */}
@@ -33,28 +33,55 @@ export default function Header({ user, isDarkMode, toggleTheme }) {
               </li>
             </ul>
           </div>
+=======
+        <Link className="navbar-brand fs-4 me-4" to="/">
+          <span className="fw-light">Kihoko</span>
+          <span className="fw-bold"> Mizuno Jones</span>
+        </Link>
+        <button
+          className="navbar-toggler custom-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span className="toggler-line"></span>
+          <span className="toggler-line"></span>
+          <span className="toggler-line"></span>
+        </button>
 
-          {/* Right Nav */}
-          <div className="d-flex align-items-center">
-            {user?.isAuthenticated ? (
-              <Link className="nav-link px-3" to="/profile">
-                <i className="fa fa-user"></i>
-              </Link>
-            ) : (
-              <>
-                <a className="nav-link px-3" href="https://shop.kihoko.com/shops/kihoo-base-shop/checkout/edit/" target="_blank" rel="noopener noreferrer">
-                  <i className="fa fa-shopping-cart"></i>
-                </a>
-                <Link className="nav-link px-3" to="/login">
-                  Login
-                </Link>
-              </>
-            )}
-            
-            {/* Theme toggle button */}
-            <button 
+
+        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+            <li className="nav-item">
+              <Link className={isActive('/')} to="/">Portfolio</Link>
+            </li>
+            <li className="nav-item">
+              <Link className={isActive('/contact')} to="/contact">Contact</Link>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="https://shop.kihoko.com" target="_blank" rel="noopener noreferrer">
+                Shop
+              </a>
+            </li>
+          </ul>
+
+          <div className="d-flex align-items-center ms-auto nav-icons">
+            <a
+              className="nav-link px-3"
+              href="https://shop.kihoko.com/shops/kihoo-base-shop/checkout/edit/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <i className="fa fa-shopping-cart"></i>
+            </a>
+>>>>>>> main
+
+            <button
               onClick={toggleTheme}
-              className="btn btn-link nav-link theme-toggle" 
+              className="btn btn-link nav-link theme-toggle"
               aria-label="Toggle dark mode"
             >
               <i className={`fas ${isDarkMode ? 'fa-sun' : 'fa-moon'}`} aria-hidden="true"></i>
@@ -64,4 +91,4 @@ export default function Header({ user, isDarkMode, toggleTheme }) {
       </div>
     </nav>
   );
-} 
+}

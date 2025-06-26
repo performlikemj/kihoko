@@ -44,10 +44,9 @@ export default function App() {
     <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
       <GlobalStyles />
       <div className="flex-container" data-bs-theme={isDarkMode ? 'dark' : 'light'}>
-        <Header 
-          user={user} 
-          isDarkMode={isDarkMode} 
-          toggleTheme={toggleTheme} 
+        <Header
+          isDarkMode={isDarkMode}
+          toggleTheme={toggleTheme}
         />
         <main className="page-transition loaded">
           <Routes>
