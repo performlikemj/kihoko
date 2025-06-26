@@ -17,6 +17,7 @@ export default function Header({ user, isDarkMode, toggleTheme }) {
         </Link>
         <button
           className="navbar-toggler custom-toggler"
+
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#navbarSupportedContent"
