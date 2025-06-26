@@ -79,14 +79,6 @@ export default function CategoriesPage() {
           >
             <i className="fab fa-instagram"></i>
           </a>
-          <a 
-            href="https://www.youtube.com/@MizunoJones" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="social-icon"
-          >
-            <i className="fab fa-youtube"></i>
-          </a>
         </div>
       </motion.div>
 
