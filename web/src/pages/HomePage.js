@@ -11,6 +11,7 @@ export default function HomePage() {
       transition={{ duration: 0.6 }}
     >
       <h1>Welcome</h1>
+
       <div className="nav-links">
         <Link to="/about">About</Link>
         <Link to="/art">Art</Link>
@@ -19,4 +20,5 @@ export default function HomePage() {
     </motion.div>
   );
 }
+
 
