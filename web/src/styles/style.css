@@ -543,10 +543,8 @@ body {
   text-align: center;
   padding: 4rem 2rem;
 }
-<<<<<<< zviqq5-codex/create-homepage-with-splash-and-pages
 
-=======
->>>>>>> main
+
 /* Art Page Grid */
 .art-grid {
   display: grid;
@@ -559,10 +557,7 @@ body {
   position: relative;
   overflow: hidden;
   border-radius: 8px;
-<<<<<<< zviqq5-codex/create-homepage-with-splash-and-pages
   aspect-ratio: 1 / 1;
-=======
->>>>>>> main
 }
 
 .art-card img {
