@@ -11,6 +11,7 @@ body {
   line-height: 1.6;
   min-height: 100vh;
   transition: background-color 0.3s ease, color 0.3s ease;
+  overflow-x: hidden;
 }
 
 /* Enhanced flex container layout */
@@ -68,6 +69,15 @@ body {
   flex-direction: row;
   gap: 1rem;
   align-items: center;
+}
+
+@media (max-width: 992px) {
+  .navbar-nav {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding-top: 0.5rem;
+  }
 }
 
 .nav-link {
@@ -381,6 +391,16 @@ body {
 }
 
 /* Responsive styles */
+@media (min-width: 1400px) {
+  .navbar-nav {
+    gap: 2rem;
+  }
+
+  .navbar-brand {
+    font-size: 1.75rem;
+  }
+}
+
 @media (max-width: 1200px) {
   .projects-grid {
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -410,6 +430,23 @@ body {
   .arrow {
     font-size: 1.5rem;
     padding: 6px 10px;
+  }
+}
+
+@media (max-width: 576px) {
+  .navbar-brand {
+    font-size: 1.25rem;
+    margin-right: 0.5rem;
+  }
+
+  .navbar-toggler {
+    padding: 0.25rem 0.75rem;
+    font-size: 1rem;
+  }
+
+  .theme-toggle {
+    font-size: 1rem;
+    padding: 0.25rem;
   }
 }
 
@@ -463,18 +500,33 @@ body {
   margin-top: 1rem;
 }
 
+
+
+/* Portfolio page artistic enhancements */
+.portfolio-page {
+  padding-top: 2rem;
+  background-image: linear-gradient(135deg, rgba(255, 166, 0, 0.05), rgba(111, 168, 220, 0.05));
+  min-height: 100vh;
+}
+
+.page-title {
+  font-family: 'Georgia', serif;
+  letter-spacing: 0.15rem;
+  margin-bottom: 1rem;
+}
+
 .category-btn {
-  border: 1px solid #ddd;
-  background: none;
+  border: none;
   padding: 0.5rem 1rem;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 0.9rem;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  border-radius: 20px;
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(2px);
+  transition: background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .category-btn.active,
 .category-btn:hover {
-  background-color: #ffa600;
+  background: linear-gradient(45deg, rgba(255, 166, 0, 0.9), rgba(111, 168, 220, 0.9));
   color: #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
