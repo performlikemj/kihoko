@@ -34,6 +34,8 @@ export default function Header({ isDarkMode, toggleTheme }) {
             </li>
             <li className="nav-item">
               <Link className={isActive('/about')} to="/about">About</Link>
+
+
             </li>
             <li className="nav-item">
               <Link className={isActive('/art')} to="/art">Art</Link>
