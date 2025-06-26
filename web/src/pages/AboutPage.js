@@ -1,5 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
+
 
 const bgUrl = 'https://live.staticflickr.com/65535/54614150947_63ef8bf185_b.jpg';
 
@@ -25,6 +27,14 @@ export default function AboutPage() {
           Whether you’re looking for an illustration, a one-of-a-kind ceramic
           piece, or a thoughtfully designed tattoo, she’d love to hear from you.
         </p>
+        <div className="about-links">
+          <Link to="/art" className="btn btn-outline-light me-2">
+            View Art
+          </Link>
+          <a href="mailto:kiho@kihoko.com" className="btn btn-outline-light">
+            Contact
+          </a>
+        </div>
       </div>
     </motion.div>
   );

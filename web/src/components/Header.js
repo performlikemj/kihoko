@@ -30,7 +30,7 @@ export default function Header({ isDarkMode, toggleTheme }) {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <Link className={isActive('/about')} to="/about">About</Link>
+              <Link className={isActive('/')} to="/">About</Link>
             </li>
             <li className="nav-item">
               <Link className={isActive('/art')} to="/art">Art</Link>

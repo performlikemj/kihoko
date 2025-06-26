@@ -558,6 +558,14 @@ body {
   border-radius: 8px;
 }
 
+.about-links {
+  margin-top: 1.5rem;
+}
+
+.about-links a {
+  margin-right: 0.5rem;
+}
+
 /* Contact Page */
 .contact-page {
   text-align: center;
