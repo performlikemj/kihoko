@@ -4,36 +4,11 @@ import { Link, useLocation } from 'react-router-dom';
 export default function Header({ isDarkMode, toggleTheme }) {
   const location = useLocation();
 
-  const isActive = (path) => {
-    return location.pathname === path ? 'nav-link active' : 'nav-link';
-  };
+  const isActive = (path) => (location.pathname === path ? 'nav-link active' : 'nav-link');
+
   return (
     <nav className="navbar navbar-expand-lg">
       <div className="container-fluid px-4 py-3">
-<<<<<<< codex/enable-contact-page-form-submission
-        <div className="d-flex align-items-center justify-content-between w-100">
-          
-          {/* Left Nav */}
-          <div className="d-flex align-items-center">
-            <Link className="navbar-brand fs-4 me-4" to="/">
-              <span className="fw-light">Kihoko</span>
-              <span className="fw-bold"> Mizuno Jones</span>
-            </Link>
-            <ul className="navbar-nav">
-              <li className="nav-item">
-                <Link className={isActive('/')} to="/">Portfolio</Link>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="mailto:kiho@kihoko.com">Contact</a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="https://shop.kihoko.com" target="_blank" rel="noopener noreferrer">
-                  Shop
-                </a>
-              </li>
-            </ul>
-          </div>
-=======
         <Link className="navbar-brand fs-4 me-4" to="/">
           <span className="fw-light">Kihoko</span>
           <span className="fw-bold"> Mizuno Jones</span>
@@ -52,19 +27,19 @@ export default function Header({ isDarkMode, toggleTheme }) {
           <span className="toggler-line"></span>
         </button>
 
-
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <Link className={isActive('/')} to="/">Portfolio</Link>
+              <Link className={isActive('/')} to="/">Home</Link>
             </li>
             <li className="nav-item">
-              <Link className={isActive('/contact')} to="/contact">Contact</Link>
+              <Link className={isActive('/about')} to="/about">About</Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="https://shop.kihoko.com" target="_blank" rel="noopener noreferrer">
-                Shop
-              </a>
+              <Link className={isActive('/art')} to="/art">Art</Link>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="mailto:kiho@kihoko.com">Contact</a>
             </li>
           </ul>
 
@@ -77,7 +52,6 @@ export default function Header({ isDarkMode, toggleTheme }) {
             >
               <i className="fa fa-shopping-cart"></i>
             </a>
->>>>>>> main
 
             <button
               onClick={toggleTheme}
