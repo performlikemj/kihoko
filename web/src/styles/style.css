@@ -93,12 +93,12 @@ body {
     width: 100%;
     padding: 0.75rem 0 !important;
   }
-
   .nav-icons {
     justify-content: center;
     width: 100%;
     margin-top: 0.5rem;
   }
+
 }
 
 .nav-link {
@@ -153,6 +153,7 @@ body {
   justify-content: flex-end;
   margin-left: auto;
   gap: 0.75rem;
+
 }
 
 /* Custom hamburger toggler reflecting sun and moon */
