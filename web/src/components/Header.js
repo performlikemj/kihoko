@@ -7,7 +7,6 @@ export default function Header({ isDarkMode, toggleTheme }) {
   const isActive = (path) => {
     return location.pathname === path ? 'nav-link active' : 'nav-link';
   };
-
   return (
     <nav className="navbar navbar-expand-lg">
       <div className="container-fluid px-4 py-3">
@@ -28,6 +27,8 @@ export default function Header({ isDarkMode, toggleTheme }) {
           <span className="toggler-line"></span>
           <span className="toggler-line"></span>
         </button>
+
+
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
