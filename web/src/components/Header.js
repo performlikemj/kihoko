@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
-export default function Header({ user, isDarkMode, toggleTheme }) {
+export default function Header({ isDarkMode, toggleTheme }) {
   const location = useLocation();
 
   const isActive = (path) => {
@@ -17,7 +17,6 @@ export default function Header({ user, isDarkMode, toggleTheme }) {
         </Link>
         <button
           className="navbar-toggler custom-toggler"
-
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#navbarSupportedContent"
@@ -29,7 +28,6 @@ export default function Header({ user, isDarkMode, toggleTheme }) {
           <span className="toggler-line"></span>
           <span className="toggler-line"></span>
         </button>
-
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
@@ -45,26 +43,15 @@ export default function Header({ user, isDarkMode, toggleTheme }) {
             </li>
           </ul>
 
-          <div className="d-flex align-items-center ms-auto">
-            {user?.isAuthenticated ? (
-              <Link className="nav-link px-3" to="/profile">
-                <i className="fa fa-user"></i>
-              </Link>
-            ) : (
-              <>
-                <a
-                  className="nav-link px-3"
-                  href="https://shop.kihoko.com/shops/kihoo-base-shop/checkout/edit/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <i className="fa fa-shopping-cart"></i>
-                </a>
-                <Link className="nav-link px-3" to="/login">
-                  Login
-                </Link>
-              </>
-            )}
+          <div className="d-flex align-items-center ms-auto nav-icons">
+            <a
+              className="nav-link px-3"
+              href="https://shop.kihoko.com/shops/kihoo-base-shop/checkout/edit/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <i className="fa fa-shopping-cart"></i>
+            </a>
 
             <button
               onClick={toggleTheme}

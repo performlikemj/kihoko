@@ -140,6 +140,13 @@ body {
   transform: scale(1.1);
 }
 
+/* Container for cart and theme toggle */
+.nav-icons {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 /* Custom hamburger toggler reflecting sun and moon */
 .custom-toggler {
   border: none;
