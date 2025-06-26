@@ -13,15 +13,23 @@ module.exports = async function (context, req) {
     // Get all categories from database
     const categories = await databaseService.getCategories();
 
-    // Deduplicate by slug and keep first occurrence
-    const unique = [];
-    const seenSlugs = new Set();
+    // Deduplicate by slug. Prefer entries that have a cover image or are newer
+    const mapBySlug = new Map();
     for (const cat of categories) {
-      if (!seenSlugs.has(cat.slug)) {
-        seenSlugs.add(cat.slug);
-        unique.push(cat);
+      const existing = mapBySlug.get(cat.slug);
+      if (!existing) {
+        mapBySlug.set(cat.slug, cat);
+      } else {
+        const hasCover = !!cat.coverImageId;
+        const existingHasCover = !!existing.coverImageId;
+        const newer = new Date(cat.createdAt) > new Date(existing.createdAt);
+
+        if ((hasCover && !existingHasCover) || (!existingHasCover && newer) || (hasCover && newer)) {
+          mapBySlug.set(cat.slug, cat);
+        }
       }
     }
+    const unique = Array.from(mapBySlug.values());
 
     // Sort by order field
     unique.sort((a, b) => (a.order || 0) - (b.order || 0));

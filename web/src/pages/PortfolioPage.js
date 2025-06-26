@@ -31,17 +31,9 @@ export default function PortfolioPage() {
       
       if (response.data && response.data.success && Array.isArray(response.data.data)) {
         const cats = response.data.data;
-        const uniqueCats = [];
-        const seenCats = new Set();
-        for (const c of cats) {
-          if (!seenCats.has(c.slug)) {
-            seenCats.add(c.slug);
-            uniqueCats.push(c);
-          }
-        }
-        setCategories(uniqueCats);
+        setCategories(cats);
         if (slug) {
-          const found = uniqueCats.find((c) => c.slug === slug);
+          const found = cats.find((c) => c.slug === slug);
           setSelectedCategory(found || null);
         } else {
           setSelectedCategory(null);
