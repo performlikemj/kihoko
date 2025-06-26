@@ -5,6 +5,7 @@ import GlobalStyles from './styles/GlobalStyles';
 import { lightTheme, darkTheme } from './styles/themes';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
 import ArtPage from './pages/ArtPage';
 import ContactPage from './pages/ContactPage';
@@ -53,7 +54,10 @@ export default function App() {
         />
         <main className="page-transition loaded">
           <Routes>
-            <Route path="/" element={<AboutPage />} />
+            <Route path="/" element={<HomePage />} />
+            <Route path="/about" element={<AboutPage />} />
+
+              
             <Route path="/art" element={<ArtPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/category" element={<CategoriesPage />} />
