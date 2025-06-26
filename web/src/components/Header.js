@@ -24,7 +24,7 @@ export default function Header({ user, isDarkMode, toggleTheme }) {
                 <Link className={isActive('/')} to="/">Portfolio</Link>
               </li>
               <li className="nav-item">
-                <Link className={isActive('/contact')} to="/contact">Contact</Link>
+                <a className="nav-link" href="mailto:kiho@kihoko.com">Contact</a>
               </li>
               <li className="nav-item">
                 <a className="nav-link" href="https://shop.kihoko.com" target="_blank" rel="noopener noreferrer">

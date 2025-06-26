@@ -72,9 +72,6 @@ This will run on `http://localhost:3000`
 - `GET /api/artwork/{id}/` - Get artwork details
 - `GET /api/artworks/` - List all artworks
 
-✅ **Contact Form:**
-- `POST /api/contact/` - Submit contact form
-
 ✅ **Authentication:**
 - `POST /api/auth/login/` - User login
 - `POST /api/auth/signup/` - User registration
@@ -132,8 +129,7 @@ Visit these URLs in your browser while Django is running:
 2. Visit http://localhost:3000
 3. Navigate through all pages
 4. Test theme toggle
-5. Submit contact form
-6. Try login/signup (if you have test users)
+5. Try login/signup (if you have test users)
 
 ### 3. Check Browser Network Tab
 

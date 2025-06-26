@@ -7,7 +7,6 @@ This React application is a complete modernization of the Django portfolio websi
 - **Portfolio Display**: Grid layout of art projects with hover effects and animations
 - **Project Details**: Individual project pages with image galleries
 - **Art Detail View**: Full-screen art viewing with navigation between pieces
-- **Contact Form**: Functional contact form with form validation
 - **User Authentication**: Login and signup functionality
 - **Theme Toggle**: Dark/light mode switching
 - **Responsive Design**: Mobile-first responsive design
@@ -36,7 +35,6 @@ src/
 │   ├── HomePage.js         # Main portfolio page
 │   ├── ProjectDetailPage.js # Individual project details
 │   ├── ArtDetailPage.js    # Full-screen art viewer
-│   ├── ContactPage.js      # Contact form
 │   ├── LoginPage.js        # User login
 │   └── SignupPage.js       # User registration
 ├── styles/
@@ -77,7 +75,6 @@ The React app is designed to work with Django API endpoints. You'll need to crea
 - `GET /api/project/{slug}/images/` - Get project images
 - `GET /api/artwork/{id}/` - Get artwork details
 - `GET /api/artworks/` - List all artworks
-- `POST /api/contact/` - Submit contact form
 - `POST /api/auth/login/` - User login
 - `POST /api/auth/signup/` - User registration
 

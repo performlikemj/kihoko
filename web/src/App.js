@@ -9,7 +9,6 @@ import CategoriesPage from './pages/CategoriesPage';
 import ProjectDetailPage from './pages/ProjectDetailPage';
 import PortfolioPage from './pages/PortfolioPage';
 import ArtDetailPage from './pages/ArtDetailPage';
-import ContactPage from './pages/ContactPage';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
 import AdminUploadPage from './pages/AdminUploadPage';
@@ -57,7 +56,6 @@ export default function App() {
             <Route path="/category/:slug" element={<PortfolioPage />} />
             <Route path="/project/:slug" element={<ProjectDetailPage />} />
             <Route path="/art/:id" element={<ArtDetailPage />} />
-            <Route path="/contact" element={<ContactPage />} />
             <Route path="/login" element={<LoginPage setUser={setUser} />} />
             <Route path="/signup" element={<SignupPage setUser={setUser} />} />
             {process.env.REACT_APP_ENABLE_UPLOAD === 'true' && (
