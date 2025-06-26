@@ -10,6 +10,30 @@ export default function Header({ isDarkMode, toggleTheme }) {
   return (
     <nav className="navbar navbar-expand-lg">
       <div className="container-fluid px-4 py-3">
+<<<<<<< codex/enable-contact-page-form-submission
+        <div className="d-flex align-items-center justify-content-between w-100">
+          
+          {/* Left Nav */}
+          <div className="d-flex align-items-center">
+            <Link className="navbar-brand fs-4 me-4" to="/">
+              <span className="fw-light">Kihoko</span>
+              <span className="fw-bold"> Mizuno Jones</span>
+            </Link>
+            <ul className="navbar-nav">
+              <li className="nav-item">
+                <Link className={isActive('/')} to="/">Portfolio</Link>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="mailto:kiho@kihoko.com">Contact</a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="https://shop.kihoko.com" target="_blank" rel="noopener noreferrer">
+                  Shop
+                </a>
+              </li>
+            </ul>
+          </div>
+=======
         <Link className="navbar-brand fs-4 me-4" to="/">
           <span className="fw-light">Kihoko</span>
           <span className="fw-bold"> Mizuno Jones</span>
@@ -53,6 +77,7 @@ export default function Header({ isDarkMode, toggleTheme }) {
             >
               <i className="fa fa-shopping-cart"></i>
             </a>
+>>>>>>> main
 
             <button
               onClick={toggleTheme}
