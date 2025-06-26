@@ -32,7 +32,7 @@ src/
 │   ├── Footer.js           # Site footer
 │   └── ProjectCard.js      # Individual project cards
 ├── pages/
-│   ├── HomePage.js         # Main portfolio page
+│   ├── AboutPage.js        # Main landing/about page
 │   ├── ProjectDetailPage.js # Individual project details
 │   ├── ArtDetailPage.js    # Full-screen art viewer
 │   ├── LoginPage.js        # User login
