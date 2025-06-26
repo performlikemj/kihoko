@@ -70,7 +70,6 @@ export default function CategoriesPage() {
         transition={{ duration: 0.8 }}
       >
         <h1 className="display-1 text-center">Kihoko Mizuno Jones</h1>
-        
       </motion.div>
 
       {/* Categories Grid */}
