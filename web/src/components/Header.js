@@ -16,7 +16,8 @@ export default function Header({ user, isDarkMode, toggleTheme }) {
           <span className="fw-bold"> Mizuno Jones</span>
         </Link>
         <button
-          className="navbar-toggler"
+          className="navbar-toggler custom-toggler"
+
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#navbarSupportedContent"
@@ -24,7 +25,9 @@ export default function Header({ user, isDarkMode, toggleTheme }) {
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
-          <span className="navbar-toggler-icon"></span>
+          <span className="toggler-line"></span>
+          <span className="toggler-line"></span>
+          <span className="toggler-line"></span>
         </button>
 
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
