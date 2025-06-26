@@ -20,8 +20,6 @@ export default function PortfolioPage() {
   useEffect(() => {
     if (selectedCategory) {
       fetchImagesByCategory(selectedCategory.slug);
-    } else {
-      fetchFeaturedImages();
     }
   }, [selectedCategory]);
 
@@ -36,7 +34,7 @@ export default function PortfolioPage() {
           const found = cats.find((c) => c.slug === slug);
           setSelectedCategory(found || null);
         } else {
-          setSelectedCategory(null);
+          setSelectedCategory(cats[0] || null);
         }
       } else {
         console.error('Failed to fetch categories:', response.data?.error || 'Invalid response format');
@@ -53,7 +51,7 @@ export default function PortfolioPage() {
           const found = fallbackCats.find((c) => c.slug === slug);
           setSelectedCategory(found || null);
         } else {
-          setSelectedCategory(null);
+          setSelectedCategory(fallbackCats[0] || null);
         }
       }
     } catch (err) {
@@ -71,36 +69,11 @@ export default function PortfolioPage() {
         const found = fallbackCats.find((c) => c.slug === slug);
         setSelectedCategory(found || null);
       } else {
-        setSelectedCategory(null);
+        setSelectedCategory(fallbackCats[0] || null);
       }
     }
   };
 
-  const fetchFeaturedImages = async () => {
-    setLoading(true);
-    try {
-      const response = await apiService.getFeaturedImages(20);
-      
-      if (response.data && response.data.success && Array.isArray(response.data.data)) {
-        const transformedImages = response.data.data.map(image => ({
-          id: image.id,
-          title: image.title,
-          image: image.thumbnailUrl || image.url,
-          category: image.categoryId
-        }));
-        setImages(transformedImages);
-      } else {
-        console.error('Failed to fetch featured images:', response.data?.error || 'Invalid response format');
-        setImages([]);
-      }
-    } catch (err) {
-      console.error('Failed to fetch featured images:', err);
-      setError(handleApiError(err));
-      setImages([]);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const fetchImagesByCategory = async (categorySlug) => {
     setLoading(true);
@@ -132,9 +105,6 @@ export default function PortfolioPage() {
     setSelectedCategory(category);
   };
 
-  const handleShowAll = () => {
-    setSelectedCategory(null);
-  };
 
   if (loading && !images.length) {
     return (
@@ -147,22 +117,25 @@ export default function PortfolioPage() {
   return (
     <div className="portfolio-page">
       {/* Category Navigation */}
-      <motion.div 
+      <motion.div
         className="category-navigation"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
         <h1 className="page-title">Portfolio</h1>
+        <div className="social-links">
+          <a
+            href="https://www.instagram.com/kihokomizuno/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="social-icon"
+          >
+            <i className="fab fa-instagram"></i>
+          </a>
+        </div>
         
         <div className="category-buttons">
-          <button 
-            className={`category-btn ${!selectedCategory ? 'active' : ''}`}
-            onClick={handleShowAll}
-          >
-            Featured
-          </button>
-          
           {Array.isArray(categories) && categories.map((category) => (
             <button
               key={category.id}
@@ -215,7 +188,7 @@ export default function PortfolioPage() {
         ) : (
           !loading && (
             <div className="no-images">
-              <p>No images found{selectedCategory ? ` in ${selectedCategory.name}` : ' in featured collection'}.</p>
+              <p>No images found{selectedCategory ? ` in ${selectedCategory.name}` : ''}.</p>
             </div>
           )
         )}
