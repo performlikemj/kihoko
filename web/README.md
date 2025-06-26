@@ -32,11 +32,14 @@ src/
 │   ├── Footer.js           # Site footer
 │   └── ProjectCard.js      # Individual project cards
 ├── pages/
-│   ├── AboutPage.js        # Main landing/about page
+│   ├── HomePage.js        # Minimal splash page
+│   ├── AboutPage.js       # Artist biography
+│   ├── ArtPage.js         # Consolidated artwork gallery
+│   ├── ContactPage.js     # Email contact link
 │   ├── ProjectDetailPage.js # Individual project details
-│   ├── ArtDetailPage.js    # Full-screen art viewer
-│   ├── LoginPage.js        # User login
-│   └── SignupPage.js       # User registration
+│   ├── ArtDetailPage.js   # Full-screen art viewer
+│   ├── LoginPage.js       # User login
+│   └── SignupPage.js      # User registration
 ├── styles/
 │   ├── GlobalStyles.js     # Global styled-components
 │   ├── themes.js           # Light/dark theme definitions

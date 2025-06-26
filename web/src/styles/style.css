@@ -512,27 +512,24 @@ body {
 }
 
 
-
-
 /* About Page */
 .about-page {
-  background-size: cover;
-  background-position: center;
-  color: #fff;
+
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 2rem;
+  padding: 3rem 2rem;
+  color: #333;
 }
 
 .about-content {
-  background: rgba(0,0,0,0.5);
-  padding: 2rem;
-  border-radius: 8px;
+  max-width: 600px;
+  margin: 0 auto;
+  font-size: 1.1rem;
+  line-height: 1.6;
 }
-
 
 
 /* Contact Page */
@@ -591,6 +588,7 @@ body {
 .home-links a {
   margin-right: 0.5rem;
 }
+
 @media (max-width: 768px) {
   .art-grid {
     grid-template-columns: repeat(2, 1fr);

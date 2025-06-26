@@ -10,16 +10,15 @@ export default function HomePage() {
       className="home-page"
       style={{ backgroundImage: `url(${bgUrl})` }}
 
-
-
-
-
-
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.6 }}
     >
       <div className="home-links">
+        <Link to="/about" className="btn btn-outline-light me-2">
+          About
+        </Link>
+
         <Link to="/art" className="btn btn-outline-light me-2">
           Art
         </Link>
@@ -27,10 +26,7 @@ export default function HomePage() {
           Contact
         </a>
 
-
       </div>
     </motion.div>
   );
 }
-
-
