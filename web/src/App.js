@@ -52,7 +52,8 @@ export default function App() {
         />
         <main className="page-transition loaded">
           <Routes>
-            <Route path="/" element={<CategoriesPage />} />
+            <Route path="/" element={<PortfolioPage />} />
+            <Route path="/category" element={<CategoriesPage />} />
             <Route path="/category/:slug" element={<PortfolioPage />} />
             <Route path="/project/:slug" element={<ProjectDetailPage />} />
             <Route path="/art/:id" element={<ArtDetailPage />} />
