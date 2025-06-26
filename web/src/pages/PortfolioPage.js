@@ -147,13 +147,23 @@ export default function PortfolioPage() {
   return (
     <div className="portfolio-page">
       {/* Category Navigation */}
-      <motion.div 
+      <motion.div
         className="category-navigation"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
         <h1 className="page-title">Portfolio</h1>
+        <div className="social-links">
+          <a
+            href="https://www.instagram.com/kihokomizuno/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="social-icon"
+          >
+            <i className="fab fa-instagram"></i>
+          </a>
+        </div>
         
         <div className="category-buttons">
           <button 
