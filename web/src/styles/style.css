@@ -514,14 +514,13 @@ body {
 
 /* About Page */
 .about-page {
-
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
   padding: 3rem 2rem;
-  color: #333;
+  color: inherit;
 }
 
 .about-content {
