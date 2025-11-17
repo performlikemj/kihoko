@@ -39,6 +39,9 @@ export default function Header({ isDarkMode, toggleTheme }) {
               <Link className={isActive('/art')} to="/art">Art</Link>
             </li>
             <li className="nav-item">
+              <Link className={isActive('/booking')} to="/booking">Booking</Link>
+            </li>
+            <li className="nav-item">
               <a className="nav-link" href="mailto:kiho@kihoko.com">Contact</a>
             </li>
           </ul>
