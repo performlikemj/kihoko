@@ -16,6 +16,7 @@ import ArtDetailPage from './pages/ArtDetailPage';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
 import AdminUploadPage from './pages/AdminUploadPage';
+import BookingPage from './pages/BookingPage';
 import './styles/style.css';
 
 export default function App() {
@@ -58,6 +59,7 @@ export default function App() {
             <Route path="/about" element={<AboutPage />} />
             <Route path="/art" element={<ArtPage />} />
             <Route path="/contact" element={<ContactPage />} />
+            <Route path="/booking" element={<BookingPage />} />
             <Route path="/category" element={<CategoriesPage />} />
             <Route path="/category/:slug" element={<PortfolioPage />} />
             <Route path="/project/:slug" element={<ProjectDetailPage />} />
