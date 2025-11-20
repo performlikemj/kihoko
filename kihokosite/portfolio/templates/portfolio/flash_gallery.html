@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'portfolio/css/flash.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="flash-hero">
+  <div class="container">
+    <p class="eyebrow">{% trans "Tattoo Flash" %}</p>
+    <div class="hero-content">
+      <div>
+        <h1>{% trans "Hand-painted flash, released in small drops" %}</h1>
+        <p class="lead">
+          {% trans "Browse Kihoko's studio-ready flash sheets. Tap shuffle for a new arrangement and look for the red seal to see which designs have already found a home." %}
+        </p>
+      </div>
+      <div class="flash-controls" role="group" aria-label="{% trans 'Flash controls' %}">
+        <dl class="flash-stat">
+          <dt>{% trans "Available" %}</dt>
+          <dd>{{ available_count }}</dd>
+        </dl>
+        <dl class="flash-stat">
+          <dt>{% trans "Claimed" %}</dt>
+          <dd>{{ taken_count }}</dd>
+        </dl>
+        <button class="shuffle-btn" type="button" data-shuffle>
+          <span class="label">{% trans "Shuffle Flash" %}</span>
+          <span aria-hidden="true" class="icon">&#x21bb;</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="flash-gallery">
+  <div class="container">
+    <div class="flash-grid" id="flash-grid">
+      {% for design in flash_designs %}
+        <article class="flash-card {% if not design.is_available %}is-taken{% endif %}" data-available="{{ design.is_available|yesno:'true,false' }}">
+          <div class="flash-image-wrap">
+            {% if design.image_url %}
+              <img src="{{ design.image_url }}" alt="{{ design.title }}" loading="lazy" class="flash-image"/>
+            {% else %}
+              <div class="flash-placeholder">{% trans "Image coming soon" %}</div>
+            {% endif %}
+            {% if not design.is_available %}
+              <span class="flash-status-dot" aria-label="{% trans 'Design claimed' %}"></span>
+            {% endif %}
+          </div>
+          <div class="flash-card-body">
+            <div class="flash-card-header">
+              <h2>{{ design.title }}</h2>
+              <span class="status-pill {% if design.is_available %}available{% else %}taken{% endif %}">
+                {% if design.is_available %}{% trans "Available" %}{% else %}{% trans "Taken" %}{% endif %}
+              </span>
+            </div>
+            {% if design.description %}
+              <p>{{ design.description }}</p>
+            {% endif %}
+          </div>
+        </article>
+      {% empty %}
+        <p class="empty-flash-message text-center">
+          {% trans "New flash sheets are on the way. Check back soon or join the newsletter to be notified." %}
+        </p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+(function() {
+  const grid = document.getElementById('flash-grid');
+  const shuffleButton = document.querySelector('[data-shuffle]');
+
+  if (!grid || !shuffleButton) {
+    return;
+  }
+
+  const shuffleCards = () => {
+    const cards = Array.from(grid.children);
+    const shuffled = cards
+      .map(card => ({ card, sort: Math.random() }))
+      .sort((a, b) => a.sort - b.sort)
+      .map(item => item.card);
+
+    shuffled.forEach(card => grid.appendChild(card));
+  };
+
+  shuffleButton.addEventListener('click', () => {
+    shuffleButton.classList.add('is-spinning');
+    shuffleCards();
+    window.requestAnimationFrame(() => {
+      setTimeout(() => shuffleButton.classList.remove('is-spinning'), 400);
+    });
+  });
+})();
+</script>
+{% endblock %}

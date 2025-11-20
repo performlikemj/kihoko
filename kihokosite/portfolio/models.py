@@ -103,6 +103,37 @@ class ProjectImage(models.Model):
             azure_blob_service.delete_image(self.image_blob)
         super().delete(*args, **kwargs)
 
+
+class FlashDesign(models.Model):
+    title = models.CharField(max_length=150)
+    description = models.TextField(blank=True)
+    image_blob = models.CharField(max_length=500, help_text="Azure blob name for flash artwork")
+    is_available = models.BooleanField(default=True, help_text="Uncheck when this design has been claimed")
+    order = models.PositiveIntegerField(default=0, help_text="Lower numbers appear first")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['order', '-created_at']
+        verbose_name = "Flash design"
+        verbose_name_plural = "Flash designs"
+
+    def __str__(self):
+        return self.title
+
+    @property
+    def image_url(self):
+        if self.image_blob:
+            from .azure_service import azure_blob_service
+            return azure_blob_service.get_image_url(self.image_blob)
+        return None
+
+    def delete(self, *args, **kwargs):
+        if self.image_blob:
+            from .azure_service import azure_blob_service
+            azure_blob_service.delete_image(self.image_blob)
+        super().delete(*args, **kwargs)
+
 class Merchandise(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField()

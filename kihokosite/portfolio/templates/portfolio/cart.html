@@ -40,7 +40,10 @@
   </table>
   <h3>Total: ${{ total|floatformat:2 }}</h3>
   {% if cart_items %}
-  <a href="{% url 'checkout' %}" class="btn btn-primary">{% trans "Proceed to Checkout" %}</a>
+  <p class="text-muted">{% trans "Checkout is completed through our Japanese shop. You'll be redirected to finish payment." %}</p>
+  <a href="{% url 'checkout' %}" class="btn btn-primary" target="_blank" rel="noopener">
+    {% trans "Complete Checkout on Kihoko Shop" %}
+  </a>
   {% endif %}
 </div>
 {% endblock %} {% block extra_js %}

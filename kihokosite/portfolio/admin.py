@@ -1,5 +1,13 @@
 from django.contrib import admin
-from .models import Project, ProjectImage, Merchandise, Cart, CartItem, MerchandiseImage
+from .models import (
+    Project,
+    ProjectImage,
+    Merchandise,
+    Cart,
+    CartItem,
+    MerchandiseImage,
+    FlashDesign,
+)
 
 # Define the inline admin class for ProjectImage
 class ProjectImageInline(admin.TabularInline):
@@ -31,6 +39,12 @@ class CartAdmin(admin.ModelAdmin):
     inlines = [CartItemInline]
 
 
+class FlashDesignAdmin(admin.ModelAdmin):
+    list_display = ('title', 'is_available', 'order', 'updated_at')
+    list_filter = ('is_available',)
+    list_editable = ('is_available', 'order')
+    search_fields = ('title', 'description')
+
 
 
 # Register the models
@@ -39,7 +53,7 @@ admin.site.register(ProjectImage)
 admin.site.register(Merchandise, MerchandiseAdmin)
 admin.site.register(MerchandiseImage)  # Register the new model
 admin.site.register(Cart, CartAdmin)
-
+admin.site.register(FlashDesign, FlashDesignAdmin)
 
 
 

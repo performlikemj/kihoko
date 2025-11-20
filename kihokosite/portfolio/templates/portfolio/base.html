@@ -37,6 +37,8 @@
     <!-- AOS -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    {% block extra_css %}{% endblock %}
   </head>
   
   <body data-bs-theme="light" class="flex-container">
@@ -55,6 +57,9 @@
                 <a class="nav-link px-3" href="{% url 'home' %}">{% trans "Portfolio" %}</a>
               </li>
               <li class="nav-item">
+                <a class="nav-link px-3" href="{% url 'flash_gallery' %}">{% trans "Tattoo Flash" %}</a>
+              </li>
+              <li class="nav-item">
                 <a class="nav-link px-3" href="{% url 'contact' %}">{% trans "Contact" %}</a>
               </li>
               <li class="nav-item">
@@ -70,7 +75,7 @@
                 <i class="fa fa-user"></i>
               </a>
             {% else %}
-              <a class="nav-link px-3" href="https://shop.kihoko.com/shops/kihoo-base-shop/checkout/edit/"">
+              <a class="nav-link px-3" href="{% url 'checkout' %}" target="_blank" rel="noopener">
                 <i class="fa fa-shopping-cart"></i>
               </a>
               <a class="nav-link px-3" href="{% url 'login' %}">
@@ -136,5 +141,7 @@
         lazyImages.forEach(img => imageObserver.observe(img));
       });
     </script>
+
+    {% block extra_js %}{% endblock %}
   </body>
 </html>

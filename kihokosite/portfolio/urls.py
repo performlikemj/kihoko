@@ -8,7 +8,9 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('project/<slug:slug>/', views.project_detail, name='project_detail'),
     path('art_detail/<int:image_id>/', views.art_detail, name='art_detail'),
+    path('flash/', views.flash_gallery, name='flash_gallery'),
     path('contact/', views.contact, name='contact'),
+    path('checkout/', views.redirect_to_shop_base, name='checkout'),
     
     # New Azure Blob Storage API endpoints
     path('api/v2/projects/', api_views.api_projects_list, name='api_v2_projects_list'),

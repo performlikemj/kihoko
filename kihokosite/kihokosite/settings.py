@@ -44,6 +44,11 @@ if DJANGO_ENV == 'production':
 else:
     ALLOWED_HOSTS = ['127.0.0.1', 'localhost',]
 
+THIRD_PARTY_CHECKOUT_URL = config(
+    'THIRD_PARTY_CHECKOUT_URL',
+    default='https://shop.kihoko.com/shops/kihoo-base-shop/checkout/edit/'
+)
+
 
 print(f'DEBUG: {DEBUG}')
 print(f'DJANGO_ENV: {DJANGO_ENV}')
@@ -60,8 +65,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'portfolio',
     'django.contrib.sites',
-    'bootstrap5',
-    'stripe',
+    'django_bootstrap5',
     'storages',
 ]
 

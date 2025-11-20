@@ -22,11 +22,9 @@ from django.conf import settings
 from django.utils import translation
 from django.db.models import Sum
 from django.utils import timezone
-from .models import Project, ProjectImage, Merchandise, Cart, CartItem
+from .models import Project, ProjectImage, Merchandise, Cart, CartItem, FlashDesign
 from .forms import UpdateCartItemForm, RemoveCartItemForm, ContactForm, EditProfileForm, CustomUserCreationForm
 import traceback
-import stripe
-from stripe.error import StripeError
 import os
 
 # REST Framework imports
@@ -46,7 +44,7 @@ logger = logging.getLogger('django')
 from django.contrib import admin
 
 def redirect_to_shop_base(request):
-    return redirect('https://shop.base.com', permanent=True)
+    return redirect(settings.THIRD_PARTY_CHECKOUT_URL, permanent=True)
 
 # EXAMPLE VIEWS
 def home(request):
@@ -87,6 +85,21 @@ def art_detail(request, image_id):
     except Exception as e:
         logger.error(f"An error occurred while processing your request: {e}")
         # log the traceback
+        logger.error(f"Traceback: {traceback.format_exc()}")
+        return HttpResponseServerError("An error occurred while processing your request.")
+
+
+def flash_gallery(request):
+    try:
+        flash_designs = FlashDesign.objects.all()
+        context = {
+            'flash_designs': flash_designs,
+            'available_count': flash_designs.filter(is_available=True).count(),
+            'taken_count': flash_designs.filter(is_available=False).count(),
+        }
+        return render(request, 'flash_gallery.html', context)
+    except Exception as e:
+        logger.error(f"An error occurred while loading the flash gallery: {e}")
         logger.error(f"Traceback: {traceback.format_exc()}")
         return HttpResponseServerError("An error occurred while processing your request.")
 
@@ -414,4 +427,3 @@ def api_merchandise_list(request):
     except Exception as e:
         logger.error(f"Error in api_merchandise_list: {e}")
         return Response({'error': 'Failed to fetch merchandise'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
