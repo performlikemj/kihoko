@@ -3,7 +3,6 @@
  */
 
 const { BlobServiceClient } = require('@azure/storage-blob');
-const sharp = require('sharp');
 const path = require('path');
 const { v4: uuidv4 } = require('uuid');
 const config = require('./config');
@@ -43,6 +42,7 @@ class BlobStorageService {
    * Upload an image and create thumbnail
    */
   async uploadImage(buffer, fileName, contentType) {
+    const sharp = require('sharp');
     await this.initialize();
 
     try {
