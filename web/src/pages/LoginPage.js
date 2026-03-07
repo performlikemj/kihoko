@@ -26,16 +26,16 @@ export default function LoginPage({ setUser }) {
 
     try {
       const response = await apiService.login(formData);
-      
+
       // Store the auth token
       localStorage.setItem('authToken', response.data.token);
-      
+
       // Update user state
       setUser({
         isAuthenticated: true,
         ...response.data.user
       });
-      
+
       // Redirect to home
       navigate('/');
     } catch (error) {
@@ -46,27 +46,26 @@ export default function LoginPage({ setUser }) {
   };
 
   return (
-    <motion.div 
-      className="login-container"
+    <motion.div
+      className="auth-container"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
-      style={{ maxWidth: '400px', margin: '0 auto', padding: '2rem' }}
     >
-      <div className="login-header" style={{ textAlign: 'center', marginBottom: '2rem' }}>
+      <div className="auth-header">
         <h1>Login</h1>
         <p>Welcome back! Please sign in to your account.</p>
       </div>
-      
+
       {error && (
-        <div className="alert alert-danger" style={{ marginBottom: '1rem' }}>
+        <div className="auth-error">
           {error}
         </div>
       )}
 
-      <form className="login-form" onSubmit={handleSubmit}>
+      <form className="contact-form" onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="username">Username:</label>
+          <label htmlFor="username">Username</label>
           <input
             type="text"
             id="username"
@@ -76,9 +75,9 @@ export default function LoginPage({ setUser }) {
             required
           />
         </div>
-        
+
         <div className="form-group">
-          <label htmlFor="password">Password:</label>
+          <label htmlFor="password">Password</label>
           <input
             type="password"
             id="password"
@@ -88,22 +87,21 @@ export default function LoginPage({ setUser }) {
             required
           />
         </div>
-        
-        <button 
-          type="submit" 
+
+        <button
+          type="submit"
           className="submit-button"
           disabled={isSubmitting}
-          style={{ width: '100%' }}
         >
           {isSubmitting ? 'Signing in...' : 'Sign In'}
         </button>
       </form>
-      
-      <div style={{ textAlign: 'center', marginTop: '1.5rem' }}>
+
+      <div className="auth-footer">
         <p>
           Don't have an account? <Link to="/signup">Sign up here</Link>
         </p>
       </div>
     </motion.div>
   );
-} 
+}

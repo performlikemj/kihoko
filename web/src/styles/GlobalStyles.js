@@ -8,7 +8,7 @@ const GlobalStyles = createGlobalStyle`
   }
 
   body {
-    font-family: "Arial", sans-serif;
+    font-family: "Inter", "Helvetica Neue", sans-serif;
     line-height: 1.6;
     min-height: 100vh;
     transition: background-color 0.3s ease, color 0.3s ease;
@@ -35,7 +35,6 @@ const GlobalStyles = createGlobalStyle`
     padding: 1rem 0;
     margin-top: auto;
     background-color: ${props => props.theme.background};
-    border-top: 1px solid ${props => props.theme.border};
   }
 
   img {

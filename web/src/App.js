@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import GlobalStyles from './styles/GlobalStyles';
 import { lightTheme, darkTheme } from './styles/themes';
@@ -18,6 +18,14 @@ import SignupPage from './pages/SignupPage';
 import AdminUploadPage from './pages/AdminUploadPage';
 import BookingPage from './pages/BookingPage';
 import './styles/style.css';
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+}
 
 export default function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -53,6 +61,7 @@ export default function App() {
           isDarkMode={isDarkMode}
           toggleTheme={toggleTheme}
         />
+        <ScrollToTop />
         <main className="page-transition loaded">
           <Routes>
             <Route path="/" element={<HomePage />} />

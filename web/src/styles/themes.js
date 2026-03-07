@@ -1,25 +1,43 @@
 export const lightTheme = {
   background: '#ffffff',
   text: '#333333',
+  textMuted: '#6c757d',
   border: '#dee2e6',
   primary: '#007bff',
   secondary: '#6c757d',
   accent: 'linear-gradient(45deg, rgba(255, 166, 0, 0.8), rgba(111, 168, 220, 0.8))',
+  accentOrange: '#ffa600',
+  accentBlue: '#6fa8dc',
   cardBackground: '#ffffff',
+  cardShadow: '0 4px 15px rgba(0, 0, 0, 0.06)',
+  cardHoverShadow: '0 12px 35px rgba(0, 0, 0, 0.12)',
   overlayBackground: 'rgba(0, 0, 0, 0.7)',
   navbarBackground: '#ffffff',
-  footerBackground: '#f8f9fa'
+  footerBackground: '#f8f9fa',
+  inputBorder: 'rgba(0, 0, 0, 0.12)',
+  inputFocusBorder: 'rgba(255, 166, 0, 0.5)',
+  fontHeading: "'Cormorant Garamond', Georgia, serif",
+  fontBody: "'Inter', 'Helvetica Neue', sans-serif",
 };
 
 export const darkTheme = {
   background: '#121212',
   text: '#ffffff',
+  textMuted: '#999999',
   border: '#444444',
   primary: '#007bff',
   secondary: '#6c757d',
   accent: 'linear-gradient(45deg, rgba(255, 166, 0, 0.8), rgba(111, 168, 220, 0.8))',
+  accentOrange: '#ffa600',
+  accentBlue: '#6fa8dc',
   cardBackground: '#1e1e1e',
+  cardShadow: '0 4px 15px rgba(0, 0, 0, 0.3)',
+  cardHoverShadow: '0 12px 35px rgba(0, 0, 0, 0.5)',
   overlayBackground: 'rgba(0, 0, 0, 0.8)',
   navbarBackground: '#1e1e1e',
-  footerBackground: '#1e1e1e'
-}; 
+  footerBackground: '#1e1e1e',
+  inputBorder: 'rgba(255, 255, 255, 0.12)',
+  inputFocusBorder: 'rgba(255, 166, 0, 0.5)',
+  fontHeading: "'Cormorant Garamond', Georgia, serif",
+  fontBody: "'Inter', 'Helvetica Neue', sans-serif",
+};

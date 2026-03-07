@@ -35,16 +35,16 @@ export default function SignupPage({ setUser }) {
 
     try {
       const response = await apiService.signup(formData);
-      
+
       // Store the auth token
       localStorage.setItem('authToken', response.data.token);
-      
+
       // Update user state
       setUser({
         isAuthenticated: true,
         ...response.data.user
       });
-      
+
       // Redirect to home
       navigate('/');
     } catch (error) {
@@ -59,27 +59,26 @@ export default function SignupPage({ setUser }) {
   };
 
   return (
-    <motion.div 
-      className="signup-container"
+    <motion.div
+      className="auth-container"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
-      style={{ maxWidth: '400px', margin: '0 auto', padding: '2rem' }}
     >
-      <div className="signup-header" style={{ textAlign: 'center', marginBottom: '2rem' }}>
+      <div className="auth-header">
         <h1>Sign Up</h1>
         <p>Create an account to get started.</p>
       </div>
-      
+
       {errors.general && (
-        <div className="alert alert-danger" style={{ marginBottom: '1rem' }}>
+        <div className="auth-error">
           {errors.general}
         </div>
       )}
 
-      <form className="signup-form" onSubmit={handleSubmit}>
+      <form className="contact-form" onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="username">Username:</label>
+          <label htmlFor="username">Username</label>
           <input
             type="text"
             id="username"
@@ -89,14 +88,12 @@ export default function SignupPage({ setUser }) {
             required
           />
           {errors.username && (
-            <div className="error-text" style={{ color: 'red', fontSize: '0.875rem' }}>
-              {errors.username}
-            </div>
+            <div className="field-error">{errors.username}</div>
           )}
         </div>
-        
+
         <div className="form-group">
-          <label htmlFor="email">Email:</label>
+          <label htmlFor="email">Email</label>
           <input
             type="email"
             id="email"
@@ -106,14 +103,12 @@ export default function SignupPage({ setUser }) {
             required
           />
           {errors.email && (
-            <div className="error-text" style={{ color: 'red', fontSize: '0.875rem' }}>
-              {errors.email}
-            </div>
+            <div className="field-error">{errors.email}</div>
           )}
         </div>
-        
+
         <div className="form-group">
-          <label htmlFor="password1">Password:</label>
+          <label htmlFor="password1">Password</label>
           <input
             type="password"
             id="password1"
@@ -123,14 +118,12 @@ export default function SignupPage({ setUser }) {
             required
           />
           {errors.password1 && (
-            <div className="error-text" style={{ color: 'red', fontSize: '0.875rem' }}>
-              {errors.password1}
-            </div>
+            <div className="field-error">{errors.password1}</div>
           )}
         </div>
-        
+
         <div className="form-group">
-          <label htmlFor="password2">Confirm Password:</label>
+          <label htmlFor="password2">Confirm Password</label>
           <input
             type="password"
             id="password2"
@@ -140,27 +133,24 @@ export default function SignupPage({ setUser }) {
             required
           />
           {errors.password2 && (
-            <div className="error-text" style={{ color: 'red', fontSize: '0.875rem' }}>
-              {errors.password2}
-            </div>
+            <div className="field-error">{errors.password2}</div>
           )}
         </div>
-        
-        <button 
-          type="submit" 
+
+        <button
+          type="submit"
           className="submit-button"
           disabled={isSubmitting}
-          style={{ width: '100%' }}
         >
           {isSubmitting ? 'Creating account...' : 'Create Account'}
         </button>
       </form>
-      
-      <div style={{ textAlign: 'center', marginTop: '1.5rem' }}>
+
+      <div className="auth-footer">
         <p>
           Already have an account? <Link to="/login">Sign in here</Link>
         </p>
       </div>
     </motion.div>
   );
-} 
+}

@@ -68,7 +68,8 @@ export default function ArtDetailPage() {
   if (loading) {
     return (
       <div className="loading-spinner">
-        <div>Loading artwork...</div>
+        <div className="spinner"></div>
+        <div className="loading-text">Loading</div>
       </div>
     );
   }

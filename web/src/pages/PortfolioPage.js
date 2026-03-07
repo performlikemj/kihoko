@@ -109,7 +109,8 @@ export default function PortfolioPage() {
   if (loading && !images.length) {
     return (
       <div className="loading-spinner">
-        <div>Loading...</div>
+        <div className="spinner"></div>
+        <div className="loading-text">Loading</div>
       </div>
     );
   }

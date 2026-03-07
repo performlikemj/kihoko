@@ -45,8 +45,18 @@ export default function CategoriesPage() {
 
   if (loading) {
     return (
-      <div className="loading-spinner">
-        <div>Loading...</div>
+      <div>
+        <div className="hero-section">
+          <h1 className="display-1 text-center">Kihoko Mizuno Jones</h1>
+        </div>
+        <div className="skeleton-grid">
+          {[1, 2, 3].map(i => (
+            <div className="skeleton-card" key={i}>
+              <div className="skeleton-image"></div>
+              <div className="skeleton-text"></div>
+            </div>
+          ))}
+        </div>
       </div>
     );
   }
