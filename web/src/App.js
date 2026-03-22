@@ -17,6 +17,8 @@ import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
 import AdminUploadPage from './pages/AdminUploadPage';
 import BookingPage from './pages/BookingPage';
+import TattooPage from './pages/TattooPage';
+import CeramicsPage from './pages/CeramicsPage';
 import './styles/style.css';
 
 function ScrollToTop() {
@@ -66,6 +68,8 @@ export default function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/about" element={<AboutPage />} />
+            <Route path="/tattoo" element={<TattooPage />} />
+            <Route path="/ceramics" element={<CeramicsPage />} />
             <Route path="/art" element={<ArtPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/booking" element={<BookingPage />} />
