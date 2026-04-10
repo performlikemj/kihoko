@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
-const bgUrl = 'https://live.staticflickr.com/65535/54614150947_63ef8bf185_b.jpg';
+const bgUrl = '/hero.jpg';
 
 export default function HomePage() {
   return (

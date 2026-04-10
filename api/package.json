@@ -13,13 +13,14 @@
     "check-secrets": "grep -q 'YOUR_.*_HERE' local.settings.json && echo '⚠️  WARNING: Please configure your Azure credentials in local.settings.json' || echo '✅ Credentials configured'"
   },
   "dependencies": {
+    "@azure/cosmos": "^4.9.1",
     "@azure/functions": "^4.0.0",
-    "@azure/cosmos": "^4.0.0",
-    "@azure/storage-blob": "^12.17.0",
-    "uuid": "^9.0.0",
-    "cors": "^2.8.5"
+    "@azure/storage-blob": "^12.31.0",
+    "cors": "^2.8.5",
+    "sharp": "^0.32.6",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "azure-functions-core-tools": "^4.0.5000"
   }
-} 
+}
