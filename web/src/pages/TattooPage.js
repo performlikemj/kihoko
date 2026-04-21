@@ -137,6 +137,7 @@ export default function TattooPage() {
     e.preventDefault();
     const f = new FormData(e.currentTarget);
     const body =
+      `Name: ${f.get('name') || ''}\n` +
       `Theme / Idea: ${f.get('theme') || ''}\n` +
       `Size: ${f.get('size') || ''}\n` +
       `Placement: ${f.get('placement') || ''}\n` +
@@ -185,6 +186,10 @@ export default function TattooPage() {
 
       <BookingCard>
         <Form onSubmit={handleSubmit}>
+          <div>
+            <Label htmlFor="name">Name</Label>
+            <Input id="name" name="name" placeholder="Your name" />
+          </div>
           <div>
             <Label htmlFor="theme">Theme / Idea</Label>
             <Textarea id="theme" name="theme" placeholder="Share the story, vibe, or symbols you have in mind." />
