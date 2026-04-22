@@ -1029,7 +1029,7 @@ body {
 /* Home Page */
 .home-page {
   background-size: cover;
-  background-position: center;
+  background-position: center top;
   min-height: 100vh;
   position: relative;
 }
