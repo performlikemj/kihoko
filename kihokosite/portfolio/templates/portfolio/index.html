@@ -1,5 +1,6 @@
-{%extends 'base.html'%}{%load i18n%} {%block title%}Portfolio{%endblock%}{%block content%}
+{%extends 'base.html'%}{%load i18n%}{%load static%} {%block title%}Portfolio{%endblock%}{%block content%}
 <div class="hero-section" data-aos="fade-in">
+  <img src="{% static 'portfolio/img/hero.jpg' %}" alt="Kihoko Mizuno Jones" class="hero-photo" />
   <h1 class="display-1 text-center">Kihoko Mizuno Jones</h1>
   <div class="social-links">
     <a href="https://www.instagram.com/kihokomizuno/" target="_blank" class="social-icon">

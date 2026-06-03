@@ -321,12 +321,19 @@ a {
 }
 
 .hero-photo {
-  width: min(280px, 70vw);
-  height: min(280px, 70vw);
+  width: clamp(160px, 30vw, 360px);
+  height: clamp(160px, 30vw, 360px);
   object-fit: cover;
   border-radius: 50%;
   margin-bottom: 2rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+@media (max-width: 576px) {
+  .hero-photo {
+    width: clamp(140px, 55vw, 220px);
+    height: clamp(140px, 55vw, 220px);
+  }
 }
 
 .hero-section h1 {
