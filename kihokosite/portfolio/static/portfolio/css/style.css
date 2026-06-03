@@ -69,6 +69,12 @@ body {
   border-bottom: 1px solid var(--bs-border-color);
 }
 
+.navbar-brand {
+  font-family: 'Futura', 'Trebuchet MS', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+}
+
 .navbar-brand img {
   height: 50px;
 }
@@ -341,6 +347,7 @@ a {
   letter-spacing: 0.2em;
   margin-bottom: 2rem;
   font-family: 'Futura', 'Trebuchet MS', sans-serif;
+  text-transform: uppercase;
 }
 
 .social-links {
