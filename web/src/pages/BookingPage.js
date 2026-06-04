@@ -79,6 +79,17 @@ const Textarea = styled.textarea`
   resize: vertical;
 `;
 
+const Select = styled.select`
+  width: 100%;
+  border: 2px solid rgba(0, 0, 0, 0.3);
+  border-radius: 16px;
+  padding: 0.9rem 1rem;
+  background: rgba(255, 255, 255, 0.75);
+  font-size: 1rem;
+  appearance: none;
+  cursor: pointer;
+`;
+
 const Helper = styled.p`
   font-size: 0.95rem;
   color: rgba(0, 0, 0, 0.8);
@@ -127,6 +138,7 @@ export default function BookingPage() {
       `Size & Reference: ${formData.get('size') || ''}\n` +
       `Placement: ${formData.get('placement') || ''}\n` +
       `Color: ${formData.get('color') || ''}\n` +
+      `Skin Tone: ${formData.get('skinTone') || ''}\n` +
       `Preferred date & time: ${formData.get('date') || ''}\n` +
       `Anything else: ${formData.get('notes') || ''}`;
 
@@ -169,12 +181,26 @@ export default function BookingPage() {
           </div>
 
           <div>
-            <Label htmlFor="date">5. Preferred date and time</Label>
+            <Label htmlFor="skinTone">5. Skin Tone</Label>
+            <Select id="skinTone" name="skinTone">
+              <option value="">Select your skin tone…</option>
+              <option value="Very fair (Type I)">Very fair — always burns, never tans (Type I)</option>
+              <option value="Fair (Type II)">Fair — usually burns, tans minimally (Type II)</option>
+              <option value="Medium (Type III)">Medium — sometimes burns, tans gradually (Type III)</option>
+              <option value="Olive (Type IV)">Olive — rarely burns, tans easily (Type IV)</option>
+              <option value="Brown (Type V)">Brown — very rarely burns, tans deeply (Type V)</option>
+              <option value="Deep (Type VI)">Deep — never burns, deeply pigmented (Type VI)</option>
+            </Select>
+            <Helper>This helps me choose the right technique and ink for your skin.</Helper>
+          </div>
+
+          <div>
+            <Label htmlFor="date">6. Preferred date and time</Label>
             <Input id="date" name="date" placeholder="Let me know a few dates or a general timeframe" />
           </div>
 
           <div>
-            <Label htmlFor="notes">6. Anything else you'd like to share</Label>
+            <Label htmlFor="notes">7. Anything else you'd like to share</Label>
             <Textarea id="notes" name="notes" placeholder="Allergies, accessibility needs, references, etc." />
             <Helper>Feel free to attach reference images when you reply to my follow-up email.</Helper>
           </div>
