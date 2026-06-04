@@ -62,10 +62,10 @@ body {
 }
 
 .navbar-brand {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: 'Futura', 'Trebuchet MS', sans-serif;
   font-size: 1.5rem;
-  font-weight: 400;
-  letter-spacing: 0.08em;
+  font-weight: 300;
+  letter-spacing: 0.15em;
   margin-right: 2rem;
   text-transform: uppercase;
 }
