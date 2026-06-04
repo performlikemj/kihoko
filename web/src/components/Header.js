@@ -10,7 +10,7 @@ export default function Header({ isDarkMode, toggleTheme }) {
       <div className="container-fluid px-4 py-3">
         <Link className="navbar-brand fs-4 me-4" to="/">
           <span className="fw-light">Kihoko</span>
-          <span className="fw-bold"> Mizuno Jones</span>
+          <span className="fw-light"> Mizuno Jones</span>
         </Link>
 
         <button
