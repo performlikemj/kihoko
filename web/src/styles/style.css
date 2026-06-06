@@ -183,12 +183,12 @@ body {
   width: 22px;
   height: 2px;
   margin: 4px 0;
-  background: linear-gradient(90deg, #ffa600, #6fa8dc);
+  background: #000;
   transition: background 0.3s ease;
 }
 
 .custom-toggler .toggler-line:nth-child(2) {
-  background: linear-gradient(90deg, #6fa8dc, #ffa600);
+  background: #000;
 }
 
 /* Hero section */
