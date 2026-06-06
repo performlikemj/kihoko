@@ -64,6 +64,24 @@ const Form = styled.form`
   gap: 1.25rem;
 `;
 
+const Select = styled.select`
+  width: 100%;
+  border: 1.5px solid rgba(0,0,0,0.2);
+  border-radius: 12px;
+  padding: 0.75rem 1rem;
+  background: rgba(255,255,255,0.8);
+  font-size: 1rem;
+  appearance: none;
+  cursor: pointer;
+  box-sizing: border-box;
+`;
+
+const Helper = styled.p`
+  font-size: 0.85rem;
+  color: rgba(0,0,0,0.5);
+  margin-top: 0.3rem;
+`;
+
 const Label = styled.label`
   display: block;
   font-weight: 600;
@@ -142,6 +160,7 @@ export default function TattooPage() {
       `Size: ${f.get('size') || ''}\n` +
       `Placement: ${f.get('placement') || ''}\n` +
       `Color: ${f.get('color') || ''}\n` +
+      `Skin Tone: ${f.get('skinTone') || ''}\n` +
       `Preferred date: ${f.get('date') || ''}\n` +
       `Anything else: ${f.get('notes') || ''}`;
     window.location.href = `mailto:kiho@kihoko.com?subject=Tattoo Booking Request&body=${encodeURIComponent(body)}`;
@@ -205,6 +224,19 @@ export default function TattooPage() {
           <div>
             <Label htmlFor="color">Color</Label>
             <Input id="color" name="color" placeholder="Black & grey, color, or other preferences" />
+          </div>
+          <div>
+            <Label htmlFor="skinTone">Skin Tone</Label>
+            <Select id="skinTone" name="skinTone">
+              <option value="">Select your skin tone…</option>
+              <option value="Very fair (Type I)">Very fair — always burns, never tans (Type I)</option>
+              <option value="Fair (Type II)">Fair — usually burns, tans minimally (Type II)</option>
+              <option value="Medium (Type III)">Medium — sometimes burns, tans gradually (Type III)</option>
+              <option value="Olive (Type IV)">Olive — rarely burns, tans easily (Type IV)</option>
+              <option value="Brown (Type V)">Brown — very rarely burns, tans deeply (Type V)</option>
+              <option value="Deep (Type VI)">Deep — never burns, deeply pigmented (Type VI)</option>
+            </Select>
+            <Helper>This helps me choose the right technique and ink for your skin.</Helper>
           </div>
           <div>
             <Label htmlFor="date">Preferred date &amp; time</Label>
