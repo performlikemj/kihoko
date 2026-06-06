@@ -8,7 +8,7 @@ export default function Header({ isDarkMode, toggleTheme }) {
   return (
     <nav className="navbar navbar-expand-lg">
       <div className="container-fluid px-4 py-3">
-        <Link className="navbar-brand fs-4 me-4" to="/">
+        <Link className="navbar-brand me-4" to="/">
           <span className="fw-light">Kihoko</span>
           <span className="fw-light"> Mizuno Jones</span>
         </Link>
