@@ -147,6 +147,41 @@ In the Azure portal, open the Static Web App → **Environment variables** and a
 Optionally add the same names as GitHub secrets (the workflow passes them to
 builds), and to `api/local.settings.json` for local development.
 
+### 4b. Going live (swapping test keys for live keys)
+
+The store currently runs in **test mode** (checkout works end-to-end, but only
+test cards are accepted and no real money moves). To start taking real money:
+
+1. In the Stripe Dashboard, turn OFF "Test mode" (toggle top-right) and copy
+   the **live** secret key from Developers → API keys into a temporary file:
+   `echo 'sk_live_PASTE_HERE' > /tmp/stripe-live-key` — never commit this file
+   or paste the key into a chat.
+2. Run these commands (they create the live-mode webhook endpoint and update
+   the website config; no secret is ever printed):
+
+```bash
+KEY=$(cat /tmp/stripe-live-key)
+WHSEC=$(curl -s -u "$KEY:" https://api.stripe.com/v1/webhook_endpoints \
+  -d url="https://kihoko.com/api/stripe-webhook" \
+  -d "enabled_events[]=checkout.session.completed" \
+  -d "enabled_events[]=checkout.session.async_payment_succeeded" \
+  -d "enabled_events[]=checkout.session.async_payment_failed" \
+  -d api_version="2025-08-27.basil" \
+  -d description="Kihoko online store webhook (live)" \
+  | python3 -c "import json,sys; print(json.load(sys.stdin)['secret'])")
+az staticwebapp appsettings set --name kihoko-portfolio \
+  --setting-names STRIPE_SECRET_KEY="$KEY" STRIPE_WEBHOOK_SECRET="$WHSEC" -o none
+printf %s "$KEY" | gh secret set STRIPE_SECRET_KEY --repo performlikemj/kihoko
+printf %s "$WHSEC" | gh secret set STRIPE_WEBHOOK_SECRET --repo performlikemj/kihoko
+rm /tmp/stripe-live-key
+```
+
+3. Final check: buy the cheapest real item with a real card, confirm it shows
+   in `node manage-store.js orders`, then refund yourself in the Stripe
+   Dashboard.
+
+(The test-mode webhook endpoint can stay — it only ever receives test events.)
+
 ### 5. Test before going live
 
 Use the **test-mode** keys first (`sk_test_...` + a test-mode webhook endpoint):
