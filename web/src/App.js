@@ -19,6 +19,11 @@ import AdminUploadPage from './pages/AdminUploadPage';
 import BookingPage from './pages/BookingPage';
 import TattooPage from './pages/TattooPage';
 import CeramicsPage from './pages/CeramicsPage';
+import ShopPage from './pages/ShopPage';
+import ProductDetailPage from './pages/ProductDetailPage';
+import CartPage from './pages/CartPage';
+import CheckoutResultPage from './pages/CheckoutResultPage';
+import { CartProvider } from './context/CartContext';
 import './styles/style.css';
 
 function ScrollToTop() {
@@ -57,6 +62,7 @@ export default function App() {
 
   return (
     <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
+      <CartProvider>
       <GlobalStyles />
       <div className="flex-container" data-bs-theme={isDarkMode ? 'dark' : 'light'}>
         <Header
@@ -73,6 +79,10 @@ export default function App() {
             <Route path="/art" element={<ArtPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/booking" element={<BookingPage />} />
+            <Route path="/shop" element={<ShopPage />} />
+            <Route path="/shop/cart" element={<CartPage />} />
+            <Route path="/shop/success" element={<CheckoutResultPage />} />
+            <Route path="/shop/item/:slug" element={<ProductDetailPage />} />
             <Route path="/category" element={<CategoriesPage />} />
             <Route path="/category/:slug" element={<PortfolioPage />} />
             <Route path="/project/:slug" element={<ProjectDetailPage />} />
@@ -86,6 +96,7 @@ export default function App() {
         </main>
         <Footer />
       </div>
+      </CartProvider>
     </ThemeProvider>
   );
 }

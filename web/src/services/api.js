@@ -85,6 +85,13 @@ export const apiService = {
     });
   },
 
+  // Store
+  getProducts: () => api.get('/products'),
+  getProduct: (slugOrId) => api.get(`/products/${slugOrId}`),
+  createCheckout: (items) => api.post('/checkout', { items }),
+  getCheckoutSession: (sessionId) =>
+    api.get(`/checkout/session?session_id=${encodeURIComponent(sessionId)}`),
+
   // Legacy methods for backward compatibility (can be removed later)
   getProjects: () => apiService.getFeaturedImages(6),
   getProject: (slug) => apiService.getImagesByCategory(slug),

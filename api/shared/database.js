@@ -223,9 +223,146 @@ class DatabaseService {
 
   async deleteImage(id) {
     await this.initialize();
-    
+
     await this.container.item(id, 'image').delete();
     return true;
+  }
+
+  // Product operations (online store)
+  async getProducts(includeHidden = false) {
+    await this.initialize();
+
+    const query = {
+      query: includeHidden
+        ? 'SELECT * FROM c WHERE c.type = @type ORDER BY c["order"] ASC'
+        : 'SELECT * FROM c WHERE c.type = @type AND c.status != @hidden ORDER BY c["order"] ASC',
+      parameters: [
+        { name: '@type', value: 'product' },
+        ...(includeHidden ? [] : [{ name: '@hidden', value: 'hidden' }])
+      ]
+    };
+
+    const { resources } = await this.container.items.query(query).fetchAll();
+    return resources;
+  }
+
+  async getProductBySlugOrId(slugOrId) {
+    await this.initialize();
+
+    const query = {
+      query: 'SELECT * FROM c WHERE c.type = @type AND (c.slug = @value OR c.id = @value)',
+      parameters: [
+        { name: '@type', value: 'product' },
+        { name: '@value', value: slugOrId }
+      ]
+    };
+
+    const { resources } = await this.container.items.query(query).fetchAll();
+    return resources[0] || null;
+  }
+
+  async getProductsByIds(ids) {
+    await this.initialize();
+
+    if (!ids || ids.length === 0) return [];
+
+    const query = {
+      query: 'SELECT * FROM c WHERE c.type = @type AND ARRAY_CONTAINS(@ids, c.id)',
+      parameters: [
+        { name: '@type', value: 'product' },
+        { name: '@ids', value: ids }
+      ]
+    };
+
+    const { resources } = await this.container.items.query(query).fetchAll();
+    return resources;
+  }
+
+  /**
+   * Adjust stock by delta (negative to decrement after a sale).
+   * Products with stock === null (made to order) are left untouched.
+   * Flips status between active/sold as stock crosses zero.
+   * Uses etag-checked replace with retries to avoid lost updates.
+   */
+  async adjustProductStock(id, delta) {
+    await this.initialize();
+
+    for (let attempt = 0; attempt < 3; attempt++) {
+      const { resource: product } = await this.container.item(id, 'product').read();
+      if (!product) return null;
+      if (product.stock === null || product.stock === undefined) return product;
+
+      const newStock = Math.max(0, product.stock + delta);
+      const updated = {
+        ...product,
+        stock: newStock,
+        updatedAt: new Date().toISOString()
+      };
+      if (newStock === 0 && updated.status === 'active') {
+        updated.status = 'sold';
+      } else if (newStock > 0 && updated.status === 'sold') {
+        updated.status = 'active';
+      }
+
+      try {
+        const { resource } = await this.container
+          .item(id, 'product')
+          .replace(updated, { accessCondition: { type: 'IfMatch', condition: product._etag } });
+        return resource;
+      } catch (error) {
+        // 412 = concurrent update, re-read and retry
+        if (error.code !== 412) throw error;
+      }
+    }
+
+    throw new Error(`Could not adjust stock for product ${id} after retries`);
+  }
+
+  // Order operations (online store)
+  async createOrder(order) {
+    await this.initialize();
+
+    const { resource } = await this.container.items.create(order);
+    return resource;
+  }
+
+  async getOrderById(id) {
+    await this.initialize();
+
+    try {
+      const { resource } = await this.container.item(id, 'order').read();
+      return resource;
+    } catch (error) {
+      if (error.code === 404) {
+        return null;
+      }
+      throw error;
+    }
+  }
+
+  async updateOrder(id, updates) {
+    await this.initialize();
+
+    const { resource: existingOrder } = await this.container.item(id, 'order').read();
+    const updatedOrder = { ...existingOrder, ...updates, updatedAt: new Date().toISOString() };
+
+    const { resource } = await this.container.item(id, 'order').replace(updatedOrder);
+    return resource;
+  }
+
+  // Store settings (single document: shipping rate etc.)
+  async getStoreSettings() {
+    await this.initialize();
+
+    try {
+      const { resource } = await this.container.item('store-settings', 'settings').read();
+      return resource;
+    } catch (error) {
+      if (error.code === 404) {
+        return null;
+      }
+      throw error;
+    }
   }
 }
 

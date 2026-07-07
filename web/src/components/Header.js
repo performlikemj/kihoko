@@ -1,8 +1,10 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useCart } from '../context/CartContext';
 
 export default function Header({ isDarkMode, toggleTheme }) {
   const location = useLocation();
+  const { count } = useCart();
   const isActive = (path) => (location.pathname === path ? 'nav-link active' : 'nav-link');
 
   return (
@@ -39,11 +41,23 @@ export default function Header({ isDarkMode, toggleTheme }) {
               <Link className={isActive('/about')} to="/about">About</Link>
             </li>
             <li className="nav-item">
+              <Link className={isActive('/shop')} to="/shop">Shop</Link>
+            </li>
+            <li className="nav-item">
               <a className="nav-link" href="mailto:kiho@kihoko.com">Contact</a>
             </li>
           </ul>
 
           <div className="d-flex align-items-center ms-auto nav-icons">
+            <Link
+              className="nav-link px-3 cart-link"
+              to="/shop/cart"
+              aria-label="Shopping cart"
+            >
+              <i className="fa fa-shopping-cart"></i>
+              {count > 0 && <span className="cart-count">{count}</span>}
+            </Link>
+
             <button
               onClick={toggleTheme}
               className="btn btn-link nav-link theme-toggle"

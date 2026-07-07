@@ -20,6 +20,7 @@ A modern portfolio website built with React and Azure Functions, designed as an 
 - **Search & Filter**: Filter images by category
 - **Featured Images**: Highlight your best work
 - **Secure Local Uploads**: Add new art using `scripts/secure-upload.js`
+- **Online Store**: Sell art and goods with Stripe Checkout (JPY, ships within Japan) — see `STORE_GUIDE.md` for setup and daily operation, `scripts/manage-store.js` for management
 
 ## 📦 Project Structure
 

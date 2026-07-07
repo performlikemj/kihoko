@@ -42,9 +42,14 @@ jobs:
           ###### End of Repository/Build Configurations ######
         env:
           # Azure Functions Environment Variables
+          # NOTE: runtime settings for the deployed API (including the Stripe
+          # keys) must ALSO be set in the Static Web App's application settings
+          # in the Azure portal — these env vars only apply to the build.
           COSMOS_DB_ENDPOINT: ${{ secrets.COSMOS_DB_ENDPOINT }}
           COSMOS_DB_KEY: ${{ secrets.COSMOS_DB_KEY }}
           AZURE_STORAGE_CONNECTION_STRING: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
+          STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
+          STRIPE_WEBHOOK_SECRET: ${{ secrets.STRIPE_WEBHOOK_SECRET }}
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'

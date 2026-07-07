@@ -5,7 +5,10 @@
     "FUNCTIONS_WORKER_RUNTIME": "node",
     "COSMOS_DB_ENDPOINT": "https://your-cosmos-db.documents.azure.com:443/",
     "COSMOS_DB_KEY": "your-cosmos-db-primary-key-here",
-    "AZURE_STORAGE_CONNECTION_STRING": "DefaultEndpointsProtocol=https;AccountName=yourstorageaccount;AccountKey=your-storage-key;EndpointSuffix=core.windows.net"
+    "AZURE_STORAGE_CONNECTION_STRING": "DefaultEndpointsProtocol=https;AccountName=yourstorageaccount;AccountKey=your-storage-key;EndpointSuffix=core.windows.net",
+    "STRIPE_SECRET_KEY": "sk_test_your-stripe-secret-key",
+    "STRIPE_WEBHOOK_SECRET": "whsec_your-stripe-webhook-signing-secret",
+    "PUBLIC_SITE_URL": ""
   },
   "Host": {
     "CORS": "*",
