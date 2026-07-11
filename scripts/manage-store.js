@@ -228,6 +228,9 @@ async function cmdShow(container, idOrSlug) {
 async function cmdAdd(container, options) {
   if (!options.title) fail('Please give the item a name: --title "Cherry Blossom Print"');
   if (!options.price) fail('Please give the item a price in yen: --price 12000');
+  // Validate the price before uploading photos so a typo doesn't leave
+  // orphaned images in blob storage
+  const priceJpy = parseYen(options.price);
 
   const images = [];
   for (const imagePath of options.images) {
@@ -259,7 +262,7 @@ async function cmdAdd(container, options) {
     title: options.title,
     slug,
     description: options.description || '',
-    priceJpy: parseYen(options.price),
+    priceJpy,
     productType: options.productType || 'art',
     stock,
     images,
