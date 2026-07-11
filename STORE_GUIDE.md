@@ -149,8 +149,12 @@ builds), and to `api/local.settings.json` for local development.
 
 ### 4b. Going live (swapping test keys for live keys)
 
-The store currently runs in **test mode** (checkout works end-to-end, but only
-test cards are accepted and no real money moves). To start taking real money:
+> **Status (2026-07-11): the store is LIVE.** Production already uses the live
+> secret key — checkout creates `cs_live_...` sessions and real cards are
+> charged. The test card `4242 4242 4242 4242` will be declined. The steps
+> below are kept as a record and for future key rotation.
+
+To start taking real money:
 
 1. In the Stripe Dashboard, turn OFF "Test mode" (toggle top-right) and copy
    the **live** secret key from Developers → API keys into a temporary file:
