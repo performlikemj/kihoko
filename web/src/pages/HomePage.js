@@ -23,9 +23,6 @@ export default function HomePage() {
         <Link to="/about" className="btn btn-outline-light me-2">
           About
         </Link>
-        <a href="https://shop.kihoko.com" className="btn btn-outline-light me-2" target="_blank" rel="noopener noreferrer">
-          Shop
-        </a>
         <a href="mailto:kiho@kihoko.com" className="btn btn-outline-light">
           Contact
         </a>
