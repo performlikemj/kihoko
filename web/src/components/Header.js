@@ -41,6 +41,9 @@ export default function Header({ isDarkMode, toggleTheme }) {
             <li className="nav-item">
               <a className="nav-link" href="mailto:kiho@kihoko.com">Contact</a>
             </li>
+            <li className="nav-item">
+              <a className="nav-link" href="https://shop.kihoko.com" target="_blank" rel="noopener noreferrer">Shop</a>
+            </li>
           </ul>
 
           <div className="d-flex align-items-center ms-auto nav-icons">
