@@ -23,11 +23,8 @@ export default function HomePage() {
         <Link to="/about" className="btn btn-outline-light me-2">
           About
         </Link>
-        <a href="mailto:kiho@kihoko.com" className="btn btn-outline-light me-2">
+        <a href="mailto:kiho@kihoko.com" className="btn btn-outline-light">
           Contact
-        </a>
-        <a href="https://shop.kihoko.com" className="btn btn-outline-light" target="_blank" rel="noopener noreferrer">
-          Shop
         </a>
       </div>
     </motion.div>
