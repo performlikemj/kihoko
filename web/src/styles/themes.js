@@ -16,8 +16,8 @@ export const lightTheme = {
   footerBackground: '#f8f9fa',
   inputBorder: 'rgba(0, 0, 0, 0.12)',
   inputFocusBorder: 'rgba(255, 166, 0, 0.5)',
-  fontHeading: "'Cormorant Garamond', Georgia, serif",
-  fontBody: "'Inter', 'Helvetica Neue', sans-serif",
+  fontHeading: "'Arial', sans-serif",
+  fontBody: "'Arial', sans-serif",
 };
 
 export const darkTheme = {
@@ -38,6 +38,6 @@ export const darkTheme = {
   footerBackground: '#1e1e1e',
   inputBorder: 'rgba(255, 255, 255, 0.12)',
   inputFocusBorder: 'rgba(255, 166, 0, 0.5)',
-  fontHeading: "'Cormorant Garamond', Georgia, serif",
-  fontBody: "'Inter', 'Helvetica Neue', sans-serif",
+  fontHeading: "'Arial', sans-serif",
+  fontBody: "'Arial', sans-serif",
 };

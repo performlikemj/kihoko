@@ -11,7 +11,7 @@ html {
 }
 
 body {
-  font-family: "Inter", "Helvetica Neue", sans-serif;
+  font-family: "Arial", sans-serif;
   line-height: 1.6;
   min-height: 100vh;
   transition: background-color 0.3s ease, color 0.3s ease;
@@ -199,7 +199,7 @@ body {
 }
 
 .hero-section h1 {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: "Arial", sans-serif;
   font-size: 0.7rem;
   font-weight: 300;
   letter-spacing: 0.05em;
@@ -289,7 +289,7 @@ body {
 }
 
 .project-title {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: "Arial", sans-serif;
   font-size: 1.5rem;
   font-weight: 400;
   letter-spacing: 0.03em;
@@ -365,7 +365,7 @@ body {
 
 .art-card-title {
   color: #fff;
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: "Arial", sans-serif;
   font-size: 1.1rem;
   font-weight: 400;
   letter-spacing: 0.03em;
@@ -407,7 +407,7 @@ body {
 }
 
 .artwork-detail-title {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: "Arial", sans-serif;
   font-size: 2rem;
   font-weight: 400;
   margin-top: 1rem;
@@ -461,7 +461,7 @@ body {
 }
 
 .contact-header h1 {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: "Arial", sans-serif;
   font-size: 2.5rem;
   font-weight: 400;
   margin-bottom: 1rem;
@@ -554,7 +554,7 @@ body {
 }
 
 .auth-header h1 {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: "Arial", sans-serif;
   font-weight: 400;
   font-size: 2rem;
   margin-bottom: 0.5rem;
@@ -674,7 +674,7 @@ body {
 }
 
 .error-message h2 {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: "Arial", sans-serif;
   font-weight: 400;
   margin-bottom: 0.75rem;
 }
@@ -731,7 +731,7 @@ body {
 }
 
 .footer-brand {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: "Arial", sans-serif;
   font-size: 1.3rem;
   font-weight: 400;
   letter-spacing: 0.05em;
@@ -976,7 +976,7 @@ body {
 }
 
 .page-title {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: "Arial", sans-serif;
   letter-spacing: 0.15rem;
   margin-bottom: 1rem;
 }
@@ -1055,7 +1055,7 @@ body {
 }
 
 .shop-intro h1 {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: "Arial", sans-serif;
   font-weight: 400;
   font-size: 2.2rem;
   margin-bottom: 0.5rem;
@@ -1157,7 +1157,7 @@ body {
 }
 
 .product-detail-info h1 {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: "Arial", sans-serif;
   font-weight: 400;
   font-size: 2rem;
   margin-bottom: 0.5rem;
@@ -1250,7 +1250,7 @@ body {
 .cart-container h1,
 .cart-empty h1,
 .checkout-result h1 {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: "Arial", sans-serif;
   font-weight: 400;
   font-size: 2rem;
   margin-bottom: 1.5rem;
