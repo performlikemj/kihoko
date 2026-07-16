@@ -1046,6 +1046,23 @@ body {
   margin-right: 0.5rem;
 }
 
+.home-nav-link {
+  color: #fff;
+  font-size: 0.78rem;
+  text-decoration: none;
+  background: none;
+  border: none;
+  padding: 0;
+  letter-spacing: 0.04em;
+  opacity: 0.9;
+}
+
+.home-nav-link:hover {
+  color: #fff;
+  opacity: 1;
+  text-decoration: underline;
+}
+
 /* ===== Shop ===== */
 .shop-intro {
   text-align: center;

@@ -14,19 +14,19 @@ export default function HomePage() {
       transition={{ duration: 0.6 }}
     >
       <div className="home-links">
-        <Link to="/tattoo" className="btn btn-outline-light me-2">
+        <Link to="/tattoo" className="home-nav-link me-2">
           Tattoo
         </Link>
-        <Link to="/ceramics" className="btn btn-outline-light me-2">
+        <Link to="/ceramics" className="home-nav-link me-2">
           Ceramics
         </Link>
-        <Link to="/about" className="btn btn-outline-light me-2">
+        <Link to="/about" className="home-nav-link me-2">
           About
         </Link>
-        <a href="https://shop.kihoko.com" className="btn btn-outline-light me-2" target="_blank" rel="noopener noreferrer">
+        <a href="https://shop.kihoko.com" className="home-nav-link me-2" target="_blank" rel="noopener noreferrer">
           Shop
         </a>
-        <a href="mailto:kiho@kihoko.com" className="btn btn-outline-light">
+        <a href="mailto:kiho@kihoko.com" className="home-nav-link">
           Contact
         </a>
       </div>
