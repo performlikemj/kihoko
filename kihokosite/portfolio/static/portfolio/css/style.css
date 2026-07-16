@@ -343,7 +343,7 @@ a {
 }
 
 .hero-section h1 {
-  font-size: clamp(2rem, 5vw, 3.5rem) !important;
+  font-size: clamp(3rem, 8vw, 6rem) !important;
   font-weight: 400;
   letter-spacing: 0.2em;
   margin-bottom: 2rem;
