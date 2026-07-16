@@ -882,7 +882,7 @@ body {
 
 @media (max-width: 576px) {
   .navbar-brand {
-    font-size: 0.75rem;
+    font-size: 1.5rem;
     margin-right: 0.5rem;
   }
 
@@ -927,7 +927,7 @@ body {
   }
 
   .navbar-brand {
-    font-size: 0.7rem;
+    font-size: 1.4rem;
   }
 }
 
