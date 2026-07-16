@@ -23,9 +23,9 @@ export default function HomePage() {
         <Link to="/about" className="home-nav-link me-2">
           About
         </Link>
-        <a href="https://shop.kihoko.com" className="home-nav-link me-2" target="_blank" rel="noopener noreferrer">
+        <Link to="/shop" className="home-nav-link me-2">
           Shop
-        </a>
+        </Link>
         <a href="mailto:kiho@kihoko.com" className="home-nav-link">
           Contact
         </a>
