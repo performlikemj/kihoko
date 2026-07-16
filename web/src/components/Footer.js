@@ -5,8 +5,7 @@ export default function Footer() {
 
   return (
     <footer className="site-footer">
-      <div className="footer-gradient-divider"></div>
-      <div className="footer-content">
+<div className="footer-content">
         <div>
           <div className="footer-social">
             <a

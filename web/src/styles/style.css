@@ -57,7 +57,6 @@ body {
 /* Navbar styles */
 .navbar {
   background-color: var(--bs-body-bg) !important;
-  border-bottom: 1px solid var(--bs-border-color);
   padding: 0.5rem 2rem;
 }
 
@@ -715,12 +714,6 @@ body {
   padding-bottom: calc(1.5rem + env(safe-area-inset-bottom));
 }
 
-.footer-gradient-divider {
-  height: 1px;
-  background: linear-gradient(45deg, rgba(255, 166, 0, 0.6), rgba(111, 168, 220, 0.6));
-  margin: 0 auto 3rem;
-  max-width: 200px;
-}
 
 .footer-content {
   display: grid;
@@ -889,7 +882,7 @@ body {
 
 @media (max-width: 576px) {
   .navbar-brand {
-    font-size: 1.15rem;
+    font-size: 0.75rem;
     margin-right: 0.5rem;
   }
 
@@ -930,7 +923,7 @@ body {
   }
 
   .navbar-brand {
-    font-size: 1.1rem;
+    font-size: 0.7rem;
   }
 }
 
