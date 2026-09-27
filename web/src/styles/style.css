@@ -1027,9 +1027,12 @@ body {
 
 /* Home Page */
 .home-page {
-  background-size: cover;
-  background-position: center top;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: #000;
   min-height: 100vh;
+  min-height: 100dvh;
   position: relative;
 }
 
