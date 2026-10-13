@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
 import { apiService, handleApiError } from '../services/api';
@@ -175,6 +176,7 @@ export default function TattooPage() {
     >
       {/* Flash / Portfolio */}
       <SectionTitle>Flash &amp; Portfolio</SectionTitle>
+      <p style={{ marginBottom: '1.5rem' }}>Looking for a design to call your own? <Link to="/flash" style={{ textDecoration: 'underline', display: 'inline-flex', alignItems: 'center', minHeight: 44 }}>Leaf through my flash book →</Link></p>
 
       {loading ? (
         <p>Loading...</p>

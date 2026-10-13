@@ -8,6 +8,7 @@ const { jsonResponse } = require('../../shared/http');
 /**
  * POST /api/stripe-webhook
  * Configure this URL in the Stripe Dashboard (Developers → Webhooks) with events:
+ *   checkout.session.expired
  *   checkout.session.completed
  *   checkout.session.async_payment_succeeded
  *   checkout.session.async_payment_failed

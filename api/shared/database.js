@@ -350,6 +350,49 @@ class DatabaseService {
     return resource;
   }
 
+  // Flash and flashClaim share Portfolio; partition keys stay explicit.
+  async getFlash() {
+    await this.initialize();
+    const { resources } = await this.container.items.query({
+      query: 'SELECT * FROM c WHERE c.type = @type ORDER BY c["order"] ASC',
+      parameters: [{ name: '@type', value: 'flash' }]
+    }, { partitionKey: 'flash' }).fetchAll();
+    return resources;
+  }
+
+  async getFlashById(id) {
+    await this.initialize();
+    try { return (await this.container.item(id, 'flash').read()).resource || null; }
+    catch (error) { if (error.code === 404) return null; throw error; }
+  }
+
+  async replaceFlashIfMatch(id, doc, etag) {
+    await this.initialize();
+    const { resource } = await this.container.item(id, 'flash').replace(doc, {
+      accessCondition: { type: 'IfMatch', condition: etag }
+    });
+    return resource;
+  }
+
+  async createFlashClaim(doc) {
+    await this.initialize();
+    return (await this.container.items.create(doc)).resource;
+  }
+
+  async getFlashClaimById(id) {
+    await this.initialize();
+    try { return (await this.container.item(id, 'flashClaim').read()).resource || null; }
+    catch (error) { if (error.code === 404) return null; throw error; }
+  }
+
+  async updateFlashClaim(id, updates, etag) {
+    await this.initialize();
+    const { resource: doc } = await this.container.item(id, 'flashClaim').read();
+    return (await this.container.item(id, 'flashClaim').replace({ ...doc, ...updates }, {
+      accessCondition: { type: 'IfMatch', condition: etag || doc._etag }
+    })).resource;
+  }
+
   // Store settings (single document: shipping rate etc.)
   async getStoreSettings() {
     await this.initialize();

@@ -1,6 +1,23 @@
 import React from 'react';
+import styled from 'styled-components';
 import { Link, useLocation } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+
+// Keep the existing header appearance; give the extra nav item room before
+// expanding, and reuse the site's collapsed layout at the added breakpoint.
+const HeaderNav = styled.nav`
+  @media (min-width: 993px) and (max-width: 1199px) {
+    .navbar-collapse { width: 100%; }
+    .navbar-nav { flex-direction: column; gap: 0; padding: .5rem 0; width: 100%; }
+    .navbar-nav .nav-item { width: 100%; text-align: center; }
+    .navbar-nav .nav-link { width: 100%; padding: .75rem 0 !important; }
+    .nav-icons { justify-content: center; width: 100%; margin-top: .5rem; }
+  }
+  @media (min-width: 1200px) and (max-width: 1399px) {
+    .navbar-brand { letter-spacing: .05em; }
+    .navbar-nav { gap: .25rem; }
+  }
+`;
 
 export default function Header({ isDarkMode, toggleTheme }) {
   const location = useLocation();
@@ -8,7 +25,7 @@ export default function Header({ isDarkMode, toggleTheme }) {
   const isActive = (path) => (location.pathname === path ? 'nav-link active' : 'nav-link');
 
   return (
-    <nav className="navbar navbar-expand-lg">
+    <HeaderNav className="navbar navbar-expand-xl">
       <div className="container-fluid px-4 py-3">
         <Link className="navbar-brand me-4" to="/">
           <span className="fw-light">Kihoko</span>
@@ -30,9 +47,12 @@ export default function Header({ isDarkMode, toggleTheme }) {
         </button>
 
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+          <ul className="navbar-nav me-auto mb-2 mb-xl-0">
             <li className="nav-item">
               <Link className={isActive('/tattoo')} to="/tattoo">Tattoo</Link>
+            </li>
+            <li className="nav-item">
+              <Link className={isActive('/flash')} to="/flash">Flash</Link>
             </li>
             <li className="nav-item">
               <Link className={isActive('/ceramics')} to="/ceramics">Ceramics</Link>
@@ -68,6 +88,6 @@ export default function Header({ isDarkMode, toggleTheme }) {
           </div>
         </div>
       </div>
-    </nav>
+    </HeaderNav>
   );
 }

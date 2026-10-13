@@ -20,6 +20,7 @@
  *            restocking via manage-store.js)
  */
 
+const { applyFlashEvent } = require('./flash');
 const { decodeItemsMetadata, orderFromSession } = require('./stripeService');
 
 /**
@@ -28,6 +29,8 @@ const { decodeItemsMetadata, orderFromSession } = require('./stripeService');
  */
 async function applyStripeEvent(event, db, log = () => {}) {
   const session = event.data && event.data.object;
+
+  if (session?.metadata?.source === 'kihoko-flash') return applyFlashEvent(event, db, log);
 
   switch (event.type) {
     case 'checkout.session.completed':

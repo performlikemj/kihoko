@@ -85,6 +85,12 @@ export const apiService = {
     });
   },
 
+  // Flash
+  getFlash: () => api.get('/flash'),
+  claimFlash: (id, booking) => api.post(`/flash/${encodeURIComponent(id)}/claim`, booking),
+  cancelFlashClaim: (sessionId) => api.post('/flash/claim/cancel', { sessionId }),
+  getFlashClaim: (sessionId) => api.get(`/flash/claim?session_id=${encodeURIComponent(sessionId)}`),
+
   // Store
   getProducts: () => api.get('/products'),
   getProduct: (slugOrId) => api.get(`/products/${slugOrId}`),

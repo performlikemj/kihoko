@@ -20,6 +20,8 @@ import BookingPage from './pages/BookingPage';
 import TattooPage from './pages/TattooPage';
 import CeramicsPage from './pages/CeramicsPage';
 import ShopPage from './pages/ShopPage';
+import FlashPage from './pages/FlashPage';
+import FlashClaimedPage from './pages/FlashClaimedPage';
 import ProductDetailPage from './pages/ProductDetailPage';
 import CartPage from './pages/CartPage';
 import CheckoutResultPage from './pages/CheckoutResultPage';
@@ -75,6 +77,8 @@ export default function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/tattoo" element={<TattooPage />} />
+            <Route path="/flash" element={<FlashPage />} />
+            <Route path="/flash/claimed" element={<FlashClaimedPage />} />
             <Route path="/ceramics" element={<CeramicsPage />} />
             <Route path="/art" element={<ArtPage />} />
             <Route path="/contact" element={<ContactPage />} />
