@@ -182,12 +182,7 @@ body {
   width: 22px;
   height: 2px;
   margin: 4px 0;
-  background: #000;
   transition: background 0.3s ease;
-}
-
-.custom-toggler .toggler-line:nth-child(2) {
-  background: #000;
 }
 
 /* Hero section */

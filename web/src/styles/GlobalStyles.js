@@ -16,6 +16,15 @@ const GlobalStyles = createGlobalStyle`
     color: ${props => props.theme.text};
   }
 
+  .custom-toggler .toggler-line {
+    background: ${props => props.theme.text};
+  }
+
+  .custom-toggler:focus-visible {
+    outline: 2px solid ${props => props.theme.text};
+    outline-offset: 4px;
+  }
+
   .flex-container {
     display: flex;
     flex-direction: column;
