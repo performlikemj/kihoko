@@ -16,6 +16,7 @@ scripts/.env
 scripts/migrate-images-to-cosmosdb.js
 
 # Build outputs
+.preview-shots/
 build/
 dist/
 *.tgz

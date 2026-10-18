@@ -30,6 +30,8 @@ const GlobalStyles = createGlobalStyle`
     flex-direction: column;
     min-height: 100vh;
     position: relative;
+    /* Keep every page on the active theme surface while body colours transition. */
+    background-color: ${props => props.theme.background};
   }
 
   .flex-container main {
@@ -78,4 +80,4 @@ const GlobalStyles = createGlobalStyle`
   }
 `;
 
-export default GlobalStyles; 
+export default GlobalStyles;

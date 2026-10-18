@@ -350,6 +350,17 @@ class DatabaseService {
     return resource;
   }
 
+  // Studio writes collaboration documents directly; the site only reads.
+  async getCollabs() {
+    await this.initialize();
+    const { resources } = await this.container.items.query({
+      query: 'SELECT * FROM c WHERE c.type = @type AND c.status = @status',
+      parameters: [{ name: '@type', value: 'collab' }, { name: '@status', value: 'visible' }]
+    }, { partitionKey: 'collab' }).fetchAll();
+    // Sort in the public projection without requiring a Cosmos composite index.
+    return resources;
+  }
+
   // Flash and flashClaim share Portfolio; partition keys stay explicit.
   async getFlash() {
     await this.initialize();
@@ -412,4 +423,4 @@ class DatabaseService {
 // Create singleton instance
 const databaseService = new DatabaseService();
 
-module.exports = databaseService; 
+module.exports = databaseService;

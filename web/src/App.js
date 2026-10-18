@@ -19,6 +19,7 @@ import AdminUploadPage from './pages/AdminUploadPage';
 import BookingPage from './pages/BookingPage';
 import TattooPage from './pages/TattooPage';
 import CeramicsPage from './pages/CeramicsPage';
+import CollaborationsPage from './pages/CollaborationsPage';
 import ShopPage from './pages/ShopPage';
 import FlashPage from './pages/FlashPage';
 import FlashClaimedPage from './pages/FlashClaimedPage';
@@ -80,6 +81,7 @@ export default function App() {
             <Route path="/flash" element={<FlashPage />} />
             <Route path="/flash/claimed" element={<FlashClaimedPage />} />
             <Route path="/ceramics" element={<CeramicsPage />} />
+            <Route path="/collaborations" element={<CollaborationsPage />} />
             <Route path="/art" element={<ArtPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/booking" element={<BookingPage />} />

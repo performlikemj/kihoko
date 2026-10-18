@@ -30,6 +30,9 @@ export default function HomePage() {
       <div className="home-photo">
         <img src="/hero.jpg" alt="" width="606" height="409" />
         <nav className="home-links" aria-label="Explore Kihoko">
+          <Link to="/about" className="home-nav-link">
+            About
+          </Link>
           <Link to="/tattoo" className="home-nav-link">
             Tattoo
           </Link>
@@ -39,8 +42,8 @@ export default function HomePage() {
           <Link to="/ceramics" className="home-nav-link">
             Ceramics
           </Link>
-          <Link to="/about" className="home-nav-link">
-            About
+          <Link to="/collaborations" className="home-nav-link">
+            Collaborations
           </Link>
           <Link to="/shop" className="home-nav-link">
             Shop

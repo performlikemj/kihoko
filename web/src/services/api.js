@@ -91,6 +91,9 @@ export const apiService = {
   cancelFlashClaim: (sessionId) => api.post('/flash/claim/cancel', { sessionId }),
   getFlashClaim: (sessionId) => api.get(`/flash/claim?session_id=${encodeURIComponent(sessionId)}`),
 
+  // Collaborations
+  getCollabs: () => api.get('/collabs'),
+
   // Store
   getProducts: () => api.get('/products'),
   getProduct: (slugOrId) => api.get(`/products/${slugOrId}`),

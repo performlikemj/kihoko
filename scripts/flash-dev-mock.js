@@ -3,6 +3,7 @@
 const http = require('node:http');
 const { randomUUID } = require('node:crypto');
 const flash = require('../api/shared/flash');
+const { listCollabs } = require('../api/shared/collabs');
 const port = Number(process.env.FLASH_MOCK_PORT || 7071);
 const base = `http://localhost:${port}`;
 const names = ['Moon garden', 'Wandering koi', 'Little chrysanthemum', 'Night moth', 'Wild stem', 'Sun & sea', 'Quiet serpent', 'Osaka bloom', 'Two swallows', 'Lucky beetle', 'Dancing leaves', 'Evening star', 'Soft peony', 'Floating cloud', 'Paper crane', 'Bamboo whisper', 'Small universe', 'Spring branch'];
@@ -12,10 +13,17 @@ const docs = Object.fromEntries(names.map((title, i) => {
   const wide = i % 3 === 1;
   return [`flash-${i + 1}`, { id: `flash-${i + 1}`, type: 'flash', title, description: 'A small, one-off drawing from Kiho’s sketchbook. This is local placeholder art for previewing the flash book.', blobName: `art/${i + 1}.svg`, thumbnailBlobName: `art/${i + 1}.svg`, width: wide ? 600 : 400, height: wide ? 400 : 600, depositJpy: 2000, place: i % 3 === 0 ? places[Math.floor(i / 3) % places.length] : '', sizeNote: i % 2 ? 'about 8 cm' : 'about 12 cm', priceNote: 'from ¥25,000', status: i === 1 || i === 7 ? 'taken' : i === 4 ? 'held' : 'available', holdSessionId: i === 4 ? 'pending:preview' : null, heldUntil: i === 4 ? new Date(Date.now() + 33 * 60000).toISOString() : null, claimId: i === 1 || i === 7 ? `cs_preview_taken_${i}` : null, order: i, createdAt: stamp, updatedAt: stamp, _etag: '1' }];
 }));
+// Three Studio-style fixtures: five mixed photos, two title-only photos, one hidden.
+const collabs = [
+  { id: 'collab-studio-x', type: 'collab', title: 'Collab with Studio X', note: 'Drawings, textiles, and small things made together in Osaka.', link: 'https://instagram.com/studiox', status: 'visible', order: 0, images: [1, 2, 3, 4, 5].map((n, i) => ({ id: `studio-x-${n}`, blobName: `art/${n}.svg`, thumbnailBlobName: i === 4 ? '' : `art/${n}.svg`, width: n % 3 === 2 ? 600 : 400, height: n % 3 === 2 ? 400 : 600 })), createdAt: stamp, updatedAt: stamp },
+  { id: 'collab-quiet-objects', type: 'collab', title: 'Quiet objects', note: '', link: '', status: 'visible', order: 1, images: [8, 9].map(n => ({ id: `quiet-${n}`, blobName: `art/${n}.svg`, thumbnailBlobName: `art/${n}.svg`, width: n % 3 === 2 ? 600 : 400, height: n % 3 === 2 ? 400 : 600 })), createdAt: stamp, updatedAt: stamp },
+  { id: 'collab-hidden', type: 'collab', title: 'Hidden collaboration', note: 'This must never appear publicly.', link: '', status: 'hidden', order: -1, images: [{ id: 'hidden-1', blobName: 'art/6.svg', thumbnailBlobName: '', width: 400, height: 600 }], createdAt: stamp, updatedAt: stamp }
+];
 const claims = {}, sessions = {};
 let version = 1;
 const copy = value => structuredClone(value);
 const db = {
+  async getCollabs() { return copy(collabs); },
   async getFlash() { return copy(Object.values(docs)); },
   async getFlashById(id) { return copy(docs[id] || null); },
   async replaceFlashIfMatch(id, next, etag) {
@@ -84,6 +92,7 @@ const server = http.createServer(async (req, res) => {
     const url = new URL(req.url, base), path = url.pathname;
     const art = path.match(/^\/art\/(\d+)\.svg$/);
     if (art) { res.writeHead(200, { 'Content-Type': 'image/svg+xml' }); res.end(svg(Number(art[1]))); return; }
+    if (path === '/api/collabs' && req.method === 'GET') { send(res, 200, { success: true, data: await listCollabs({ db, urls }) }); return; }
     if (path === '/api/flash' && req.method === 'GET') { send(res, 200, { success: true, data: await flash.listFlash({ db, urls, stripeFactory: () => stripe, log: console.warn }) }); return; }
     const claimRoute = path.match(/^\/api\/flash\/([^/]+)\/claim$/);
     if (claimRoute && req.method === 'POST') {
@@ -116,4 +125,5 @@ const server = http.createServer(async (req, res) => {
     send(res, 404, { success: false, error: 'Not found in local flash preview' });
   } catch (error) { send(res, error.status || 500, { success: false, error: error.isClientError ? error.message : error.status ? error.message : 'Local preview request failed' }); }
 });
-server.listen(port, '127.0.0.1', () => console.log(`Flash mock: ${base}/api/flash\nStart web with REACT_APP_API_URL=${base}/api npm start\nOpen http://localhost:3000/flash (18 designs; no external services)`));
+module.exports = server;
+if (require.main === module) server.listen(port, '127.0.0.1', () => console.log(`Flash mock: ${base}/api/flash\nStart web with REACT_APP_API_URL=${base}/api npm start\nOpen http://localhost:3000/flash or /collaborations (18 designs; 2 visible collabs + 1 hidden; no external services)`));

@@ -16,6 +16,11 @@ const HeaderNav = styled.nav`
   @media (min-width: 1200px) and (max-width: 1399px) {
     .navbar-brand { letter-spacing: .05em; }
     .navbar-nav { gap: .25rem; }
+    .navbar-nav .nav-link { padding-inline: .25rem !important; }
+  }
+  @media (min-width: 1400px) and (max-width: 1599px) {
+    .navbar-nav { gap: .5rem; }
+    .navbar-nav .nav-link { padding-inline: .5rem !important; }
   }
 `;
 
@@ -49,6 +54,9 @@ export default function Header({ isDarkMode, toggleTheme }) {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-xl-0">
             <li className="nav-item">
+              <Link className={isActive('/about')} to="/about">About</Link>
+            </li>
+            <li className="nav-item">
               <Link className={isActive('/tattoo')} to="/tattoo">Tattoo</Link>
             </li>
             <li className="nav-item">
@@ -58,7 +66,7 @@ export default function Header({ isDarkMode, toggleTheme }) {
               <Link className={isActive('/ceramics')} to="/ceramics">Ceramics</Link>
             </li>
             <li className="nav-item">
-              <Link className={isActive('/about')} to="/about">About</Link>
+              <Link className={isActive('/collaborations')} to="/collaborations">Collaborations</Link>
             </li>
             <li className="nav-item">
               <Link className={isActive('/shop')} to="/shop">Shop</Link>
